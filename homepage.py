@@ -16,7 +16,7 @@ st.set_page_config(page_title="Social Overview", layout="wide", page_icon="📊"
 
 # Define links to other pages
 PAGES = {
-    "📊 Overview": "https://smp-bizbuddy-accountoverview.streamlit.app/",
+    "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
     "📱 Posts": "https://smp-bizbuddy-postoverview.streamlit.app",
     "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
     "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
