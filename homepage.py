@@ -350,12 +350,12 @@ st.markdown(
     """
     <style>
     .metric-card {
-        border: 2px solid #4CAF50; /* Green border */
+        border: 2px solid #000000; /* Green border */
         border-radius: 10px; /* Rounded corners */
         padding: 15px; /* Space inside the card */
         margin: 10px; /* Space around the card */
         background-color: #f9f9f9; /* Light background color */
-        height: 75px; /* Adjusted height for percentage diff */
+        height: 100px; /* Adjusted height for percentage diff */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         display: flex;
         flex-direction: column;
@@ -366,16 +366,16 @@ st.markdown(
     .metric-card h3 {
         margin: 0;
         font-size:14px;
-        color: #333333; /* Dark text color */
+        color: #000000; /* Dark text color */
     }
     .metric-card p {
         margin: 5px 0 0 0;
-        font-size: 12px;
+        font-size: 16px;
         color: #4CAF50; /* Match the border color */
         font-weight: bold;
     }
     .metric-card .percentage-diff {
-        font-size: 12px;
+        font-size: 14px;
         color: #FF5733; /* Orange-red for percentage difference */
         margin-bottom: 3px;
     }
