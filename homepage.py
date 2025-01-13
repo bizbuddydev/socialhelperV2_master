@@ -429,7 +429,8 @@ def main():
     top_col_left, top_col_right = st.columns(2)
 
     with top_col_left:
-        st.subheader("All Time")
+        st.subheader("Recent Performance")
+        st.write("All Time")
         # Columns for scorecards
         coll1, coll2, coll3, coll4 = st.columns(4) 
         
@@ -461,7 +462,7 @@ def main():
             display_metric("Average Likes", f"{avg_likes:.2f}")
         
 
-        st.subheader("Last 7 days")
+        st.write("Last 7 days")
          # Columns for scorecards
         coll5, coll6, coll7, coll8  = st.columns(4) 
 
