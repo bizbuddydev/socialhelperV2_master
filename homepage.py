@@ -9,9 +9,10 @@ import json
 # from styles import *
 
 #For Viz
-import seaborn as sns
-import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
+# import seaborn as sns
+# import matplotlib.pyplot as plt
+# from matplotlib.lines import Line2D
+import plotly.graph_objects as go
 
 st.set_page_config(page_title="Social Overview", layout="wide", page_icon="📊")
 
@@ -512,11 +513,11 @@ def main():
         metric_options = ['Total Followers', 'Followers Gained', 'Reach', 'Impressions']
         selected_metric = st.selectbox("Select metric for chart", metric_options)
         
-        # Line chart for total followers over time
+        # Line chart for total followers over time using Plotly
         if account_data is not None and not account_data.empty:
             account_data['date'] = pd.to_datetime(account_data['date'])
             account_data = account_data.sort_values(by='date', ascending=True)
-
+        
             # Create a complete date range from the first to the last day in account_data
             full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
         
@@ -526,40 +527,51 @@ def main():
         
             # Fill missing values for the selected metric with NaN or a default value
             account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')  # Example: forward-fill
-                    
-            # Create the line plot
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.set_style("whitegrid")  # Set a friendly grid style
-            sns.lineplot(data=account_data, x='date', y=selected_metric, ax=ax, color="royalblue", linewidth=2)
-
-            # Get the first day of account_data
-            first_day = account_data['date'].min().date()
-            
+        
+            # Initialize a Plotly figure
+            fig = go.Figure()
+        
+            # Add the main line chart for the selected metric
+            fig.add_trace(go.Scatter(
+                x=account_data['date'],
+                y=account_data[selected_metric],
+                mode='lines',
+                name=selected_metric,
+                line=dict(color='royalblue', width=2)
+            ))
+        
             # Add vertical lines for each post date
             post_dates = pd.to_datetime(post_data['created_time']).dt.date.unique()  # Extract unique post dates
-            post_dates = [pd.Timestamp(post_date) for post_date in post_dates if post_date >= first_day]  # Filter post dates
+            post_dates = [pd.Timestamp(post_date) for post_date in post_dates if post_date >= account_data['date'].min().date()]  # Filter post dates
+            
             for post_date in post_dates:
-                ax.axvline(pd.Timestamp(post_date), color='gray', linestyle='--', alpha=0.5)
-
-            # Add a single legend entry for posts
-            post_legend = Line2D([0], [0], color='gray', linestyle='--', lw=1, label='Days with Posts')
-            ax.legend(handles=[post_legend], loc='upper left')  # Adjust location as needed
-
-            # Customize the plot
-            ax.set_title(f'{selected_metric} Over Time', fontsize=16, fontweight='bold')
-            ax.set_xlabel('Date', fontsize=12)
-            ax.set_ylabel(selected_metric, fontsize=12)
-            ax.tick_params(axis='x', rotation=45)  # Rotate x-axis labels
-            ax.grid(alpha=0.5)  # Adjust grid transparency
+                fig.add_trace(go.Scatter(
+                    x=[post_date, post_date],  # Draw a vertical line
+                    y=[account_data[selected_metric].min(), account_data[selected_metric].max()],
+                    mode='lines',
+                    name='Post',
+                    line=dict(color='gray', dash='dash'),
+                    hoverinfo='text',
+                    text=f"Post on {post_date.date()}"
+                ))
         
-            # Enhance readability with larger font sizes
-            ax.title.set_fontsize(18)
-            ax.xaxis.label.set_fontsize(12)
-            ax.yaxis.label.set_fontsize(12)
-            ax.tick_params(axis='both', which='major', labelsize=10)
-
-            # Display the plot in Streamlit
-            st.pyplot(fig)
+            # Customize layout
+            fig.update_layout(
+                title=f'{selected_metric} Over Time',
+                title_font=dict(size=18, family='Arial', color='black'),
+                xaxis=dict(title='Date', title_font=dict(size=12), tickangle=45),
+                yaxis=dict(title=selected_metric, title_font=dict(size=12)),
+                plot_bgcolor='white',
+                legend=dict(title='Legend'),
+                hovermode='x unified'
+            )
+        
+            # Add gridlines for cleaner visuals
+            fig.update_xaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
+            fig.update_yaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
+        
+            # Display the Plotly figure in Streamlit
+            st.plotly_chart(fig)
 
     with bot_col_right:
         # Only execute calendar logic in its own container
