@@ -350,12 +350,12 @@ st.markdown(
     """
     <style>
     .metric-card {
-        border: 2px solid #4CAF50; /* Green border */
+        border: 2px solid #000000; /* Green border */
         border-radius: 10px; /* Rounded corners */
-        padding: 15px; /* Space inside the card */
-        margin: 10px; /* Space around the card */
+        padding: 10px; /* Space inside the card */
+        margin: 7px; /* Space around the card */
         background-color: #f9f9f9; /* Light background color */
-        height: 140px; /* Adjusted height for percentage diff */
+        height: 100px; /* Adjusted height for percentage diff */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         display: flex;
         flex-direction: column;
@@ -365,13 +365,13 @@ st.markdown(
     }
     .metric-card h3 {
         margin: 0;
-        font-size: 20px;
+        font-size: 16px;
         color: #333333; /* Dark text color */
     }
     .metric-card p {
         margin: 5px 0 0 0;
         font-size: 18px;
-        color: #4CAF50; /* Match the border color */
+        color: #000000; /* Match the border color */
         font-weight: bold;
     }
     .metric-card .percentage-diff {
@@ -443,7 +443,7 @@ def main():
     top_col_left, top_col_right = st.columns(2)
 
     with top_col_left:
-        st.subheader("Recent Performance")
+        st.subheader("KPI Performance")
         st.write("All Time")
         # Columns for scorecards
         coll1, coll2, coll3, coll4 = st.columns(4) 
