@@ -9,9 +9,6 @@ import json
 # from styles import *
 
 #For Viz
-# import seaborn as sns
-# import matplotlib.pyplot as plt
-# from matplotlib.lines import Line2D
 import plotly.graph_objects as go
 
 st.set_page_config(page_title="Social Overview", layout="wide", page_icon="📊")
