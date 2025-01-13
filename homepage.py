@@ -437,54 +437,54 @@ def main():
         metric_options = ['Total Followers', 'Followers Gained', 'Reach', 'Impressions']
         selected_metric = st.selectbox("Select Metric for Chart", metric_options)
 
-        # # Line chart for total followers over time
-        # if account_data is not None and not account_data.empty:
-        #     account_data['date'] = pd.to_datetime(account_data['date'])
-        #     account_data = account_data.sort_values(by='date', ascending=True)
+        # Line chart for total followers over time
+        if account_data is not None and not account_data.empty:
+            account_data['date'] = pd.to_datetime(account_data['date'])
+            account_data = account_data.sort_values(by='date', ascending=True)
 
-        #     # Create a complete date range from the first to the last day in account_data
-        #     full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
+            # Create a complete date range from the first to the last day in account_data
+            full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
         
-        #     # Reindex account_data to include all dates in the range
-        #     account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
-        #     account_data.rename(columns={'index': 'date'}, inplace=True)
+            # Reindex account_data to include all dates in the range
+            account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
+            account_data.rename(columns={'index': 'date'}, inplace=True)
         
-        #     # Fill missing values for the selected metric with NaN or a default value
-        #     account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')  # Example: forward-fill
+            # Fill missing values for the selected metric with NaN or a default value
+            account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')  # Example: forward-fill
                     
-        #     # Create the line plot
-        #     fig, ax = plt.subplots(figsize=(10, 6))
-        #     sns.set_style("whitegrid")  # Set a friendly grid style
-        #     sns.lineplot(data=account_data, x='date', y=selected_metric, ax=ax, color="royalblue", linewidth=2)
+            # Create the line plot
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sns.set_style("whitegrid")  # Set a friendly grid style
+            sns.lineplot(data=account_data, x='date', y=selected_metric, ax=ax, color="royalblue", linewidth=2)
 
-        #     # Get the first day of account_data
-        #     first_day = account_data['date'].min().date()
+            # Get the first day of account_data
+            first_day = account_data['date'].min().date()
             
-        #     # Add vertical lines for each post date
-        #     post_dates = pd.to_datetime(post_data['created_time']).dt.date.unique()  # Extract unique post dates
-        #     post_dates = [pd.Timestamp(post_date) for post_date in post_dates if post_date >= first_day]  # Filter post dates
-        #     for post_date in post_dates:
-        #         ax.axvline(pd.Timestamp(post_date), color='gray', linestyle='--', alpha=0.5)
+            # Add vertical lines for each post date
+            post_dates = pd.to_datetime(post_data['created_time']).dt.date.unique()  # Extract unique post dates
+            post_dates = [pd.Timestamp(post_date) for post_date in post_dates if post_date >= first_day]  # Filter post dates
+            for post_date in post_dates:
+                ax.axvline(pd.Timestamp(post_date), color='gray', linestyle='--', alpha=0.5)
 
-        #     # Add a single legend entry for posts
-        #     post_legend = Line2D([0], [0], color='gray', linestyle='--', lw=1, label='Days with Posts')
-        #     ax.legend(handles=[post_legend], loc='upper left')  # Adjust location as needed
+            # Add a single legend entry for posts
+            post_legend = Line2D([0], [0], color='gray', linestyle='--', lw=1, label='Days with Posts')
+            ax.legend(handles=[post_legend], loc='upper left')  # Adjust location as needed
 
-        #     # Customize the plot
-        #     ax.set_title(f'{selected_metric} Over Time', fontsize=16, fontweight='bold')
-        #     ax.set_xlabel('Date', fontsize=12)
-        #     ax.set_ylabel(selected_metric, fontsize=12)
-        #     ax.tick_params(axis='x', rotation=45)  # Rotate x-axis labels
-        #     ax.grid(alpha=0.5)  # Adjust grid transparency
+            # Customize the plot
+            ax.set_title(f'{selected_metric} Over Time', fontsize=16, fontweight='bold')
+            ax.set_xlabel('Date', fontsize=12)
+            ax.set_ylabel(selected_metric, fontsize=12)
+            ax.tick_params(axis='x', rotation=45)  # Rotate x-axis labels
+            ax.grid(alpha=0.5)  # Adjust grid transparency
         
-        #     # Enhance readability with larger font sizes
-        #     ax.title.set_fontsize(18)
-        #     ax.xaxis.label.set_fontsize(12)
-        #     ax.yaxis.label.set_fontsize(12)
-        #     ax.tick_params(axis='both', which='major', labelsize=10)
+            # Enhance readability with larger font sizes
+            ax.title.set_fontsize(18)
+            ax.xaxis.label.set_fontsize(12)
+            ax.yaxis.label.set_fontsize(12)
+            ax.tick_params(axis='both', which='major', labelsize=10)
 
-        #     # Display the plot in Streamlit
-        #     st.pyplot(fig)
+            # Display the plot in Streamlit
+            st.pyplot(fig)
 
 
     with col_right:
