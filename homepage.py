@@ -496,7 +496,7 @@ def main():
         
         # Dropdown for selecting metric
         metric_options = ['Total Followers', 'Followers Gained', 'Reach', 'Impressions']
-        selected_metric = st.selectbox("", metric_options)
+        selected_metric = st.selectbox("Select metric for chart", metric_options)
         
         # Line chart for total followers over time
         if account_data is not None and not account_data.empty:
