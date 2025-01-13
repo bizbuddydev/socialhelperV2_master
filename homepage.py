@@ -500,7 +500,7 @@ def main():
             # Display the plot in Streamlit
             st.pyplot(fig)
 
-    with bot_col_left:
+    with bot_col_right:
         # Only execute calendar logic in its own container
         if "calendar_events" not in st.session_state:
             st.session_state["calendar_events"] = [
