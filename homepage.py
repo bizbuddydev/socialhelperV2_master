@@ -350,12 +350,12 @@ st.markdown(
     """
     <style>
     .metric-card {
-        border: 2px solid #000000; /* Green border */
+        border: 2px solid #4CAF50; /* Green border */
         border-radius: 10px; /* Rounded corners */
         padding: 15px; /* Space inside the card */
         margin: 10px; /* Space around the card */
         background-color: #f9f9f9; /* Light background color */
-        height: 120px; /* Fixed height */
+        height: 140px; /* Adjusted height for percentage diff */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         display: flex;
         flex-direction: column;
@@ -371,25 +371,33 @@ st.markdown(
     .metric-card p {
         margin: 5px 0 0 0;
         font-size: 18px;
-        color: #000000; /* Match the border color */
+        color: #4CAF50; /* Match the border color */
         font-weight: bold;
+    }
+    .metric-card .percentage-diff {
+        font-size: 14px;
+        color: #FF5733; /* Orange-red for percentage difference */
+        margin-bottom: 5px;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# Function to display a metric card
-def display_metric(label: str, value: str):
+# Function to display a metric card with an optional percentage difference
+def display_metric(label: str, value: str, percentage_diff: str = None):
+    percentage_html = f"<div class='percentage-diff'>{percentage_diff}</div>" if percentage_diff else ""
     st.markdown(
         f"""
         <div class="metric-card">
             <h3>{label}</h3>
             <p>{value}</p>
+            {percentage_html}
         </div>
         """,
         unsafe_allow_html=True,
     )
+
 
 # Main function to display data and visuals
 def main():
@@ -468,31 +476,40 @@ def main():
         st.subheader("Last 7 days")
          # Columns for scorecards
         coll5, coll6, coll7, coll8  = st.columns(4) 
-        
+
         with coll5:
-            st.metric(label="Followers Gained", value=f"{l7_igmetrics.iloc[0]["Followers Gained"]:,.0f}")
-            diff = l7_perdiff.iloc[0]["Followers Gained"]
-            color = "green" if diff > 0 else "red" if diff < 0 else "gray"
-            diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
-            st.markdown(diff_text, unsafe_allow_html=True)
+            display_metric("Total Followers", f"{l7_igmetrics.iloc[0]["Followers Gained"]:,}", l7_perdiff.iloc[0]["Followers Gained"])
         with coll6:
-            st.metric(label="Total Posts", value=f"{l7_igmetrics.iloc[0]["Total Posts"]:,.0f}")
-            diff = l7_perdiff.iloc[0]["Total Posts"]
-            color = "green" if diff > 0 else "red" if diff < 0 else "gray"
-            diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
-            st.markdown(diff_text, unsafe_allow_html=True)
+            display_metric("Total Posts", f"{l7_igmetrics.iloc[0]["Total Posts"]:,}", l7_perdiff.iloc[0]["Total Posts"])
         with coll7:
-            st.metric(label="Average Reach", value=f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}")
-            diff = l7_perdiff.iloc[0]["Average Reach"]
-            color = "green" if diff > 0 else "red" if diff < 0 else "gray"
-            diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
-            st.markdown(diff_text, unsafe_allow_html=True)
+            display_metric("Average Reach", f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}", l7_perdiff.iloc[0]["Average Reach"])
         with coll8:
-            st.metric(label="Average Likes", value=f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}")
-            diff = l7_perdiff.iloc[0]["Average Likes"]
-            color = "green" if diff > 0 else "red" if diff < 0 else "gray"
-            diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
-            st.markdown(diff_text, unsafe_allow_html=True)
+            display_metric("Average Likes", f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}", l7_perdiff.iloc[0]["Average Likes"])
+    
+        # with coll5:
+        #     st.metric(label="Followers Gained", value=f"{l7_igmetrics.iloc[0]["Followers Gained"]:,.0f}")
+        #     diff = l7_perdiff.iloc[0]["Followers Gained"]
+        #     color = "green" if diff > 0 else "red" if diff < 0 else "gray"
+        #     diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
+        #     st.markdown(diff_text, unsafe_allow_html=True)
+        # with coll6:
+        #     st.metric(label="Total Posts", value=f"{l7_igmetrics.iloc[0]["Total Posts"]:,.0f}")
+        #     diff = l7_perdiff.iloc[0]["Total Posts"]
+        #     color = "green" if diff > 0 else "red" if diff < 0 else "gray"
+        #     diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
+        #     st.markdown(diff_text, unsafe_allow_html=True)
+        # with coll7:
+        #     st.metric(label="Average Reach", value=f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}")
+        #     diff = l7_perdiff.iloc[0]["Average Reach"]
+        #     color = "green" if diff > 0 else "red" if diff < 0 else "gray"
+        #     diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
+        #     st.markdown(diff_text, unsafe_allow_html=True)
+        # with coll8:
+        #     st.metric(label="Average Likes", value=f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}")
+        #     diff = l7_perdiff.iloc[0]["Average Likes"]
+        #     color = "green" if diff > 0 else "red" if diff < 0 else "gray"
+        #     diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
+        #     st.markdown(diff_text, unsafe_allow_html=True)
 
     with top_col_right:
         st.header("AI Analysis of recent performance")
