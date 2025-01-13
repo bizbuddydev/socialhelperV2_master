@@ -350,12 +350,12 @@ st.markdown(
     """
     <style>
     .metric-card {
-        border: 2px solid #000000; /* Green border */
+        border: 2px solid #4CAF50; /* Green border */
         border-radius: 10px; /* Rounded corners */
         padding: 15px; /* Space inside the card */
         margin: 10px; /* Space around the card */
         background-color: #f9f9f9; /* Light background color */
-        height: 125px; /* Adjusted height for percentage diff */
+        height: 140px; /* Adjusted height for percentage diff */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         display: flex;
         flex-direction: column;
@@ -365,34 +365,47 @@ st.markdown(
     }
     .metric-card h3 {
         margin: 0;
-        font-size:14px;
-        color: #000000; /* Dark text color */
+        font-size: 20px;
+        color: #333333; /* Dark text color */
     }
     .metric-card p {
         margin: 5px 0 0 0;
-        font-size: 16px;
+        font-size: 18px;
         color: #4CAF50; /* Match the border color */
         font-weight: bold;
     }
     .metric-card .percentage-diff {
         font-size: 14px;
-        color: #FF5733; /* Orange-red for percentage difference */
-        margin-bottom: 3px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .metric-card .percentage-diff.positive {
+        color: #4CAF50; /* Green for positive values */
+    }
+    .metric-card .percentage-diff.negative {
+        color: #FF5733; /* Red for negative values */
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# Function to display a metric card with an optional percentage difference
-def display_metric(label: str, value: str, percentage_diff: str = None):
-    percentage_html = f"<div class='percentage-diff'>{percentage_diff}</div>" if percentage_diff else ""
+# Function to display a metric card with optional percentage difference
+def display_metric(label: str, value: str, percentage_diff: float = None):
+    # Determine the class for the percentage difference
+    if percentage_diff is not None:
+        percentage_class = "positive" if percentage_diff > 0 else "negative"
+        percentage_html = f"<div class='percentage-diff {percentage_class}'>{percentage_diff:+.2f}%</div>"
+    else:
+        percentage_html = ""
+    
+    # Render the metric card
     st.markdown(
         f"""
         <div class="metric-card">
+            {percentage_html}
             <h3>{label}</h3>
             <p>{value}</p>
-            {percentage_html}
         </div>
         """,
         unsafe_allow_html=True,
