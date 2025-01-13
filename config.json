@@ -1,0 +1,12 @@
+{
+  "ACCOUNT_NAME": "Sterling Mental Performance",
+  "PROJECT_ID" : "bizbuddydemo-v1",
+  "DATASET_ID": "ig_data",
+  "ACCOUNT_DATASET_ID": "strategy_data",
+  "POST_TABLE_ID": "smp_postdata",
+  "ACCOUNT_TABLE_ID": "smp_igaccountdata",
+  "IDEAS_TABLE_ID" : "smp_postideas",
+  "BUSINESS_TABLE_ID" : "smp_businesscontext",
+  "SUMMARY_TABLE_ID" : "summarytable",
+  "PAGE_ID" : "17841467554159158"
+}
