@@ -355,7 +355,7 @@ st.markdown(
         padding: 10px; /* Space inside the card */
         margin: 7px; /* Space around the card */
         background-color: #f9f9f9; /* Light background color */
-        height: 100px; /* Adjusted height for percentage diff */
+        height: 115px; /* Adjusted height for percentage diff */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         display: flex;
         flex-direction: column;
