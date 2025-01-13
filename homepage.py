@@ -525,9 +525,9 @@ def main():
                 key="calendar",
             )
         
-            # Update session state only when the calendar's state changes
-            if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
-                st.session_state["calendar_events"] = state["eventsSet"]
+            # # Update session state only when the calendar's state changes
+            # if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
+            #     st.session_state["calendar_events"] = state["eventsSet"]
         
         # for index, row in post_ideas.iterrows():
         #     with st.expander(f"{row['Date']}, {row['post_type']}: {row['caption'][:50]}..."):
