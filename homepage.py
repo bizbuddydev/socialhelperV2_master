@@ -565,7 +565,9 @@ def main():
         # Only execute calendar logic in its own container
         if "calendar_events" not in st.session_state:
             st.session_state["calendar_events"] = [
-                {"title": "Event 1", "start": "2025-01-01", "end": "2025-01-01", "color": "#FF6C6C"}
+                {"title": "Past Post", "start": "2025-01-01", "end": "2025-01-01", "color": "#FF6C6C"},
+                {"title": "Upcoming Post", "start": "2025-13-01", "end": "2025-13-01", "color": "#f1c232"},
+                {"title": "Upcoming Post", "start": "2025-16-01", "end": "2025-16-01", "color": "#f1c232"}
             ]
         
         # Create a container for the calendar widget
