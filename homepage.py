@@ -371,7 +371,7 @@ st.markdown(
     .metric-card p {
         margin: 5px 0 0 0;
         font-size: 18px;
-        color: #4CAF50; /* Match the border color */
+        color: #000000; /* Match the border color */
         font-weight: bold;
     }
     </style>
