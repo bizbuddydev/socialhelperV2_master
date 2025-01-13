@@ -355,7 +355,7 @@ st.markdown(
         padding: 15px; /* Space inside the card */
         margin: 10px; /* Space around the card */
         background-color: #f9f9f9; /* Light background color */
-        height: 140px; /* Adjusted height for percentage diff */
+        height: 120px; /* Fixed height */
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         display: flex;
         flex-direction: column;
@@ -374,22 +374,16 @@ st.markdown(
         color: #4CAF50; /* Match the border color */
         font-weight: bold;
     }
-    .metric-card .percentage-diff {
-        font-size: 14px;
-        color: #FF5733; /* Orange-red for percentage difference */
-        margin-bottom: 5px;
-    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# Updated function to display a metric card with optional percentage difference
-def display_metric(label: str, value: str, percentage_diff: str = None):
+# Function to display a metric card
+def display_metric(label: str, value: str):
     st.markdown(
         f"""
         <div class="metric-card">
-            {"<div class='percentage-diff'>" + percentage_diff + "</div>" if percentage_diff else ""}
             <h3>{label}</h3>
             <p>{value}</p>
         </div>
