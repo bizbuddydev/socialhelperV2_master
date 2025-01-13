@@ -390,7 +390,7 @@ def main():
         avg_reach = post_data['reach'].mean() if post_data is not None and not post_data.empty else 0
         avg_likes = post_data['like_count'].mean() if post_data is not None and not post_data.empty else 0
 
-        with st.container(border=True):
+        with st.container(height=120):
             #All Time
             # Display metrics
             with coll1:
