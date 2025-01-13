@@ -390,14 +390,15 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Function to display a metric card with optional percentage difference
+# Function to display a metric card with an optional percentage difference
 def display_metric(label: str, value: str, percentage_diff: float = None):
-    # Determine the class for the percentage difference
-    if percentage_diff is not None:
-        percentage_class = "positive" if percentage_diff > 0 else "negative"
-        percentage_html = f"<div class='percentage-diff {percentage_class}'>{percentage_diff:+.2f}%</div>"
-    else:
-        percentage_html = ""
+    # Determine the HTML for the percentage difference only if provided
+    percentage_html = (
+        f"<div class='percentage-diff {'positive' if percentage_diff > 0 else 'negative'}'>"
+        f"{percentage_diff:+.2f}%</div>"
+        if percentage_diff is not None
+        else ""
+    )
     
     # Render the metric card
     st.markdown(
