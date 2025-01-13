@@ -477,7 +477,7 @@ def main():
     
 
     with top_col_right:
-        st.header("AI Analysis of recent performance")
+        st.subheader("Account Insights from AI")
         account_summary_data = pull_accountsummary()
         account_summary = account_summary_data.iloc[0][1]
         #response_text = generate_gpt_summary(bus_description, performance_summary)
@@ -556,7 +556,7 @@ def main():
         calendar_container = st.container()
         
         with calendar_container:
-            st.header("Upcoming Scheduled Posts")
+            st.subheader("Upcoming Scheduled Posts")
             state = calendar(
                 events=st.session_state["calendar_events"],
                 options={
