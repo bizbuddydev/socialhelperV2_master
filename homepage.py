@@ -63,12 +63,12 @@ openai.api_key = st.secrets["openai"]["api_key"]
 AI_client = openai
 
 # For calendar
-# Sample events
-events = [
-    {"title": "Meeting with Team", "start": "2025-01-10", "end": "2025-01-10", "color": "#FF6C6C"},
-    {"title": "Project Deadline", "start": "2025-01-15", "end": "2025-01-15", "color": "#3DD56D"},
-    {"title": "Conference", "start": "2025-01-20", "end": "2025-01-22", "color": "#3D9DF3"},
-]
+if "events" not in st.session_state:
+    st.session_state["events"] = [
+        {"title": "Meeting with Team", "start": "2025-01-10", "end": "2025-01-10", "color": "#FF6C6C"},
+        {"title": "Project Deadline", "start": "2025-01-15", "end": "2025-01-15", "color": "#3DD56D"},
+        {"title": "Conference", "start": "2025-01-20", "end": "2025-01-22", "color": "#3D9DF3"},
+    ]
 
 # Calendar options for daygrid mode
 calendar_options = {
@@ -522,7 +522,7 @@ def main():
         st.header("Upcoming Scheduled Posts")
         # Render the calendar
         state = calendar(
-            events=st.session_state.get("events", events),
+            events=st.session_state["events"],
             options=calendar_options,
             key="daygrid",
         )
@@ -530,7 +530,6 @@ def main():
         # Update session state if events are modified
         if state.get("eventsSet") is not None:
             st.session_state["events"] = state["eventsSet"]
-
         
         # for index, row in post_ideas.iterrows():
         #     with st.expander(f"{row['Date']}, {row['post_type']}: {row['caption'][:50]}..."):
