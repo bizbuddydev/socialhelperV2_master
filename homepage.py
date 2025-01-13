@@ -559,7 +559,7 @@ def main():
                 xaxis=dict(title='Date', title_font=dict(size=12), tickangle=45),
                 yaxis=dict(title=selected_metric, title_font=dict(size=12)),
                 plot_bgcolor='white',
-                legend=dict(title='Legend'),
+                # legend=dict(title='Legend'),
                 hovermode='x unified'
             )
         
