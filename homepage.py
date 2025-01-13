@@ -490,6 +490,8 @@ def main():
 
     with bot_col_left:
         
+        st.subheader("Performance Over Time")
+                     
         account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
         
         # Dropdown for selecting metric
