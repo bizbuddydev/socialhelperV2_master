@@ -390,16 +390,17 @@ def main():
         avg_reach = post_data['reach'].mean() if post_data is not None and not post_data.empty else 0
         avg_likes = post_data['like_count'].mean() if post_data is not None and not post_data.empty else 0
 
-        #All Time
-        # Display metrics
-        with coll1:
-            st.metric(label="Total Followers", value=f"{total_followers:,}")
-        with coll2:
-            st.metric(label="Total Posts", value=f"{total_posts:,}")
-        with coll3:
-            st.metric(label="Average Reach", value=f"{avg_reach:,.2f}")
-        with coll4:
-            st.metric(label="Average Likes", value=f"{avg_likes:,.2f}")
+        with st.container(border=True):
+            #All Time
+            # Display metrics
+            with coll1:
+                st.metric(label="Total Followers", value=f"{total_followers:,}")
+            with coll2:
+                st.metric(label="Total Posts", value=f"{total_posts:,}")
+            with coll3:
+                st.metric(label="Average Reach", value=f"{avg_reach:,.2f}")
+            with coll4:
+                st.metric(label="Average Likes", value=f"{avg_likes:,.2f}")
 
 
         st.subheader("Last 7 days")
