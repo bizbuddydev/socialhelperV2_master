@@ -386,18 +386,16 @@ st.markdown(
 
 # Updated function to display a metric card with optional percentage difference
 def display_metric(label: str, value: str, percentage_diff: str = None):
-    percentage_html = f'<div class="percentage-diff">{percentage_diff}</div>' if percentage_diff else ""
     st.markdown(
         f"""
         <div class="metric-card">
-            {percentage_html}
+            {"<div class='percentage-diff'>" + percentage_diff + "</div>" if percentage_diff else ""}
             <h3>{label}</h3>
             <p>{value}</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-
 
 # Main function to display data and visuals
 def main():
