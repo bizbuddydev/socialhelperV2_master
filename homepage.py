@@ -391,48 +391,22 @@ def main():
         avg_reach = post_data['reach'].mean() if post_data is not None and not post_data.empty else 0
         avg_likes = post_data['like_count'].mean() if post_data is not None and not post_data.empty else 0
 
-        # Add custom CSS for containers with borders
-        st.markdown(
-            """
-            <style>
-            .metric-container {
-                border: 2px solid #4CAF50; /* Green border */
-                border-radius: 10px; /* Rounded corners */
-                padding: 10px; /* Space inside the container */
-                margin: 10px; /* Space around the container */
-                height: 120px; /* Fixed height */
-                background-color: #f9f9f9; /* Light background color */
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for better visuals */
-            }
-            </style>
-            """,
-            unsafe_allow_html=True,
-        )
         
         # Layout for scorecards
         row1 = st.columns(4)
         
         # Row 1
         with row1[0]:
-            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-            st.metric(label="Total Followers", value=f"{total_followers:,}")
-            st.markdown('</div>', unsafe_allow_html=True)
+            display_metric("Total Followers", f"{total_followers:,}")
         
         with row1[1]:
-            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-            st.metric(label="Total Posts", value=f"{total_posts:,}")
-            st.markdown('</div>', unsafe_allow_html=True)
+            display_metric("Total Posts", f"{total_posts:.2f}")
         
         with row1[2]:
-            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-            st.metric(label="Average Reach", value=f"{avg_reach:.2f}")
-            st.markdown('</div>', unsafe_allow_html=True)
+            display_metric("Total Reach", f"{avg_reach:,}")
             
         with row1[3]:
-            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
-            st.metric(label="Average Likes", value=f"{avg_likes:.2f}")
-            st.markdown('</div>', unsafe_allow_html=True)
-        
+            display_metric("Average Likes", f"{avg_likes:.2f}")
         
         # with st.container(height=120):
         #     #All Time
