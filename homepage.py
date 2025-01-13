@@ -450,7 +450,7 @@ def main():
             display_metric("Total Posts", f"{total_posts:.2f}")
         
         with row1[2]:
-            display_metric("Total Reach", f"{avg_reach:,}")
+            display_metric("Average Reach", f"{avg_reach:,}")
             
         with row1[3]:
             display_metric("Average Likes", f"{avg_likes:.2f}")
