@@ -6,7 +6,7 @@ from google.cloud import bigquery
 import pandas as pd
 from datetime import datetime, date, timedelta
 import json
-from styles.py import *
+from styles import *
 
 #For Viz
 import seaborn as sns
