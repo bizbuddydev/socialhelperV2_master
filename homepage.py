@@ -581,10 +581,6 @@ def main():
                 st.session_state["calendar_events"] = state["eventsSet"]
         
 
-        st.header("Demographic Breakdowns")
-        st.write("Coming soon...")
-        
-
 # Run the app
 if __name__ == "__main__":
     main()
