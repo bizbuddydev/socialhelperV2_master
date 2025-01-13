@@ -372,9 +372,9 @@ def main():
     post_ideas = pull_postideas(ACCOUNT_DATASET_ID, IDEAS_TABLE_ID)
     
     # Create layout with two columns
-    col_left, col_right = st.columns(2)
+    top_col_left, top_col_right = st.columns(2)
 
-    with col_left:
+    with top_col_left:
 
         st.subheader("All Time")
         # Columns for scorecards
@@ -431,12 +431,26 @@ def main():
             diff_text = f"<i style='color:{color};'>{diff:+.2f}%</i>"
             st.markdown(diff_text, unsafe_allow_html=True)
 
+    with top_col_right:
+        st.header("AI Analysis of recent performance")
+        account_summary_data = pull_accountsummary()
+        account_summary = account_summary_data.iloc[0][1]
+        #response_text = generate_gpt_summary(bus_description, performance_summary)
+        bullet1, bullet2 = split_bullet_points(account_summary)
+        st.write(bullet1)
+        st.write(bullet2)
+        
+    ###Col info, bottom left
+    bot_col_lef, bot_col_right = st.columns(2)
+
+    with bot_col_left:
+        
         account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
         
         # Dropdown for selecting metric
         metric_options = ['Total Followers', 'Followers Gained', 'Reach', 'Impressions']
         selected_metric = st.selectbox("Select Metric for Chart", metric_options)
-
+        
         # Line chart for total followers over time
         if account_data is not None and not account_data.empty:
             account_data['date'] = pd.to_datetime(account_data['date'])
@@ -486,17 +500,7 @@ def main():
             # Display the plot in Streamlit
             st.pyplot(fig)
 
-
-    with col_right:
-        # Placeholder for other visuals or information
-        st.header("AI Analysis of recent performance")
-        account_summary_data = pull_accountsummary()
-        account_summary = account_summary_data.iloc[0][1]
-        #response_text = generate_gpt_summary(bus_description, performance_summary)
-        bullet1, bullet2 = split_bullet_points(account_summary)
-        st.write(bullet1)
-        st.write(bullet2)
-
+    with bot_col_left:
         # Only execute calendar logic in its own container
         if "calendar_events" not in st.session_state:
             st.session_state["calendar_events"] = [
