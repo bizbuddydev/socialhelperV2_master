@@ -350,7 +350,7 @@ st.markdown(
     """
     <style>
     .metric-card {
-        border: 2px solid #4CAF50; /* Green border */
+        border: 2px solid #000000; /* Green border */
         border-radius: 10px; /* Rounded corners */
         padding: 15px; /* Space inside the card */
         margin: 10px; /* Space around the card */
