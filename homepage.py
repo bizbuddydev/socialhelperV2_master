@@ -404,9 +404,9 @@ def display_metric(label: str, value: str, percentage_diff: float = None):
     st.markdown(
         f"""
         <div class="metric-card">
-            {percentage_html}
             <h3>{label}</h3>
             <p>{value}</p>
+            {percentage_html}
         </div>
         """,
         unsafe_allow_html=True,
