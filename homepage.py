@@ -497,39 +497,37 @@ def main():
         st.write(bullet1)
         st.write(bullet2)
 
-        # For calendar
-        if "events" not in st.session_state:
-            st.session_state["events"] = [
-                {"title": "Meeting with Team", "start": "2025-01-10", "end": "2025-01-10", "color": "#FF6C6C"},
-                {"title": "Project Deadline", "start": "2025-01-15", "end": "2025-01-15", "color": "#3DD56D"},
-                {"title": "Conference", "start": "2025-01-20", "end": "2025-01-22", "color": "#3D9DF3"},
+        # Only execute calendar logic in its own container
+        if "calendar_events" not in st.session_state:
+            st.session_state["calendar_events"] = [
+                {"title": "Event 1", "start": "2025-01-01", "end": "2025-01-01", "color": "#FF6C6C"}
             ]
         
-        # Calendar options for daygrid mode
-        calendar_options = {
-            "headerToolbar": {
-                "left": "today prev,next",
-                "center": "title",
-                "right": "dayGridDay,dayGridWeek,dayGridMonth",
-            },
-            "initialDate": "2025-01-01",
-            "initialView": "dayGridMonth",
-            "editable": True,
-            "navLinks": True,
-            "selectable": True,
-        }
+        # Create a container for the calendar widget
+        calendar_container = st.container()
         
-        st.header("Upcoming Scheduled Posts")
-        # Render the calendar
-        state = calendar(
-            events=st.session_state["events"],
-            options=calendar_options,
-            key="daygrid",
-        )
+        with calendar_container:
+            st.header("Upcoming Scheduled Posts")
+            state = calendar(
+                events=st.session_state["calendar_events"],
+                options={
+                    "headerToolbar": {
+                        "left": "today prev,next",
+                        "center": "title",
+                        "right": "dayGridDay,dayGridWeek,dayGridMonth",
+                    },
+                    "initialDate": "2025-01-01",
+                    "initialView": "dayGridMonth",
+                    "editable": True,
+                    "navLinks": True,
+                    "selectable": True,
+                },
+                key="calendar",
+            )
         
-        # Update session state if events are modified
-        if state.get("eventsSet") is not None:
-            st.session_state["events"] = state["eventsSet"]
+            # Update session state only when the calendar's state changes
+            if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
+                st.session_state["calendar_events"] = state["eventsSet"]
         
         # for index, row in post_ideas.iterrows():
         #     with st.expander(f"{row['Date']}, {row['post_type']}: {row['caption'][:50]}..."):
