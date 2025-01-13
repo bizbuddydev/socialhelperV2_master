@@ -465,7 +465,7 @@ def main():
             display_metric("Followers", f"{total_followers:,}")
         
         with row1[1]:
-            display_metric("Posts", f"{total_posts:.2f}")
+            display_metric("Posts", f"{total_posts:,}")
         
         with row1[2]:
             display_metric("Avg Reach", f"{avg_reach:,.2f}")
