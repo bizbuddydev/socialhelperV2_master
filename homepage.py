@@ -479,9 +479,9 @@ def main():
         coll5, coll6, coll7, coll8  = st.columns(4) 
 
         with coll5:
-            display_metric("New Follows", f"{l7_igmetrics.iloc[0]["Followers Gained"]:,}", l7_perdiff.iloc[0]["Followers Gained"])
+            display_metric("New Follows", f"{l7_igmetrics.iloc[0]["Followers Gained"]:,.0f}", l7_perdiff.iloc[0]["Followers Gained"])
         with coll6:
-            display_metric("Posts", f"{l7_igmetrics.iloc[0]["Total Posts"]:,}", l7_perdiff.iloc[0]["Total Posts"])
+            display_metric("Posts", f"{l7_igmetrics.iloc[0]["Total Posts"]:,.0f}", l7_perdiff.iloc[0]["Total Posts"])
         with coll7:
             display_metric("Avg Reach", f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}", l7_perdiff.iloc[0]["Average Reach"])
         with coll8:
