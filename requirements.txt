@@ -1,4 +1,6 @@
+# For streamlit calendar
 streamlit==1.41.0
+streamlit-calendar==1.2.1
 
 # Access
 google-cloud-bigquery==3.27.0
