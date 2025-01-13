@@ -441,7 +441,7 @@ def main():
         st.write(bullet2)
         
     ###Col info, bottom left
-    bot_col_lef, bot_col_right = st.columns(2)
+    bot_col_left, bot_col_right = st.columns(2)
 
     with bot_col_left:
         
