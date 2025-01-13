@@ -462,16 +462,16 @@ def main():
         
         # Row 1
         with row1[0]:
-            display_metric("Total Followers", f"{total_followers:,}")
+            display_metric("Followers", f"{total_followers:,}")
         
         with row1[1]:
-            display_metric("Total Posts", f"{total_posts:.2f}")
+            display_metric("Posts", f"{total_posts:.2f}")
         
         with row1[2]:
-            display_metric("Average Reach", f"{avg_reach:,.2f}")
+            display_metric("Avg Reach", f"{avg_reach:,.2f}")
             
         with row1[3]:
-            display_metric("Average Likes", f"{avg_likes:.2f}")
+            display_metric("Avg Likes", f"{avg_likes:.2f}")
         
 
         st.write("Last 7 days")
@@ -479,13 +479,13 @@ def main():
         coll5, coll6, coll7, coll8  = st.columns(4) 
 
         with coll5:
-            display_metric("Total Followers", f"{l7_igmetrics.iloc[0]["Followers Gained"]:,}", l7_perdiff.iloc[0]["Followers Gained"])
+            display_metric("New Follows", f"{l7_igmetrics.iloc[0]["Followers Gained"]:,}", l7_perdiff.iloc[0]["Followers Gained"])
         with coll6:
-            display_metric("Total Posts", f"{l7_igmetrics.iloc[0]["Total Posts"]:,}", l7_perdiff.iloc[0]["Total Posts"])
+            display_metric("Posts", f"{l7_igmetrics.iloc[0]["Total Posts"]:,}", l7_perdiff.iloc[0]["Total Posts"])
         with coll7:
-            display_metric("Average Reach", f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}", l7_perdiff.iloc[0]["Average Reach"])
+            display_metric("Avg Reach", f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}", l7_perdiff.iloc[0]["Average Reach"])
         with coll8:
-            display_metric("Average Likes", f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}", l7_perdiff.iloc[0]["Average Likes"])
+            display_metric("Avg Likes", f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}", l7_perdiff.iloc[0]["Average Likes"])
     
 
     with top_col_right:
