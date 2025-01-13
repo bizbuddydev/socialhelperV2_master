@@ -428,9 +428,8 @@ def main():
     # Create layout with two columns
     top_col_left, top_col_right = st.columns(2)
 
+    st.subheader("All Time")
     with top_col_left:
-
-        st.subheader("All Time")
         # Columns for scorecards
         coll1, coll2, coll3, coll4 = st.columns(4) 
         
