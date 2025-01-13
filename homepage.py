@@ -62,28 +62,6 @@ openai.api_key = st.secrets["openai"]["api_key"]
 # Initialize OpenAI client
 AI_client = openai
 
-# For calendar
-if "events" not in st.session_state:
-    st.session_state["events"] = [
-        {"title": "Meeting with Team", "start": "2025-01-10", "end": "2025-01-10", "color": "#FF6C6C"},
-        {"title": "Project Deadline", "start": "2025-01-15", "end": "2025-01-15", "color": "#3DD56D"},
-        {"title": "Conference", "start": "2025-01-20", "end": "2025-01-22", "color": "#3D9DF3"},
-    ]
-
-# Calendar options for daygrid mode
-calendar_options = {
-    "headerToolbar": {
-        "left": "today prev,next",
-        "center": "title",
-        "right": "dayGridDay,dayGridWeek,dayGridMonth",
-    },
-    "initialDate": "2025-01-01",
-    "initialView": "dayGridMonth",
-    "editable": True,
-    "navLinks": True,
-    "selectable": True,
-}
-
 # Get Business Description
 def pull_busdescritpion(dataset_id, table_id):
     
@@ -518,6 +496,28 @@ def main():
         bullet1, bullet2 = split_bullet_points(account_summary)
         st.write(bullet1)
         st.write(bullet2)
+
+        # For calendar
+        if "events" not in st.session_state:
+            st.session_state["events"] = [
+                {"title": "Meeting with Team", "start": "2025-01-10", "end": "2025-01-10", "color": "#FF6C6C"},
+                {"title": "Project Deadline", "start": "2025-01-15", "end": "2025-01-15", "color": "#3DD56D"},
+                {"title": "Conference", "start": "2025-01-20", "end": "2025-01-22", "color": "#3D9DF3"},
+            ]
+        
+        # Calendar options for daygrid mode
+        calendar_options = {
+            "headerToolbar": {
+                "left": "today prev,next",
+                "center": "title",
+                "right": "dayGridDay,dayGridWeek,dayGridMonth",
+            },
+            "initialDate": "2025-01-01",
+            "initialView": "dayGridMonth",
+            "editable": True,
+            "navLinks": True,
+            "selectable": True,
+        }
         
         st.header("Upcoming Scheduled Posts")
         # Render the calendar
