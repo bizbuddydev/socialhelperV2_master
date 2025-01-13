@@ -62,6 +62,28 @@ openai.api_key = st.secrets["openai"]["api_key"]
 # Initialize OpenAI client
 AI_client = openai
 
+# For calendar
+# Sample events
+events = [
+    {"title": "Meeting with Team", "start": "2025-01-10", "end": "2025-01-10", "color": "#FF6C6C"},
+    {"title": "Project Deadline", "start": "2025-01-15", "end": "2025-01-15", "color": "#3DD56D"},
+    {"title": "Conference", "start": "2025-01-20", "end": "2025-01-22", "color": "#3D9DF3"},
+]
+
+# Calendar options for daygrid mode
+calendar_options = {
+    "headerToolbar": {
+        "left": "today prev,next",
+        "center": "title",
+        "right": "dayGridDay,dayGridWeek,dayGridMonth",
+    },
+    "initialDate": "2025-01-01",
+    "initialView": "dayGridMonth",
+    "editable": True,
+    "navLinks": True,
+    "selectable": True,
+}
+
 # Get Business Description
 def pull_busdescritpion(dataset_id, table_id):
     
@@ -498,15 +520,28 @@ def main():
         st.write(bullet2)
         
         st.header("Upcoming Scheduled Posts")
+        # Render the calendar
+        state = calendar(
+            events=st.session_state.get("events", events),
+            options=calendar_options,
+            key="daygrid",
+        )
         
-        for index, row in post_ideas.iterrows():
-            with st.expander(f"{row['Date']}, {row['post_type']}: {row['caption'][:50]}..."):
-                st.markdown(f"**Date:** {row['Date']}")
-                st.markdown(f"**Caption:** {row['caption']}")
-                st.markdown(f"**Post Type:** {row['post_type']}")
-                st.markdown(f"**Themes:** {row['themes']}")
-                st.markdown(f"**Tone:** {row['tone']}")
-                st.markdown(f"**Source:** {row['source']}")
+        # Update session state if events are modified
+        if state.get("eventsSet") is not None:
+            st.session_state["events"] = state["eventsSet"]
+        
+        # Display the state for debugging
+        st.write(state)
+        
+        # for index, row in post_ideas.iterrows():
+        #     with st.expander(f"{row['Date']}, {row['post_type']}: {row['caption'][:50]}..."):
+        #         st.markdown(f"**Date:** {row['Date']}")
+        #         st.markdown(f"**Caption:** {row['caption']}")
+        #         st.markdown(f"**Post Type:** {row['post_type']}")
+        #         st.markdown(f"**Themes:** {row['themes']}")
+        #         st.markdown(f"**Tone:** {row['tone']}")
+        #         st.markdown(f"**Source:** {row['source']}")
 
         st.header("Demographic Breakdowns")
         st.write("Coming soon...")
