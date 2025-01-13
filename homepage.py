@@ -530,9 +530,7 @@ def main():
         # Update session state if events are modified
         if state.get("eventsSet") is not None:
             st.session_state["events"] = state["eventsSet"]
-        
-        # Display the state for debugging
-        st.write(state)
+
         
         # for index, row in post_ideas.iterrows():
         #     with st.expander(f"{row['Date']}, {row['post_type']}: {row['caption'][:50]}..."):
