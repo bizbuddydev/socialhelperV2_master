@@ -554,13 +554,18 @@ def main():
         
             # Customize layout
             fig.update_layout(
+                xaxis=dict(
+                    title='Date',
+                    title_font=dict(size=12),
+                    tickformat='%b %d',  # Format ticks as "MMM DD"
+                    tickangle=45
+                ),
+                yaxis=dict(title=selected_metric, title_font=dict(size=12)),
                 title=f'{selected_metric} Over Time',
                 title_font=dict(size=18, family='Arial', color='black'),
-                xaxis=dict(title='Date', title_font=dict(size=12), tickangle=45),
-                yaxis=dict(title=selected_metric, title_font=dict(size=12)),
                 plot_bgcolor='white',
-                showlegend=False,
-                hovermode='x unified'
+                hovermode='x unified',
+                showlegend=False  # Turn off the legend if desired
             )
         
             # Add gridlines for cleaner visuals
