@@ -106,10 +106,10 @@ def pull_postideas(dataset_id, table_id):
         return None
 
 # Function to pull data from BigQuery
-def pull_dataframes(table_id):
+def pull_dataframes(dataset_id, table_id):
     
     # Build the table reference
-    table_ref = f"{PROJECT_ID}.{DATASET_ID}.{table_id}"
+    table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
     query = f"SELECT * FROM `{table_ref}`"
@@ -419,8 +419,8 @@ def main():
     st.markdown(f"<h1 style='text-align: center;'>{ACCOUNT_NAME}</h1>", unsafe_allow_html=True)
 
     # Pull data using the function
-    account_data = pull_dataframes(ACCOUNT_TABLE_ID)
-    post_data = pull_dataframes(POST_TABLE_ID)
+    account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
+    post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
     post_data = post_data.sort_values(by='created_time', ascending=True)
 
 
@@ -440,10 +440,10 @@ def main():
     post_ideas = pull_postideas(ACCOUNT_DATASET_ID, IDEAS_TABLE_ID)
 
     #Get demographic data
-    #demo_data = pull_dataframes(DEMOGRAPHIC_TABLE_ID)
+    demo_data = pull_dataframes(DATASET_ID, DEMOGRAPHIC_TABLE_ID)
     
     #Get addata
-    #ad_data = pull_dataframes(AD_TABLE_ID)
+    ad_data = pull_dataframes(AD_DATASET_ID, AD_TABLE_ID)
     
     # Create layout with two columns
     top_col_left, top_col_right = st.columns(2)
@@ -618,6 +618,8 @@ def main():
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
         
+        st.write(demo_data)
+        st.write(ad_data)
 
 # Run the app
 if __name__ == "__main__":
