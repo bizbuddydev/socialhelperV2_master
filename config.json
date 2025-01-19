@@ -4,7 +4,7 @@
   "DATASET_ID": "ig_data",
   "ACCOUNT_DATASET_ID": "strategy_data",
   "POST_TABLE_ID": "postdata",
-  "ACCOUNT_TABLE_ID": "igaccountdata",
+  "ACCOUNT_TABLE_ID": "accountdata",
   "IDEAS_TABLE_ID" : "postideas",
   "BUSINESS_TABLE_ID" : "businesscontext",
   "SUMMARY_TABLE_ID" : "summarytable",
