@@ -71,7 +71,7 @@ def pull_busdescritpion(dataset_id, table_id):
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
-    query = f"SELECT `Description of Business and Instagram Goals` FROM `{table_ref}` WHERE page_id = {PAGE_ID} LIMIT 1"
+    query = f"SELECT `description` FROM `{table_ref}` WHERE page_id = {PAGE_ID} LIMIT 1"
     
     try:
         # Execute the query
