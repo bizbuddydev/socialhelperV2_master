@@ -71,7 +71,7 @@ def pull_busdescritpion(dataset_id, table_id):
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
-    query = f"SELECT `Description of Business and Instagram Goals` FROM `{table_ref}` LIMIT 1"
+    query = f"SELECT `Description of Business and Instagram Goals` FROM `{table_ref}` WHERE page_id = `{PAGE_ID}` LIMIT 1"
     
     try:
         # Execute the query
@@ -93,7 +93,7 @@ def pull_postideas(dataset_id, table_id):
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
-    query = f"SELECT * FROM `{table_ref}` LIMIT 3"
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = `{PAGE_ID}` LIMIT 3"
     
     try:
         # Execute the query
@@ -113,7 +113,7 @@ def pull_dataframes(dataset_id, table_id):
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
-    query = f"SELECT * FROM `{table_ref}`"
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = `{PAGE_ID}`"
     
     try:
         # Execute the query
