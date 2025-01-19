@@ -8,5 +8,8 @@
   "IDEAS_TABLE_ID" : "smp_postideas",
   "BUSINESS_TABLE_ID" : "smp_businesscontext",
   "SUMMARY_TABLE_ID" : "summarytable",
-  "PAGE_ID" : "17841467554159158"
+  "PAGE_ID" : "17841467554159158",
+  "DEMOGRAPHIC_TABLE_ID" = "demographicdata",
+  "AD_DATASET_ID" = "ad_data",
+  "AD_TABLE_ID" = "ads"
 }
