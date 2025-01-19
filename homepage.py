@@ -45,6 +45,8 @@ BUSINESS_TABLE_ID = config["BUSINESS_TABLE_ID"]
 IDEAS_TABLE_ID = config["IDEAS_TABLE_ID"]
 SUMMARY_TABLE_ID = config["SUMMARY_TABLE_ID"]
 PAGE_ID = config["PAGE_ID"]
+DEMOGRAPHIC_TABLE_ID = config["DEMOGRAPHIC_TABLE_ID"]
+AD_TABLE_ID = config["AD_TABLE_ID"]
 
 
 # Load credentials and project ID from st.secrets
@@ -436,6 +438,12 @@ def main():
 
     #Get Scheduled Posts
     post_ideas = pull_postideas(ACCOUNT_DATASET_ID, IDEAS_TABLE_ID)
+
+    #Get demographic data
+    #demo_data = pull_dataframes(DEMOGRAPHIC_TABLE_ID)
+    
+    #Get addata
+    #ad_data = pull_dataframes(AD_TABLE_ID)
     
     # Create layout with two columns
     top_col_left, top_col_right = st.columns(2)
