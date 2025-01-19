@@ -47,6 +47,7 @@ SUMMARY_TABLE_ID = config["SUMMARY_TABLE_ID"]
 PAGE_ID = config["PAGE_ID"]
 DEMOGRAPHIC_TABLE_ID = config["DEMOGRAPHIC_TABLE_ID"]
 AD_TABLE_ID = config["AD_TABLE_ID"]
+AD_DATASET_ID = config["AD_DATASET_ID"]
 
 
 # Load credentials and project ID from st.secrets
