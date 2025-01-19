@@ -1,6 +1,6 @@
 {
   "ACCOUNT_NAME": "Sterling Mental Performance",
-  "PROJECT_ID" : "bizbuddydemo-v1",
+  "PROJECT_ID" : "bizbuddydemo-v2",
   "DATASET_ID": "ig_data",
   "ACCOUNT_DATASET_ID": "strategy_data",
   "POST_TABLE_ID": "smp_postdata",
