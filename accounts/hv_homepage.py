@@ -638,14 +638,23 @@ def main():
             st.plotly_chart(fig)
 
     with mid_col_right:
-        # Only execute calendar logic in its own container
+         # Initialize calendar events in session state if not already set
         if "calendar_events" not in st.session_state:
             st.session_state["calendar_events"] = [
-                {"title": "Past Post", "start": "2025-01-01", "end": "2025-01-01", "color": "#FF6C6C"},
                 {"title": "Upcoming Post", "start": "2025-01-13", "end": "2025-01-13", "color": "#f1c232"},
                 {"title": "Upcoming Post", "start": "2025-01-16", "end": "2025-01-16", "color": "#f1c232"},
             ]
-        
+    
+            # Add past posts from the post_data dataframe to the calendar
+            for _, row in post_data.iterrows():
+                if row['post_date'] < pd.Timestamp.now():
+                    st.session_state["calendar_events"].append({
+                        "title": f"Past Post: {row['caption'].str[:10]}",
+                        "start": row['created_time'].strftime('%Y-%m-%d'),
+                        "end": row['created_time'].strftime('%Y-%m-%d'),
+                        "color": "#FF6C6C"  # Indicating past posts in red
+                    })
+    
         # Create a container for the calendar widget
         calendar_container = st.container()
         
@@ -667,7 +676,7 @@ def main():
                 },
                 key="calendar",
             )
-        
+    
             # Update session state only when the calendar's state changes
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
