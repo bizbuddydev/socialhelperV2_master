@@ -102,6 +102,7 @@ def generate_post_idea(strategy):
 
     # Assign a date to the post
     idea_df["Date"] = fetch_latest_date()
+    idea_df["page_ig"] = PAGE_ID
 
     return idea_df
 
