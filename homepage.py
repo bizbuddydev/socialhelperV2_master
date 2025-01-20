@@ -619,9 +619,7 @@ def main():
             # Update session state only when the calendar's state changes
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
-        
-        st.write(demo_data)
-        st.write(ad_data)
+
 
 # Run the app
 if __name__ == "__main__":
