@@ -129,22 +129,30 @@ def pull_dataframes(dataset_id, table_id):
         st.error(f"Error fetching data: {e}")
         return None
 
+# Function to plot pie chart using Plotly
 def plot_pie_chart(breakdown, df):
     filtered_df = df[df['breakdown'] == breakdown]
     aggregated_df = filtered_df.groupby('value')['followers'].sum().reset_index()
 
-    # Create pie chart
-    fig, ax = plt.subplots()
-    ax.pie(
-        aggregated_df['followers'],
-        labels=aggregated_df['value'],
-        autopct='%1.1f%%',
-        startangle=90,
-        colors=plt.cm.Paired.colors
+    # Create pie chart using Plotly
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                labels=aggregated_df['value'],
+                values=aggregated_df['followers'],
+                hole=0.3,  # Use 0 for a full pie chart, >0 for a donut chart
+                marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA']),
+                textinfo='label+percent'
+            )
+        ]
     )
-    ax.set_title(f"Distribution of Followers by {breakdown}")
-    ax.axis('equal')  # Equal aspect ratio ensures the pie is drawn as a circle.
-    st.pyplot(fig)
+    fig.update_layout(
+        title_text=f"Distribution of Followers by {breakdown}",
+        legend_title="Categories",
+        margin=dict(l=20, r=20, t=50, b=20),
+    )
+
+    st.plotly_chart(fig)
 
 # Function to pull data from BigQuery
 def pull_accountsummary():
