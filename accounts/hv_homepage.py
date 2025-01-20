@@ -36,7 +36,7 @@ def load_config(file_path="config.json"):
 config = load_config()
 
 # Set env variables
-ACCOUNT_NAME = config["ACCOUNT_NAME"]
+ACCOUNT_NAME = "The Harborview"
 PROJECT_ID = config["PROJECT_ID"]
 DATASET_ID = config["DATASET_ID"]
 ACCOUNT_TABLE_ID = config["ACCOUNT_TABLE_ID"]
