@@ -441,13 +441,14 @@ def display_metric(label: str, value: str, percentage_diff: float = None):
 
 # Main function to display data and visuals
 def main():
-
+    
     st.markdown(f"<h1 style='text-align: center;'>{ACCOUNT_NAME}</h1>", unsafe_allow_html=True)
 
     # Pull data using the function
     account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
 
+    yesterday = get_yesterday()
     st.write(yesterday)
     
     post_data = post_data.sort_values(by='created_time', ascending=True)
