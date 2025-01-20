@@ -640,6 +640,7 @@ def main():
     with mid_col_right:
          # Initialize calendar events in session state if not already set
         if "calendar_events" not in st.session_state:
+            st.write("start")
             st.session_state["calendar_events"] = [
                 {"title": "Upcoming Post", "start": "2025-01-13", "end": "2025-01-13", "color": "#f1c232"},
                 {"title": "Upcoming Post", "start": "2025-01-16", "end": "2025-01-16", "color": "#f1c232"},
@@ -647,7 +648,6 @@ def main():
     
             # Add past posts from the post_data dataframe to the calendar
             for _, row in post_data.iterrows():
-                st.write(row)
                 st.session_state["calendar_events"].append({
                     "title": f"Past Post: {row['caption'][:10]}",
                     "start": row['created_time'].strftime('%Y-%m-%d'),
