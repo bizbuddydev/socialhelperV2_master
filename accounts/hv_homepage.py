@@ -82,7 +82,7 @@ def pull_busdescription():
         # Set up the query job with parameters
         job_config = bigquery.QueryJobConfig(
             query_parameters=[
-                bigquery.ScalarQueryParameter("page_id", "STRING", page_id)
+                bigquery.ScalarQueryParameter("page_id", "STRING", PAGE_ID)
             ]
         )
 
@@ -125,7 +125,7 @@ def pull_postideas(dataset_id, table_id):
         return None
 
 # Function to pull data from BigQuery
-def pull_dataframes(table_id):
+def pull_dataframes(dataset_id, table_id):
     # Build the table reference using f-string
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
