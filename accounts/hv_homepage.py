@@ -453,7 +453,7 @@ def main():
     post_data['insert_date']
     
     post_data = post_data.sort_values(by='created_time', ascending=True)
-    post_data = post_data[post_data['insert_date'] == yesterday]
+    post_data = post_data[post_data['insert_date'] == str(yesterday)]
 
     # Get daily posts
     account_data = get_daily_post_counts(post_data, account_data)
