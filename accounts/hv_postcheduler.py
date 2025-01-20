@@ -97,6 +97,8 @@ def generate_post_idea(strategy):
 
     idea_json = response.choices[0].message.content.strip()
 
+    st.write(idea_json)
+
     # Convert the JSON idea to a DataFrame
     idea_df = pd.read_json(idea_json, typ="series").to_frame().T
 
