@@ -66,7 +66,7 @@ openai.api_key = st.secrets["openai"]["api_key"]
 AI_client = openai
 
 # Assuming PROJECT_ID and client are defined somewhere in your script
-def pull_busdescription(page_id):
+def pull_busdescription():
     # Build the table reference
     table_ref = f"{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{BUSINESS_TABLE_ID}"
 
