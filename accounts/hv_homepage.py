@@ -148,6 +148,20 @@ def pull_accountsummary():
         st.error(f"Error fetching data: {e}")
         return None
 
+def get_yesterday():
+
+    #Get yesterdays date
+    pacific_tz = ZoneInfo("America/Los_Angeles")
+    # Get yesterday's date in Pacific Time
+    yesterday = datetime.now(pacific_tz) - timedelta(days=1)
+    # Convert to timezone-naive datetime (remove timezone)
+    yesterday = yesterday.replace(tzinfo=None)
+    # Convert to Pandas datetime64 format
+    yesterday = pd.to_datetime(yesterday)
+    return yesterday
+
+
+
 def get_daily_post_counts(post_data, account_data):
     # Ensure created_time is in datetime format
     post_data['date'] = pd.to_datetime(post_data['created_time'])
@@ -430,7 +444,6 @@ def main():
 
     st.markdown(f"<h1 style='text-align: center;'>{ACCOUNT_NAME}</h1>", unsafe_allow_html=True)
 
-    yesterday = datetime.today() - timedelta(days=1)
     # Pull data using the function
     account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
