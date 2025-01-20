@@ -65,53 +65,36 @@ openai.api_key = st.secrets["openai"]["api_key"]
 # Initialize OpenAI client
 AI_client = openai
 
-# Assuming PROJECT_ID and client are defined somewhere in your script
-def pull_busdescription(page_id):
-    # Build the table reference
-    table_ref = f"{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{BUSINESS_TABLE_ID}"
-
-    # Corrected query using parameterized query syntax
-    query = f"""
-        SELECT `description` 
-        FROM `{table_ref}` 
-        WHERE page_id = @page_id 
-        LIMIT 1
-    """
-
-    try:
-        # Set up the query job with parameters
-        job_config = bigquery.QueryJobConfig(
-            query_parameters=[
-                bigquery.ScalarQueryParameter("page_id", "STRING", page_id)
-            ]
-        )
-
-        # Execute the query
-        query_job = client.query(query, job_config=job_config)
-        result = query_job.result()
-        
-        # Convert the result to a DataFrame
-        data = result.to_dataframe()
-        
-        # Check if data is returned
-        if not data.empty:
-            return data.iloc[0][0]
-        else:
-            return None
-    except Exception as e:
-        st.error(f"Error fetching data: {e}")
-        return None
-
-bus_description = pull_busdescription(PAGE_ID)
-
-# Get Post Idea Data
-def pull_postideas(dataset_id, table_id, page_id):
+# Get Business Description
+def pull_busdescritpion(dataset_id, table_id):
     
     # Build the table reference
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
-    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {page_id} LIMIT 3"
+    query = f"SELECT `description` FROM `{table_ref}` WHERE page_id = {PAGE_ID} LIMIT 1"
+    
+    try:
+        # Execute the query
+        query_job = client.query(query)
+        result = query_job.result()
+        # Convert the result to a DataFrame
+        data = result.to_dataframe()
+        return data.iloc[0][0]
+    except Exception as e:
+        st.error(f"Error fetching data: {e}")
+        return None
+
+bus_description = pull_busdescritpion(ACCOUNT_DATASET_ID, BUSINESS_TABLE_ID)
+
+# Get Post Idea Data
+def pull_postideas(dataset_id, table_id):
+    
+    # Build the table reference
+    table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
+
+    # Query to fetch all data from the table
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {PAGE_ID} LIMIT 3"
     
     try:
         # Execute the query
@@ -126,24 +109,17 @@ def pull_postideas(dataset_id, table_id, page_id):
 
 # Function to pull data from BigQuery
 def pull_dataframes(dataset_id, table_id):
-    # Build the table reference using f-string
+    
+    # Build the table reference
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
-    # Query to fetch all data from the table, using @page_id as a parameter placeholder
-    query = f"SELECT * FROM `{table_ref}` WHERE page_id = @page_id"
+    # Query to fetch all data from the table
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {PAGE_ID}"
     
     try:
-        # Set up the query job with parameterized input for page_id
-        job_config = bigquery.QueryJobConfig(
-            query_parameters=[
-                bigquery.ScalarQueryParameter("page_id", "STRING", page_id)
-            ]
-        )
-
-        # Execute the query with parameters
-        query_job = client.query(query, job_config=job_config)
+        # Execute the query
+        query_job = client.query(query)
         result = query_job.result()
-
         # Convert the result to a DataFrame
         data = result.to_dataframe()
         return data
