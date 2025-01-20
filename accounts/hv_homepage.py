@@ -66,7 +66,7 @@ openai.api_key = st.secrets["openai"]["api_key"]
 AI_client = openai
 
 # Assuming PROJECT_ID and client are defined somewhere in your script
-def pull_busdescription():
+def pull_busdescription(page_id):
     # Build the table reference
     table_ref = f"{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{BUSINESS_TABLE_ID}"
 
@@ -82,7 +82,7 @@ def pull_busdescription():
         # Set up the query job with parameters
         job_config = bigquery.QueryJobConfig(
             query_parameters=[
-                bigquery.ScalarQueryParameter("page_id", "STRING", PAGE_ID)
+                bigquery.ScalarQueryParameter("page_id", "STRING", page_id)
             ]
         )
 
@@ -102,10 +102,10 @@ def pull_busdescription():
         st.error(f"Error fetching data: {e}")
         return None
 
-bus_description = pull_busdescription()
+bus_description = pull_busdescription(PAGE_ID)
 
 # Get Post Idea Data
-def pull_postideas(dataset_id, table_id):
+def pull_postideas(dataset_id, table_id, page_id):
     
     # Build the table reference
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
@@ -130,13 +130,13 @@ def pull_dataframes(dataset_id, table_id):
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table, using @page_id as a parameter placeholder
-    query = f"SELECT * FROM `{table_ref}` WHERE page_id = @PAGE_ID"
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = @page_id"
     
     try:
         # Set up the query job with parameterized input for page_id
         job_config = bigquery.QueryJobConfig(
             query_parameters=[
-                bigquery.ScalarQueryParameter("page_id", "STRING", PAGE_ID)
+                bigquery.ScalarQueryParameter("page_id", "STRING", page_id)
             ]
         )
 
