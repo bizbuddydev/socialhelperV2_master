@@ -157,7 +157,7 @@ def get_yesterday():
     # Convert to timezone-naive datetime (remove timezone)
     yesterday = yesterday.replace(tzinfo=None)
     # Convert to Pandas datetime64 format
-    yesterday = pd.to_datetime(yesterday)
+    yesterday = pd.to_datetime(yesterday).dt.date
     return yesterday
 
 
