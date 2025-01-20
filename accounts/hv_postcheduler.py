@@ -62,7 +62,7 @@ def fetch_latest_date():
     query = f"""
         SELECT MAX(date) as latest_date
         FROM `bizbuddydemo-v2.strategy_data.postideas`
-        WHERE post_id = {PAGE_ID} 
+        WHERE page_id = {PAGE_ID} 
     """
     query_job = bq_client.query(query)
     result = query_job.result()
