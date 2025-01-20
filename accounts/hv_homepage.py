@@ -159,6 +159,11 @@ def get_daily_post_counts(post_data, account_data):
     
     # Get yesterday's date in Pacific Time
     yesterday = datetime.now(pacific_tz) - timedelta(days=1)
+    # Convert to timezone-naive datetime (remove timezone)
+    yesterday = yesterday.replace(tzinfo=None)
+    # Convert to Pandas datetime64 format
+    yesterday = pd.to_datetime(yesterday)
+    
     date_range = [yesterday - timedelta(days=i) for i in range(31)]
     date_range = sorted(date_range)  # Ensure dates are in ascending order
 
