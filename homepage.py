@@ -44,11 +44,12 @@ ACCOUNT_DATASET_ID = config["ACCOUNT_DATASET_ID"]
 BUSINESS_TABLE_ID = config["BUSINESS_TABLE_ID"]
 IDEAS_TABLE_ID = config["IDEAS_TABLE_ID"]
 SUMMARY_TABLE_ID = config["SUMMARY_TABLE_ID"]
-PAGE_ID = config["PAGE_ID"]
 DEMOGRAPHIC_TABLE_ID = config["DEMOGRAPHIC_TABLE_ID"]
 AD_TABLE_ID = config["AD_TABLE_ID"]
 AD_DATASET_ID = config["AD_DATASET_ID"]
 
+#Get page_id from secrets
+PAGE_ID = st.secrets["page_id"]
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
