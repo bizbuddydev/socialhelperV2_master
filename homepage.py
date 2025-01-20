@@ -419,11 +419,12 @@ def main():
 
     st.markdown(f"<h1 style='text-align: center;'>{ACCOUNT_NAME}</h1>", unsafe_allow_html=True)
 
+    yesterday = datetime.today() - timedelta(days=1)
     # Pull data using the function
     account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
     post_data = post_data.sort_values(by='created_time', ascending=True)
-
+    post_data = post_data[['insert_date'] == yesterday]
 
     # Get daily posts
     account_data = get_daily_post_counts(post_data, account_data)
@@ -536,9 +537,6 @@ def main():
         
             # Initialize a Plotly figure
             fig = go.Figure()
-
-            st.write(account_data)
-            st.write(post_data)
         
             # Add the main line chart for the selected metric
             fig.add_trace(go.Scatter(
