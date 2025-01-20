@@ -49,7 +49,7 @@ AD_TABLE_ID = config["AD_TABLE_ID"]
 AD_DATASET_ID = config["AD_DATASET_ID"]
 
 #Get page_id from secrets
-PAGE_ID = st.secrets["page_id"]
+PAGE_ID = 17841410640947509
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
