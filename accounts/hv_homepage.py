@@ -684,6 +684,8 @@ def main():
         plot_pie_chart(selected_breakdown, demo_data)
 
     with bot_col_right:
+        ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
+
         st.write("Sum Spend:", ad_data['spend'].sum())
 
 
