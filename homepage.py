@@ -538,6 +538,7 @@ def main():
             fig = go.Figure()
 
             st.write(account_data)
+            st.write(post_data)
         
             # Add the main line chart for the selected metric
             fig.add_trace(go.Scatter(
