@@ -424,7 +424,7 @@ def main():
     account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
     post_data = post_data.sort_values(by='created_time', ascending=True)
-    post_data = post_data[['insert_date'] == yesterday]
+    post_data = post_data[post_data['insert_date'] == yesterday]
 
     # Get daily posts
     account_data = get_daily_post_counts(post_data, account_data)
