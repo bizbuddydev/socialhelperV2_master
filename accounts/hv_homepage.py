@@ -128,6 +128,23 @@ def pull_dataframes(dataset_id, table_id):
         st.error(f"Error fetching data: {e}")
         return None
 
+def plot_pie_chart(breakdown):
+    filtered_df = df[df['breakdown'] == breakdown]
+    aggregated_df = filtered_df.groupby('value')['followers'].sum().reset_index()
+
+    # Create pie chart
+    fig, ax = plt.subplots()
+    ax.pie(
+        aggregated_df['followers'],
+        labels=aggregated_df['value'],
+        autopct='%1.1f%%',
+        startangle=90,
+        colors=plt.cm.Paired.colors
+    )
+    ax.set_title(f"Distribution of Followers by {breakdown}")
+    ax.axis('equal')  # Equal aspect ratio ensures the pie is drawn as a circle.
+    st.pyplot(fig)
+
 # Function to pull data from BigQuery
 def pull_accountsummary():
     
@@ -647,8 +664,11 @@ def main():
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
         
-        st.write(demo_data)
-        st.write(ad_data)
+        # Dropdown for selecting breakdown
+        selected_breakdown = st.selectbox("Select Breakdown", df['breakdown'].unique())
+
+        # Display the pie chart based on selected breakdown
+        plot_pie_chart(selected_breakdown)
         
 
 
