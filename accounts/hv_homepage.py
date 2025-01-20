@@ -688,9 +688,17 @@ def main():
 
         st.header("Advertising Performance")
         
-        #Ad Scorecards
-        display_metric("Ad Spend", f"{ad_data['spend'].sum():,}")
         
+        ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
+        #Ad Scorecards
+        with ad_sc1:
+            display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
+        with ad_sc2:
+            display_metric("Reach", f"${ad_data['spend'].sum():,}")
+        with ad_sc1:
+            display_metric("Boosted Follows", f"${ad_data['clicks'].sum():,}")
+        with ad_sc4:
+            display_metric("Cost p Follow", f"${ad_data['spend'].sum()/ad_data['clicks'].sum():,}")
 
 
 # Run the app
