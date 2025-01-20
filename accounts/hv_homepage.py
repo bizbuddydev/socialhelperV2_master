@@ -449,8 +449,6 @@ def main():
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
 
     yesterday = get_yesterday()
-    st.write(yesterday)
-    post_data['insert_date']
     
     post_data = post_data.sort_values(by='created_time', ascending=True)
     post_data = post_data[post_data['insert_date'] == str(yesterday)]
@@ -648,6 +646,10 @@ def main():
             # Update session state only when the calendar's state changes
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
+        
+        st.write(demo_data)
+        st.write(ad_data)
+        
 
 
 # Run the app
