@@ -560,9 +560,9 @@ def main():
         st.write(bullet2)
         
     ###Col info, bottom left
-    bot_col_left, bot_col_right = st.columns(2)
+    mid_col_left, mid_col_right = st.columns(2)
 
-    with bot_col_left:
+    with mid_col_left:
         
         st.subheader("Performance Over Time")
                      
@@ -637,7 +637,7 @@ def main():
             # Display the Plotly figure in Streamlit
             st.plotly_chart(fig)
 
-    with bot_col_right:
+    with mid_col_right:
         # Only execute calendar logic in its own container
         if "calendar_events" not in st.session_state:
             st.session_state["calendar_events"] = [
@@ -672,12 +672,19 @@ def main():
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
         
+    ###Col info, bottom left
+    bot_col_left, bot_col_right = st.columns(2)
+
+    with bot_col_left:
+            
         # Dropdown for selecting breakdown
         selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
 
         # Display the pie chart based on selected breakdown
         plot_pie_chart(selected_breakdown, demo_data)
-        
+
+    with bot_col_right:
+        st.write("Sum Spend:", ad_data['Spend'].sum())
 
 
 # Run the app
