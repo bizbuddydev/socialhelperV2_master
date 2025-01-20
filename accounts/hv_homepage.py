@@ -197,6 +197,9 @@ def get_daily_post_counts(post_data, account_data):
             'post_count': post_count
         })
 
+    st.write(day_start)
+    st.write(post_data['created_time'])
+
     # Convert to DataFrame
     daily_post_counts_df = pd.DataFrame(daily_counts)
 
