@@ -96,7 +96,8 @@ def generate_post_idea(strategy):
     )
 
     idea_json = response.choices[0].message.content.strip()
-
+    st.write(idea_json)
+    
     try:
         parsed_json = json.loads(idea_json)  # Ensure valid JSON
     except json.JSONDecodeError as e:
