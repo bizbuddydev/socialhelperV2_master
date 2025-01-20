@@ -694,7 +694,7 @@ def main():
         with ad_sc1:
             display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
         with ad_sc2:
-            display_metric("Reach", f"{ad_data['spend'].sum():,}")
+            display_metric("Reach", f"{ad_data['reach'].sum():,}")
         with ad_sc3:
             display_metric("Boosted Follows", f"{ad_data['clicks'].sum()/5:,}")
         with ad_sc4:
