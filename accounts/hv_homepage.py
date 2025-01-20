@@ -102,7 +102,7 @@ def pull_busdescription(page_id):
         st.error(f"Error fetching data: {e}")
         return None
 
-bus_description = pull_busdescription(BUSINESS_TABLE_ID)
+bus_description = pull_busdescription(PAGE_ID)
 
 # Get Post Idea Data
 def pull_postideas(dataset_id, table_id):
