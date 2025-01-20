@@ -66,9 +66,9 @@ openai.api_key = st.secrets["openai"]["api_key"]
 AI_client = openai
 
 # Assuming PROJECT_ID and client are defined somewhere in your script
-def pull_busdescription(dataset_id, table_id, page_id):
+def pull_busdescription(page_id):
     # Build the table reference
-    table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
+    table_ref = f"{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{BUSINESS_TABLE_ID}"
 
     # Corrected query using parameterized query syntax
     query = f"""
@@ -102,7 +102,7 @@ def pull_busdescription(dataset_id, table_id, page_id):
         st.error(f"Error fetching data: {e}")
         return None
 
-bus_description = pull_busdescritpion(ACCOUNT_DATASET_ID, BUSINESS_TABLE_ID)
+bus_description = pull_busdescription(BUSINESS_TABLE_ID)
 
 # Get Post Idea Data
 def pull_postideas(dataset_id, table_id):
