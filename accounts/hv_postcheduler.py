@@ -35,7 +35,7 @@ PROJECT_ID = config["PROJECT_ID"]
 ACCOUNT_DATASET_ID = config["ACCOUNT_DATASET_ID"]
 IDEAS_TABLE_ID = config["IDEAS_TABLE_ID"]
 
-PAGE_ID = config["PAGE_ID"]
+PAGE_ID = 17841410640947509
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
