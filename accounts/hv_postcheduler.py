@@ -186,6 +186,7 @@ def fetch_post_data():
         SELECT date, caption, post_type, themes, tone, source
         FROM `{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{IDEAS_TABLE_ID}`
         WHERE page_id = {PAGE_ID}
+        AND date > CURRENT_DATE()
         ORDER BY date ASC
     """
     query_job = bq_client.query(query)
