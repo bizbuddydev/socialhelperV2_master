@@ -647,7 +647,7 @@ def main():
     
             # Add past posts from the post_data dataframe to the calendar
             for _, row in post_data.iterrows():
-                st.write(row['created_time'].strftime('%Y-%m-%d'))
+                st.write(row)
                 st.session_state["calendar_events"].append({
                     "title": f"Past Post: {row['caption'][:10]}",
                     "start": row['created_time'].strftime('%Y-%m-%d'),
