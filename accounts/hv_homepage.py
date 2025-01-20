@@ -102,7 +102,7 @@ def pull_busdescription(page_id):
         st.error(f"Error fetching data: {e}")
         return None
 
-bus_description = pull_busdescription(PAGE_ID)
+bus_description = pull_busdescription()
 
 # Get Post Idea Data
 def pull_postideas(dataset_id, table_id):
@@ -111,7 +111,7 @@ def pull_postideas(dataset_id, table_id):
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
     # Query to fetch all data from the table
-    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {PAGE_ID} LIMIT 3"
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {page_id} LIMIT 3"
     
     try:
         # Execute the query
@@ -125,18 +125,25 @@ def pull_postideas(dataset_id, table_id):
         return None
 
 # Function to pull data from BigQuery
-def pull_dataframes(dataset_id, table_id):
-    
-    # Build the table reference
+def pull_dataframes(table_id):
+    # Build the table reference using f-string
     table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
 
-    # Query to fetch all data from the table
-    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {PAGE_ID}"
+    # Query to fetch all data from the table, using @page_id as a parameter placeholder
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = @PAGE_ID"
     
     try:
-        # Execute the query
-        query_job = client.query(query)
+        # Set up the query job with parameterized input for page_id
+        job_config = bigquery.QueryJobConfig(
+            query_parameters=[
+                bigquery.ScalarQueryParameter("page_id", "STRING", PAGE_ID)
+            ]
+        )
+
+        # Execute the query with parameters
+        query_job = client.query(query, job_config=job_config)
         result = query_job.result()
+
         # Convert the result to a DataFrame
         data = result.to_dataframe()
         return data
