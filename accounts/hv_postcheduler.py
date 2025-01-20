@@ -95,12 +95,13 @@ def generate_post_idea(strategy):
         ]
     )
 
-    idea_json = response.choices[0].message.content.strip()
-
-    st.write(idea_json)
-
-    # Convert the JSON idea to a DataFrame
-    idea_df = pd.read_json(idea_json, typ="series").to_frame().T
+    try:
+        parsed_json = json.loads(idea_json)  # Ensure valid JSON
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON data: {e}")
+    
+    # Convert parsed JSON to DataFrame
+    idea_df = pd.DataFrame.from_dict([parsed_json])
 
     # Assign a date to the post
     idea_df["Date"] = fetch_latest_date()
