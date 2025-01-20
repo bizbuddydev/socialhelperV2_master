@@ -536,6 +536,8 @@ def main():
         
             # Initialize a Plotly figure
             fig = go.Figure()
+
+            st.write(account_data)
         
             # Add the main line chart for the selected metric
             fig.add_trace(go.Scatter(
