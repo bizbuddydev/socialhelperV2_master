@@ -35,6 +35,8 @@ PROJECT_ID = config["PROJECT_ID"]
 ACCOUNT_DATASET_ID = config["ACCOUNT_DATASET_ID"]
 IDEAS_TABLE_ID = config["IDEAS_TABLE_ID"]
 
+PAGE_ID = config["PAGE_ID"]
+
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
@@ -57,9 +59,10 @@ def fetch_latest_date():
     Returns:
         datetime: The calculated next post date.
     """
-    query = """
+    query = f"""
         SELECT MAX(date) as latest_date
-        FROM `bizbuddydemo-v1.strategy_data.smp_postideas`
+        FROM `bizbuddydemo-v2.strategy_data.postideas`
+        WHERE post_id = {PAGE_ID} 
     """
     query_job = bq_client.query(query)
     result = query_job.result()
@@ -143,7 +146,7 @@ def add_post_to_bigquery(post_df):
     Args:
         post_df (pd.DataFrame): The dataframe containing the post idea to be added.
     """
-    table_id = "bizbuddydemo-v1.strategy_data.smp_postideas"
+    table_id = "bizbuddydemo-v2.strategy_data.postideas"
 
     # Convert list-type columns to JSON-serializable strings
     for column in post_df.columns:
@@ -182,6 +185,7 @@ def fetch_post_data():
     query = f"""
         SELECT date, caption, post_type, themes, tone, source
         FROM `{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{IDEAS_TABLE_ID}`
+        WHERE post_id = {PAGE_ID}
         ORDER BY date ASC
     """
     query_job = bq_client.query(query)
