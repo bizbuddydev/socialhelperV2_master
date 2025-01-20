@@ -128,7 +128,7 @@ def pull_dataframes(dataset_id, table_id):
         st.error(f"Error fetching data: {e}")
         return None
 
-def plot_pie_chart(breakdown):
+def plot_pie_chart(breakdown, df):
     filtered_df = df[df['breakdown'] == breakdown]
     aggregated_df = filtered_df.groupby('value')['followers'].sum().reset_index()
 
@@ -665,10 +665,10 @@ def main():
                 st.session_state["calendar_events"] = state["eventsSet"]
         
         # Dropdown for selecting breakdown
-        selected_breakdown = st.selectbox("Select Breakdown", df['breakdown'].unique())
+        selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
 
         # Display the pie chart based on selected breakdown
-        plot_pie_chart(selected_breakdown)
+        plot_pie_chart(selected_breakdown, demo_data)
         
 
 
