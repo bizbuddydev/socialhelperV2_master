@@ -197,13 +197,8 @@ def get_daily_post_counts(post_data, account_data):
             'post_count': post_count
         })
 
-    st.write(day_start)
-    st.write(post_data['created_time'])
-
     # Convert to DataFrame
     daily_post_counts_df = pd.DataFrame(daily_counts)
-
-    st.write(daily_post_counts_df)
 
     # Merge with account_data on the Date column
     merged_df = pd.merge(account_data, daily_post_counts_df, how="left", on="date")
@@ -455,11 +450,10 @@ def main():
 
     yesterday = get_yesterday()
     st.write(yesterday)
+    post_data['insert_date']
     
     post_data = post_data.sort_values(by='created_time', ascending=True)
     post_data = post_data[post_data['insert_date'] == yesterday]
-
-    st.write(post_data)
 
     # Get daily posts
     account_data = get_daily_post_counts(post_data, account_data)
