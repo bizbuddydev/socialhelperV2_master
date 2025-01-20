@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_calendar import calendar
 import openai
 from google.oauth2 import service_account
-import matplotlib.pyplot as plt
 from google.cloud import bigquery
 import pandas as pd
 from datetime import datetime, date, timedelta
