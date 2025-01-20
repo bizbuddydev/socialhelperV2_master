@@ -6,6 +6,7 @@ from google.cloud import bigquery
 import pandas as pd
 from datetime import datetime, date, timedelta
 import json
+from zoneinfo import ZoneInfo
 # from styles import *
 
 #For Viz
@@ -153,7 +154,11 @@ def get_daily_post_counts(post_data, account_data):
     account_data['date'] = pd.to_datetime(account_data['date']).dt.date
 
     # Generate the last 30 days as a date range
-    yesterday = datetime.today() - timedelta(days=1)
+    # Define the US Pacific time zone
+    pacific_tz = ZoneInfo("America/Los_Angeles")
+    
+    # Get yesterday's date in Pacific Time
+    yesterday = datetime.now(pacific_tz) - timedelta(days=1)
     date_range = [yesterday - timedelta(days=i) for i in range(31)]
     date_range = sorted(date_range)  # Ensure dates are in ascending order
 
