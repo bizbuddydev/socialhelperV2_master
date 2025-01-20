@@ -686,7 +686,11 @@ def main():
     with bot_col_right:
         ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
 
-        st.write("Sum Spend:", ad_data['spend'].sum())
+        st.header("Advertising Performance")
+        
+        #Ad Scorecards
+        display_metric("Ad Spend", f"{ad_data['spend'].sum():,}")
+        
 
 
 # Run the app
