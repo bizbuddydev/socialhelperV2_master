@@ -647,13 +647,12 @@ def main():
     
             # Add past posts from the post_data dataframe to the calendar
             for _, row in post_data.iterrows():
-                if row['created_time'] < pd.Timestamp.now():
-                    st.session_state["calendar_events"].append({
-                        "title": f"Past Post: {row['caption'].str[:10]}",
-                        "start": row['created_time'].strftime('%Y-%m-%d'),
-                        "end": row['created_time'].strftime('%Y-%m-%d'),
-                        "color": "#FF6C6C"  # Indicating past posts in red
-                    })
+                st.session_state["calendar_events"].append({
+                    "title": f"Past Post: {row['caption'].str[:10]}",
+                    "start": row['created_time'].strftime('%Y-%m-%d'),
+                    "end": row['created_time'].strftime('%Y-%m-%d'),
+                    "color": "#FF6C6C"  # Indicating past posts in red
+                })
     
         # Create a container for the calendar widget
         calendar_container = st.container()
