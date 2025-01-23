@@ -641,10 +641,10 @@ def main():
          # Initialize calendar events in session state if not already set
         if "calendar_events" not in st.session_state:
             st.write("start")
-            # st.session_state["calendar_events"] = [
-            #     {"title": "Upcoming Post", "start": "2025-01-13", "end": "2025-01-13", "color": "#f1c232"},
-            #     {"title": "Upcoming Post", "start": "2025-01-16", "end": "2025-01-16", "color": "#f1c232"},
-            # ]
+            st.session_state["calendar_events"] = [
+                # {"title": "Upcoming Post", "start": "2025-01-13", "end": "2025-01-13", "color": "#f1c232"},
+                # {"title": "Upcoming Post", "start": "2025-01-16", "end": "2025-01-16", "color": "#f1c232"},
+            ]
     
             # Add past posts from the post_data dataframe to the calendar
             for _, row in post_data.iterrows():
@@ -658,28 +658,28 @@ def main():
         # Create a container for the calendar widget
         calendar_container = st.container()
         
-        # with calendar_container:
-        #     st.subheader("Upcoming Scheduled Posts")
-        #     state = calendar(
-        #         events=st.session_state["calendar_events"],
-        #         options={
-        #             "headerToolbar": {
-        #                 "left": "today prev,next",
-        #                 "center": "title",
-        #                 "right": "dayGridDay,dayGridWeek,dayGridMonth",
-        #             },
-        #             "initialDate": "2025-01-01",
-        #             "initialView": "dayGridMonth",
-        #             "editable": True,
-        #             "navLinks": True,
-        #             "selectable": True,
-        #         },
-        #         key="calendar",
-        #     )
+        with calendar_container:
+            st.subheader("Upcoming Scheduled Posts")
+            state = calendar(
+                events=st.session_state["calendar_events"],
+                options={
+                    "headerToolbar": {
+                        "left": "today prev,next",
+                        "center": "title",
+                        "right": "dayGridDay,dayGridWeek,dayGridMonth",
+                    },
+                    "initialDate": "2025-01-01",
+                    "initialView": "dayGridMonth",
+                    "editable": True,
+                    "navLinks": True,
+                    "selectable": True,
+                },
+                key="calendar",
+            )
     
-        #     # Update session state only when the calendar's state changes
-        #     if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
-        #         st.session_state["calendar_events"] = state["eventsSet"]
+            # Update session state only when the calendar's state changes
+            if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
+                st.session_state["calendar_events"] = state["eventsSet"]
         
     ###Col info, bottom left
     bot_col_left, bot_col_right = st.columns(2)
