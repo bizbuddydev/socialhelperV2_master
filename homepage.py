@@ -545,6 +545,7 @@ def main():
         with coll6:
             display_metric("Posts", f"{l7_igmetrics.iloc[0]["Total Posts"]:,.0f}", l7_perdiff.iloc[0]["Total Posts"])
         with coll7:
+            st.write(post_data['reach'])
             display_metric("Avg Reach", f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}", l7_perdiff.iloc[0]["Average Reach"])
         with coll8:
             display_metric("Avg Likes", f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}", l7_perdiff.iloc[0]["Average Likes"])
