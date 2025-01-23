@@ -264,7 +264,7 @@ def generate_ig_metrics(time_frame, account_data, post_data):
     def calculate_metrics(account_data, post_data):
         total_posts = len(post_data)
         followers_gained = account_data['follower_count'].sum() if 'follower_count' in account_data else 0
-        total_reach = account_data['reach'].sum() if 'reach' in account_data else 0
+        total_reach = post_data['reach'].sum() if 'reach' in post_data else 0
         total_likes = post_data['like_count'].sum() if 'like_count' in post_data else 0
         total_comments = post_data['comments_count'].sum() if 'comments_count' in post_data else 0
         like_rate = total_likes / total_reach if total_reach > 0 else 0
