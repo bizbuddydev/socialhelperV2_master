@@ -658,28 +658,28 @@ def main():
         # Create a container for the calendar widget
         calendar_container = st.container()
         
-        with calendar_container:
-            st.subheader("Upcoming Scheduled Posts")
-            state = calendar(
-                events=st.session_state["calendar_events"],
-                options={
-                    "headerToolbar": {
-                        "left": "today prev,next",
-                        "center": "title",
-                        "right": "dayGridDay,dayGridWeek,dayGridMonth",
-                    },
-                    "initialDate": "2025-01-01",
-                    "initialView": "dayGridMonth",
-                    "editable": True,
-                    "navLinks": True,
-                    "selectable": True,
-                },
-                key="calendar",
-            )
+        # with calendar_container:
+        #     st.subheader("Upcoming Scheduled Posts")
+        #     state = calendar(
+        #         events=st.session_state["calendar_events"],
+        #         options={
+        #             "headerToolbar": {
+        #                 "left": "today prev,next",
+        #                 "center": "title",
+        #                 "right": "dayGridDay,dayGridWeek,dayGridMonth",
+        #             },
+        #             "initialDate": "2025-01-01",
+        #             "initialView": "dayGridMonth",
+        #             "editable": True,
+        #             "navLinks": True,
+        #             "selectable": True,
+        #         },
+        #         key="calendar",
+        #     )
     
-            # Update session state only when the calendar's state changes
-            if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
-                st.session_state["calendar_events"] = state["eventsSet"]
+        #     # Update session state only when the calendar's state changes
+        #     if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
+        #         st.session_state["calendar_events"] = state["eventsSet"]
         
     ###Col info, bottom left
     bot_col_left, bot_col_right = st.columns(2)
