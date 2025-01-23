@@ -6,6 +6,7 @@ from google.cloud import bigquery
 import pandas as pd
 from datetime import datetime, date, timedelta
 import json
+from zoneinfo import ZoneInfo
 # from styles import *
 
 #For Viz
@@ -35,7 +36,7 @@ def load_config(file_path="config.json"):
 config = load_config()
 
 # Set env variables
-ACCOUNT_NAME = config["ACCOUNT_NAME"]
+ACCOUNT_NAME = "The Harborview"
 PROJECT_ID = config["PROJECT_ID"]
 DATASET_ID = config["DATASET_ID"]
 ACCOUNT_TABLE_ID = config["ACCOUNT_TABLE_ID"]
@@ -49,7 +50,7 @@ AD_TABLE_ID = config["AD_TABLE_ID"]
 AD_DATASET_ID = config["AD_DATASET_ID"]
 
 #Get page_id from secrets
-PAGE_ID = st.secrets["page_id"]
+PAGE_ID = 17841467554159158
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
@@ -127,6 +128,31 @@ def pull_dataframes(dataset_id, table_id):
         st.error(f"Error fetching data: {e}")
         return None
 
+# Function to plot pie chart using Plotly
+def plot_pie_chart(breakdown, df):
+    filtered_df = df[df['breakdown'] == breakdown]
+    aggregated_df = filtered_df.groupby('value')['followers'].sum().reset_index()
+
+    # Create pie chart using Plotly
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                labels=aggregated_df['value'],
+                values=aggregated_df['followers'],
+                hole=0.3,  # Use 0 for a full pie chart, >0 for a donut chart
+                marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA']),
+                textinfo='label+percent'
+            )
+        ]
+    )
+    fig.update_layout(
+        title_text=f"Distribution of Followers by {breakdown}",
+        legend_title="Categories",
+        margin=dict(l=20, r=20, t=50, b=20),
+    )
+
+    st.plotly_chart(fig)
+
 # Function to pull data from BigQuery
 def pull_accountsummary():
     
@@ -147,13 +173,36 @@ def pull_accountsummary():
         st.error(f"Error fetching data: {e}")
         return None
 
+def get_yesterday():
+
+    #Get yesterdays date
+    pacific_tz = ZoneInfo("America/Los_Angeles")
+    # Get yesterday's date in Pacific Time
+    yesterday = datetime.now(pacific_tz) - timedelta(days=1)
+    # Convert to timezone-naive datetime (remove timezone)
+    yesterday = yesterday.replace(tzinfo=None)
+    # Convert to Pandas datetime64 format
+    yesterday = pd.to_datetime(yesterday).date()
+    
+    return yesterday
+
+
+
 def get_daily_post_counts(post_data, account_data):
     # Ensure created_time is in datetime format
     post_data['date'] = pd.to_datetime(post_data['created_time'])
     account_data['date'] = pd.to_datetime(account_data['date']).dt.date
 
     # Generate the last 30 days as a date range
-    yesterday = datetime.today() - timedelta(days=1)
+    # Define the US Pacific time zone
+    pacific_tz = ZoneInfo("America/Los_Angeles")
+    
+    yesterday = datetime.now(pacific_tz) - timedelta(days=1)
+    # Convert to timezone-naive datetime (remove timezone)
+    yesterday = yesterday.replace(tzinfo=None)
+    # Convert to Pandas datetime64 format
+    yesterday = pd.to_datetime(yesterday)
+    
     date_range = [yesterday - timedelta(days=i) for i in range(31)]
     date_range = sorted(date_range)  # Ensure dates are in ascending order
 
@@ -417,15 +466,17 @@ def display_metric(label: str, value: str, percentage_diff: float = None):
 
 # Main function to display data and visuals
 def main():
-
+    
     st.markdown(f"<h1 style='text-align: center;'>{ACCOUNT_NAME}</h1>", unsafe_allow_html=True)
 
-    yesterday = datetime.today() - timedelta(days=1)
     # Pull data using the function
     account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
+
+    yesterday = get_yesterday()
+    
     post_data = post_data.sort_values(by='created_time', ascending=True)
-    post_data = post_data[post_data['insert_date'] == yesterday]
+    post_data = post_data[post_data['insert_date'] == str(yesterday)]
 
     # Get daily posts
     account_data = get_daily_post_counts(post_data, account_data)
@@ -509,9 +560,9 @@ def main():
         st.write(bullet2)
         
     ###Col info, bottom left
-    bot_col_left, bot_col_right = st.columns(2)
+    mid_col_left, mid_col_right = st.columns(2)
 
-    with bot_col_left:
+    with mid_col_left:
         
         st.subheader("Performance Over Time")
                      
@@ -573,7 +624,7 @@ def main():
                 ),
                 yaxis=dict(title=selected_metric, title_font=dict(size=12)),
                 title=f'{selected_metric} Over Time',
-                title_font=dict(size=18, family='Arial', color='black'),
+                title_font=dict(size=18, family='Arial'),
                 plot_bgcolor='white',
                 hovermode='x unified',
                 showlegend=False  # Turn off the legend if desired
@@ -586,15 +637,24 @@ def main():
             # Display the Plotly figure in Streamlit
             st.plotly_chart(fig)
 
-    with bot_col_right:
-        # Only execute calendar logic in its own container
+    with mid_col_right:
+         # Initialize calendar events in session state if not already set
         if "calendar_events" not in st.session_state:
+            st.write("start")
             st.session_state["calendar_events"] = [
-                {"title": "Past Post", "start": "2025-01-01", "end": "2025-01-01", "color": "#FF6C6C"},
                 {"title": "Upcoming Post", "start": "2025-01-13", "end": "2025-01-13", "color": "#f1c232"},
                 {"title": "Upcoming Post", "start": "2025-01-16", "end": "2025-01-16", "color": "#f1c232"},
             ]
-        
+    
+            # Add past posts from the post_data dataframe to the calendar
+            for _, row in post_data.iterrows():
+                st.session_state["calendar_events"].append({
+                    "title": f"Past Post: {row['caption'][:10]}",
+                    "start": row['created_time'].strftime('%Y-%m-%d'),
+                    "end": row['created_time'].strftime('%Y-%m-%d'),
+                    "color": "#FF6C6C"  # Indicating past posts in red
+                })
+    
         # Create a container for the calendar widget
         calendar_container = st.container()
         
@@ -616,10 +676,38 @@ def main():
                 },
                 key="calendar",
             )
-        
+    
             # Update session state only when the calendar's state changes
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
+        
+    ###Col info, bottom left
+    bot_col_left, bot_col_right = st.columns(2)
+
+    with bot_col_left:
+            
+        # Dropdown for selecting breakdown
+        selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
+
+        # Display the pie chart based on selected breakdown
+        plot_pie_chart(selected_breakdown, demo_data)
+
+    with bot_col_right:
+        ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
+
+        st.header("Advertising Performance")
+        
+        
+        ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
+        #Ad Scorecards
+        with ad_sc1:
+            display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
+        with ad_sc2:
+            display_metric("Reach", f"{ad_data['reach'].sum():,}")
+        with ad_sc3:
+            display_metric("Boosted Follows", f"{ad_data['clicks'].sum()/5:,}")
+        with ad_sc4:
+            display_metric("Cost p Follow", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
 
 
 # Run the app
