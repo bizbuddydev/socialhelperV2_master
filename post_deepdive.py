@@ -54,7 +54,6 @@ def filter_last_6_months(df):
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
-
 # Use the variables in your app
 account_name = config["ACCOUNT_NAME"]
 datasetid = config["TESTING_DATASET_ID"]
@@ -70,7 +69,6 @@ ORDER BY created_time DESC
 # Load/Transform Data
 data = fetch_data(query)
 data['post_date'] = data['created_time'].dt.date
-
 
 def main():
     st.title("Social Buddy - Post Deep Dive")
@@ -89,35 +87,24 @@ def main():
     col_left1, col_right1 = st.columns(2)
     
     with col_left1:
-
         st.subheader("Timing Analysis")
 
         param_col1, param_col2 = st.columns(2)
             
         with param_col1:
-            # Select variable for visualization
             metric_option = st.selectbox("Select Metric", ["reach", "like_count", "comments"])
 
         with param_col2:
-            # Select variable for visualization
             dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
 
-        # Define the desired order of time buckets
         time_bucket_order = ["9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"]
-
-        # Define the desired order of time buckets
         weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-        # Ensure the time_bucket column follows this order
         filtered_data["time_bucket"] = pd.Categorical(filtered_data["time_bucket"], categories=time_bucket_order, ordered=True)
-
-        # Ensure the time_bucket column follows this order
         filtered_data["weekday"] = pd.Categorical(filtered_data["weekday"], categories=weekday_order, ordered=True)
-
 
         timing_analysis = filtered_data.groupby([dim_option]).agg({metric_option: "mean"}).reset_index()
         
-        # Create bar chart with selected metric
         fig = px.bar(
             timing_analysis,
             x=dim_option,
@@ -127,15 +114,20 @@ def main():
             template="plotly_white"
         )
         
-        # Display in Streamlit
         st.plotly_chart(fig)
-
+    
     with col_right1:
-        # Analysis - Sound Type & Engagement
-        st.subheader("Sound Type & Engagement")
-        sound_analysis = filtered_data.groupby("sound_type").agg({"reach": "mean", "like_count": "mean"}).reset_index()
-        st.dataframe(sound_analysis)
+        st.subheader("Video Structure Optimization")
+        video_analysis = filtered_data.groupby(["avg_shot_len", "shot_count", "video_len"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        st.dataframe(video_analysis)
 
+        st.subheader("Face Count & Object Activity")
+        face_object_analysis = filtered_data.groupby(["face_count", "object_count"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        st.dataframe(face_object_analysis)
+
+        st.subheader("Logo Visibility & Brand Awareness")
+        logo_analysis = filtered_data.groupby("logo_count").agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        st.dataframe(logo_analysis)
 
 if __name__ == "__main__":
     main()
