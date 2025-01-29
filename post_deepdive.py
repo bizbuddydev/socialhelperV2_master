@@ -101,9 +101,15 @@ def main():
 
     col_left1, col_right1 = st.columns(2)
     with col_left1:
-        
-        # Select variable for visualization
-        metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
+
+        param_col1, param_col2 = st.columns(2)
+            with param_col1:
+                # Select variable for visualization
+                metric_option = st.selectbox("Select Metric", ["reach", "like_count", "comments"])
+
+            with param_col2:
+                # Select variable for visualization
+                dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
         
         timing_analysis = filtered_data.groupby(["time_bucket"]).agg({metric_option: "mean"}).reset_index()
         
