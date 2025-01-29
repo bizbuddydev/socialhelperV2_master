@@ -64,6 +64,7 @@ query = f"""
 SELECT *
 FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
 ORDER BY created_time DESC
+WHERE page_id = 17841467554159158
 """
 
 # Load/Transform Data
