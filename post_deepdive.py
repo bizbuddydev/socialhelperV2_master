@@ -73,6 +73,8 @@ data['post_date'] = data['created_time'].dt.date
 def main():
     st.title("Social Buddy - Post Deep Dive")
 
+    metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
+    
     # Filtering Options
     st.sidebar.header("Filter Posts")
     filter_option = st.sidebar.selectbox("Select Timeframe", ["Last 30 Days", "Last 6 Months", "All Time"])
@@ -88,14 +90,8 @@ def main():
     
     with col_left1:
         st.subheader("Timing Analysis")
-
-        param_col1, param_col2 = st.columns(2)
-            
-        with param_col1:
-            metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
-
-        with param_col2:
-            dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
+        
+        dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
 
         time_bucket_order = ["9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"]
         weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -125,7 +121,7 @@ def main():
         fig_video = px.scatter(
             video_analysis,
             x=video_metric,
-            y="reach",
+            y=metric_option,
             title=f"{video_metric.replace('_', ' ').title()} vs Engagement",
             labels={video_metric: "Video Metric", "reach": "Average Reach", "like_count": "Average Likes"},
             template="plotly_white"
