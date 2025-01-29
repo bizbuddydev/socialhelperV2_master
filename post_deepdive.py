@@ -99,52 +99,23 @@ def main():
     else:
         filtered_data = data
 
-    # Display filtered data
-    st.subheader("Filtered Data")
-    st.dataframe(filtered_data.head(10))
 
     col_left1, col_right1 = st.columns(2)
     with col_left1:
         
-        # Aggregate data using time_bucket
-        timing_analysis = filtered_data.groupby(["time_bucket"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        # Select variable for visualization
+        metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
         
-        # Create a figure with two y-axes
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        timing_analysis = filtered_data.groupby(["time_bucket"]).agg({metric_option: "mean"}).reset_index()
         
-        # Add Reach as a bar chart (left y-axis)
-        fig.add_trace(
-            go.Bar(
-                x=timing_analysis["time_bucket"],
-                y=timing_analysis["reach"],
-                name="Average Reach",
-                marker_color="blue",
-                opacity=0.7
-            ),
-            secondary_y=False
-        )
-        
-        # Add Like Count as a bar chart (right y-axis)
-        fig.add_trace(
-            go.Bar(
-                x=timing_analysis["time_bucket"],
-                y=timing_analysis["like_count"],
-                name="Average Likes",
-                marker_color="red",
-                opacity=0.7
-            ),
-            secondary_y=True
-        )
-        
-        # Layout settings
-        fig.update_layout(
-            title="Reach & Likes by Time Bucket",
-            xaxis=dict(title="Time of Day"),
-            yaxis=dict(title="Average Reach", titlefont=dict(color="blue"), tickfont=dict(color="blue")),
-            yaxis2=dict(title="Average Likes", titlefont=dict(color="red"), tickfont=dict(color="red"), overlaying="y", side="right"),
-            barmode="group",  # Keeps bars side by side
-            template="plotly_white",
-            legend=dict(x=0, y=1)
+        # Create bar chart with selected metric
+        fig = px.bar(
+            timing_analysis,
+            x="time_bucket",
+            y=metric_option,
+            title=f"{metric_option.replace('_', ' ').title()} by Time Bucket",
+            labels={metric_option: "Average Value", "time_bucket": "Time of Day"},
+            template="plotly_white"
         )
         
         # Display in Streamlit
