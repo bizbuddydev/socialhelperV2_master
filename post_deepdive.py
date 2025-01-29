@@ -4,6 +4,7 @@ from google.cloud import bigquery
 import pandas as pd
 from datetime import date, timedelta
 import plotly.express as px
+from plotly.subplots import make_subplots
 import json
 
 st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="📱")
