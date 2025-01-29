@@ -118,16 +118,21 @@ def main():
     
     with col_right1:
         st.subheader("Video Structure Optimization")
-        video_analysis = filtered_data.groupby(["avg_shot_len", "shot_count", "video_len"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
-        st.dataframe(video_analysis)
-
-        st.subheader("Face Count & Object Activity")
-        face_object_analysis = filtered_data.groupby(["face_count", "object_count"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
-        st.dataframe(face_object_analysis)
-
-        st.subheader("Logo Visibility & Brand Awareness")
-        logo_analysis = filtered_data.groupby("logo_count").agg({"reach": "mean", "like_count": "mean"}).reset_index()
-        st.dataframe(logo_analysis)
+        video_metric = st.selectbox("Select Video Metric", ["avg_shot_len", "shot_count", "video_len"])
+        
+        video_analysis = filtered_data.groupby(video_metric).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        
+        fig_video = px.scatter(
+            video_analysis,
+            x=video_metric,
+            y="reach",
+            size="like_count",
+            title=f"{video_metric.replace('_', ' ').title()} vs Engagement",
+            labels={video_metric: "Video Metric", "reach": "Average Reach", "like_count": "Average Likes"},
+            template="plotly_white"
+        )
+        
+        st.plotly_chart(fig_vide
 
 if __name__ == "__main__":
     main()
