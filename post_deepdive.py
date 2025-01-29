@@ -117,10 +117,10 @@ def main():
         # Create bar chart with selected metric
         fig = px.bar(
             timing_analysis,
-            x="time_bucket",
+            x=dim_option,
             y=metric_option,
             title=f"{metric_option.replace('_', ' ').title()} by Time Bucket",
-            labels={metric_option: "Average Value", "time_bucket": "Time of Day"},
+            labels={metric_option: "Average Value", "dim_option": "Time"},
             template="plotly_white"
         )
         
