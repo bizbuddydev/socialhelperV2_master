@@ -3,6 +3,7 @@ from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
 from datetime import date, timedelta
+import matplotlib.pyplot as plt
 import json
 
 st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="📱")
@@ -88,15 +89,40 @@ def main():
     st.subheader("Filtered Data")
     st.dataframe(filtered_data.head(10))
 
-    # Analysis - Post Timing Recommendations
-    st.subheader("Post Timing Recommendations")
-    timing_analysis = filtered_data.groupby(["weekday", "time_of_day"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
-    st.dataframe(timing_analysis)
+    col_left1, colleft2 = st.columns(2)
+    with col_left1:
+        
+        # Aggregate data
+        timing_analysis = filtered_data.groupby(["weekday", "time_of_day"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        
+        # Pivot for better plotting
+        pivot_data = timing_analysis.pivot(index="time_of_day", columns="weekday", values=["reach", "like_count"])
+        
+        # Plot
+        fig, ax1 = plt.subplots(figsize=(12, 6))
+        
+        # Plot reach
+        ax1.set_xlabel("Time of Day")
+        ax1.set_ylabel("Average Reach", color="tab:blue")
+        pivot_data["reach"].plot(ax=ax1, marker="o", linestyle="-", cmap="Blues")
+        ax1.tick_params(axis="y", labelcolor="tab:blue")
+        
+        # Create a second y-axis for likes
+        ax2 = ax1.twinx()
+        ax2.set_ylabel("Average Likes", color="tab:red")
+        pivot_data["like_count"].plot(ax=ax2, marker="s", linestyle="--", cmap="Reds")
+        ax2.tick_params(axis="y", labelcolor="tab:red")
+        
+        ax1.legend(loc="upper left")
+        ax2.legend(loc="upper right")
+        
+        st.pyplot(fig)
 
-    # Analysis - Sound Type & Engagement
-    st.subheader("Sound Type & Engagement")
-    sound_analysis = filtered_data.groupby("sound_type").agg({"reach": "mean", "like_count": "mean"}).reset_index()
-    st.dataframe(sound_analysis)
+    with col_right1:
+        # Analysis - Sound Type & Engagement
+        st.subheader("Sound Type & Engagement")
+        sound_analysis = filtered_data.groupby("sound_type").agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        st.dataframe(sound_analysis)
 
 
 if __name__ == "__main__":
