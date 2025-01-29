@@ -177,9 +177,9 @@ def main():
         fig_polarity = px.scatter(
             filtered_data,
             x="polarity",
-            y=metric_options,
+            y=metric_option,
             title="Polarity vs. Engagement",
-            labels={"polarity": "Sentiment Polarity", metric_options: metric_options},
+            labels={"polarity": "Sentiment Polarity", metric_option: metric_option},
             template="plotly_white"
         )
         st.plotly_chart(fig_polarity)
@@ -189,7 +189,7 @@ def main():
         fig_subjectivity = px.scatter(
             filtered_data,
             x="subjectivity",
-            y=metric_options,
+            y=metric_option,
             title="Subjectivity vs. Engagement",
             labels={"subjectivity": "Subjectivity (0 = Factual, 1 = Opinionated)", "reach": "Reach"},
             template="plotly_white"
