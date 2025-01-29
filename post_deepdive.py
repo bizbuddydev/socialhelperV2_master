@@ -220,6 +220,7 @@ def main():
         )
         st.plotly_chart(fig_subjectivity)
 
+    st.subheader("Raw Data")
     st.dataframe(data)
 
 if __name__ == "__main__":
