@@ -176,7 +176,8 @@ def main():
         st.subheader("Polarity & Engagement Correlation")
         fig_polarity = px.scatter(
             filtered_data,
-            x="sentiment",
+            x="polarity",
+            color="sentiment",
             y=metric_option,
             title="Sentiment vs. Engagement",
             labels={"polarity": "Sentiment", metric_option: metric_option},
