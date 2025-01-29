@@ -13,5 +13,5 @@
   "AD_DATASET_ID" : "ad_data",
   "AD_TABLE_ID" : "ads",
   "TESTING_DATASET_ID": "test_dataset",
-  "ANALYSIS_TABLE_ID" : "analyzedposts"
+  "ANALYSIS_TABLE_ID" : "analyzed_posts"
 }
