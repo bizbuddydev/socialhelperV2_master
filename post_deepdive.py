@@ -149,7 +149,7 @@ def main():
         template="plotly_white"
         )
         st.plotly_chart(fig_text_length)
-    with col_mid2:
+    with col_right2:
         cta_analysis = filtered_data.groupby("call_to_action").agg({"reach": "mean", "like_count": "mean"}).reset_index()
 
         fig_cta = px.bar(
