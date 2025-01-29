@@ -3,7 +3,7 @@ from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
 from datetime import date, timedelta
-import plotly.graph_objects as go
+import plotly.express as px
 import json
 
 st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="📱")
