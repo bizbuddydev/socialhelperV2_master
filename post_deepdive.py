@@ -95,7 +95,7 @@ def main():
         dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
 
         time_bucket_order = ["9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"]
-        weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        weekday_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
         filtered_data["time_bucket"] = pd.Categorical(filtered_data["time_bucket"], categories=time_bucket_order, ordered=True)
         filtered_data["weekday"] = pd.Categorical(filtered_data["weekday"], categories=weekday_order, ordered=True)
