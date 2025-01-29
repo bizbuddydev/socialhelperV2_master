@@ -132,7 +132,7 @@ def main():
             template="plotly_white"
         )
         
-        st.plotly_chart(fig_vide
+        st.plotly_chart(fig_video)
 
 if __name__ == "__main__":
     main()
