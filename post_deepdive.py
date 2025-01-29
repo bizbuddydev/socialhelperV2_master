@@ -95,46 +95,19 @@ def main():
         # Aggregate data
         timing_analysis = filtered_data.groupby(["weekday", "time_of_day"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
         
-        # Create figure
-        fig = go.Figure()
+        # Melt data for Plotly
+        melted_data = timing_analysis.melt(id_vars=["weekday", "time_of_day"], value_vars=["reach", "like_count"],
+                                           var_name="Metric", value_name="Value")
         
-        # Add trace for Reach (left y-axis)
-        fig.add_trace(go.Scatter(
-            x=timing_analysis["time_of_day"],
-            y=timing_analysis["reach"],
-            mode="lines+markers",
-            name="Average Reach",
-            line=dict(color="blue"),
-            yaxis="y1"
-        ))
-        
-        # Add trace for Like Count (right y-axis)
-        fig.add_trace(go.Scatter(
-            x=timing_analysis["time_of_day"],
-            y=timing_analysis["like_count"],
-            mode="lines+markers",
-            name="Average Likes",
-            line=dict(color="red"),
-            yaxis="y2"
-        ))
-        
-        # Layout settings
-        fig.update_layout(
+        # Create bar chart
+        fig = px.bar(
+            melted_data,
+            x="time_of_day",
+            y="Value",
+            color="Metric",
+            barmode="group",
             title="Reach & Likes by Time of Day",
-            xaxis=dict(title="Time of Day"),
-            yaxis=dict(
-                title="Average Reach",
-                titlefont=dict(color="blue"),
-                tickfont=dict(color="blue"),
-            ),
-            yaxis2=dict(
-                title="Average Likes",
-                titlefont=dict(color="red"),
-                tickfont=dict(color="red"),
-                overlaying="y",
-                side="right"
-            ),
-            legend=dict(x=0, y=1),
+            labels={"Value": "Average Value", "time_of_day": "Time of Day"},
             template="plotly_white"
         )
         
