@@ -92,7 +92,7 @@ def main():
         param_col1, param_col2 = st.columns(2)
             
         with param_col1:
-            metric_option = st.selectbox("Select Metric", ["reach", "like_count", "comments"])
+            metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
 
         with param_col2:
             dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
