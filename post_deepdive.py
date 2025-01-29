@@ -133,5 +133,44 @@ def main():
         
         st.plotly_chart(fig_video)
 
+    col_left2, col_mid2, col_right2 = st.columns(3)
+    
+    with col_left2:
+        fig_text_length = px.scatter(
+        filtered_data,
+        x="caption_length",
+        y="reach",
+        size="like_count",
+        color="speech_length",
+        title="Text Length vs Engagement",
+        labels={"caption_length": "Caption Length", "reach": "Reach", "speech_length": "Speech Length"},
+        template="plotly_white"
+        )
+        st.plotly_chart(fig_text_length)
+    with col_mid2:
+        cta_analysis = filtered_data.groupby("call_to_action").agg({"reach": "mean", "like_count": "mean"}).reset_index()
+
+        fig_cta = px.bar(
+            cta_analysis,
+            x="call_to_action",
+            y="reach",
+            title="Effectiveness of Call-to-Action Phrases",
+            labels={"call_to_action": "CTA Phrase", "reach": "Average Reach"},
+            template="plotly_white"
+        )
+        st.plotly_chart(fig_cta)
+    with col_right2:
+        fig_words = px.scatter(
+        filtered_data,
+        x="most_common_word",
+        y="common_word_count",
+        size="reach",
+        color="theme_repetition",
+        title="Impact of Word Choice on Engagement",
+        labels={"most_common_word": "Most Common Word", "common_word_count": "Word Frequency"},
+        template="plotly_white"
+        )
+        st.plotly_chart(fig_words)
+
 if __name__ == "__main__":
     main()
