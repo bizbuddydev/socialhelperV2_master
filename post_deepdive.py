@@ -176,10 +176,10 @@ def main():
         st.subheader("Polarity & Engagement Correlation")
         fig_polarity = px.scatter(
             filtered_data,
-            x="polarity",
+            x="sentiment",
             y=metric_option,
-            title="Polarity vs. Engagement",
-            labels={"polarity": "Sentiment Polarity", metric_option: metric_option},
+            title="Sentiment vs. Engagement",
+            labels={"polarity": "Sentiment", metric_option: metric_option},
             template="plotly_white"
         )
         st.plotly_chart(fig_polarity)
