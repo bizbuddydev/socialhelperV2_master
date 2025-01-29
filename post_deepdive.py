@@ -6,7 +6,7 @@ from datetime import date, timedelta
 import plotly.express as px
 import json
 
-st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="📱")
+st.set_page_config(page_title="Post Analyzer 🚀", layout="wide", page_icon="📱")
 
 # Define links to other pages
 PAGES = {
@@ -72,7 +72,7 @@ data = fetch_data(query)
 data['post_date'] = data['created_time'].dt.date
 
 def main():
-    st.title("Social Buddy - Post Deep Dive")
+    st.title("Social Buddy 🚀 - Post Deep Dive")
 
     metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
     
