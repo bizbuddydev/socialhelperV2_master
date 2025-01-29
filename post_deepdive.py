@@ -89,7 +89,7 @@ def main():
     st.subheader("Filtered Data")
     st.dataframe(filtered_data.head(10))
 
-    col_left1, colleft2 = st.columns(2)
+    col_left1, col_right1 = st.columns(2)
     with col_left1:
         
         # Aggregate data
