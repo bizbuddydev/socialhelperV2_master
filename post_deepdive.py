@@ -78,7 +78,7 @@ def main():
     
     # Filtering Options
     st.sidebar.header("Filter Posts")
-    filter_option = st.sidebar.selectbox("Select Timeframe", ["Last 30 Days", "Last 6 Months", "All Time"])
+    filter_option = st.sidebar.selectbox("Select Timeframe", ["All Time", "Last 30 Days", "Last 6 Months"])
 
     if filter_option == "Last 30 Days":
         filtered_data = filter_last_30_days(data)
