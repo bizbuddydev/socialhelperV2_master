@@ -85,8 +85,6 @@ def main():
         filtered_data = filter_last_6_months(data)
     else:
         filtered_data = data
-
-    timing_analysis = filtered_data.groupby(["time_bucket", "weekday"]).agg({metric_option: "mean"}).reset_index()
     
     col_left1, col_right1 = st.columns(2)
     
@@ -101,6 +99,8 @@ def main():
         with param_col2:
             # Select variable for visualization
             dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
+
+        timing_analysis = filtered_data.groupby(["time_bucket", "weekday"]).agg({metric_option: "mean"}).reset_index()
         
         # Create bar chart with selected metric
         fig = px.bar(
