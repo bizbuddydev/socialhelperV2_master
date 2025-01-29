@@ -137,7 +137,7 @@ def main():
         
         st.plotly_chart(fig_video)
 
-    col_left2, col_mid2, col_right2 = st.columns(3)
+    col_left2, col_right2 = st.columns(2)
     
     with col_left2:
         fig_text_length = px.scatter(
@@ -161,7 +161,10 @@ def main():
             template="plotly_white"
         )
         st.plotly_chart(fig_cta)
-    with col_right2:
+
+    col_left3, col_right3 = st.columns(2)
+    
+    with col_left3:
         fig_words = px.scatter(
         filtered_data,
         x="common_word_count",
@@ -174,22 +177,25 @@ def main():
         )
         st.plotly_chart(fig_words)
 
-    # Combine text from processed_speech and caption columns
-    text_data = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str))
-    
-    # Generate the word cloud
-    wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_data)
-    
-    # Display in Streamlit
-    st.subheader("Word Cloud of Speech & Captions")
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.imshow(wordcloud, interpolation="bilinear")
-    ax.axis("off")
-    st.pyplot(fig)
+    with col_right3:
 
-    col_left1, col_right1 = st.columns(2)
+        st.subheader("Terms from Speech/Captions")
+        # Combine text from processed_speech and caption columns
+        text_data = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str))
+        
+        # Generate the word cloud
+        wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_data)
+        
+        # Display in Streamlit
+        st.subheader("Word Cloud of Speech & Captions")
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.imshow(wordcloud, interpolation="bilinear")
+        ax.axis("off")
+        st.pyplot(fig)
+
+    col_left4, col_right4 = st.columns(2)
     
-    with col_left1:
+    with col_left4:
         st.subheader("Polarity & Engagement Correlation")
         fig_polarity = px.scatter(
             filtered_data,
@@ -202,7 +208,7 @@ def main():
         )
         st.plotly_chart(fig_polarity)
     
-    with col_right1:
+    with col_right4:
         st.subheader("Opinionated vs. Factual Content")
         fig_subjectivity = px.scatter(
             filtered_data,
