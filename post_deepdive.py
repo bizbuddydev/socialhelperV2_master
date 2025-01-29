@@ -59,8 +59,8 @@ def format_and_bucket_time(df):
     df["time_of_day"] = pd.to_datetime(df["time_of_day"], format='%H:%M:%S').dt.strftime('%I:%M %p')
     df["time_bucket"] = pd.cut(
         pd.to_datetime(df["time_of_day"], format='%I:%M %p').dt.hour,
-        bins=[8, 10, 12, 14, 16, 24],
-        labels=["8-10 AM", "10-12 PM", "12-2 PM", "2-4 PM", "4+ PM"],
+        bins=[8, 10, 12, 14, 16, 18, 20, 22, 24],
+        labels=["8-10 AM", "10-12 PM", "12-2 PM", "2-4 PM", "4-6 PM", "6-8 PM", "8-10 PM", "10-12 PM"],
         right=False
     )
     return df
