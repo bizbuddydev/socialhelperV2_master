@@ -100,6 +100,16 @@ def main():
             # Select variable for visualization
             dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
 
+        # Define the desired order of time buckets
+        time_bucket_order = ["1-8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM"]
+
+        # Define the desired order of time buckets
+        weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "saturday"]
+
+        # Ensure the time_bucket column follows this order
+        filtered_data["time_bucket"] = pd.Categorical(filtered_data["time_bucket"], categories=time_bucket_order, ordered=True)
+
+
         timing_analysis = filtered_data.groupby([dim_option]).agg({metric_option: "mean"}).reset_index()
         
         # Create bar chart with selected metric
