@@ -170,5 +170,35 @@ def main():
         )
         st.plotly_chart(fig_words)
 
+    col_left1, col_right1 = st.columns(2)
+    
+    with col_left1:
+        st.subheader("Polarity & Engagement Correlation")
+        fig_polarity = px.scatter(
+            filtered_data,
+            x="polarity",
+            y="reach",
+            size="like_count",
+            color="polarity",
+            title="Polarity vs. Engagement",
+            labels={"polarity": "Sentiment Polarity", "reach": "Reach"},
+            template="plotly_white"
+        )
+        st.plotly_chart(fig_polarity)
+    
+    with col_right1:
+        st.subheader("Opinionated vs. Factual Content")
+        fig_subjectivity = px.scatter(
+            filtered_data,
+            x="subjectivity",
+            y="reach",
+            size="like_count",
+            color="subjectivity",
+            title="Subjectivity vs. Engagement",
+            labels={"subjectivity": "Subjectivity (0 = Factual, 1 = Opinionated)", "reach": "Reach"},
+            template="plotly_white"
+        )
+        st.plotly_chart(fig_subjectivity)
+
 if __name__ == "__main__":
     main()
