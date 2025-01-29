@@ -61,7 +61,7 @@ tableid = config["ANALYSIS_TABLE_ID"]
 ### Get data ###
 query = f"""
 SELECT *
-FROM `bizbuddydemo-v1.{datasetid}.{tableid}`
+FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
 ORDER BY created_time DESC
 """
 
