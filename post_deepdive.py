@@ -126,7 +126,6 @@ def main():
             video_analysis,
             x=video_metric,
             y="reach",
-            size="like_count",
             title=f"{video_metric.replace('_', ' ').title()} vs Engagement",
             labels={video_metric: "Video Metric", "reach": "Average Reach", "like_count": "Average Likes"},
             template="plotly_white"
