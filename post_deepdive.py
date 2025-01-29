@@ -54,16 +54,6 @@ def filter_last_6_months(df):
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
-# Convert time_of_day to readable format and bucket time values
-def format_and_bucket_time(df):
-    df["time_of_day"] = pd.to_datetime(df["time_of_day"], format='%H:%M:%S').dt.strftime('%I:%M %p')
-    df["time_bucket"] = pd.cut(
-        pd.to_datetime(df["time_of_day"], format='%I:%M %p').dt.hour,
-        bins=[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-        labels=["8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM",  "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11+ PM"],
-        right=False
-    )
-    return df
 
 # Use the variables in your app
 account_name = config["ACCOUNT_NAME"]
@@ -81,8 +71,6 @@ ORDER BY created_time DESC
 data = fetch_data(query)
 data['post_date'] = data['created_time'].dt.date
 
-data = format_and_bucket_time(data)
-
 
 def main():
     st.title("Social Buddy - Post Deep Dive")
@@ -98,8 +86,10 @@ def main():
     else:
         filtered_data = data
 
-
+    timing_analysis = filtered_data.groupby(["time_bucket", "weekday"]).agg({metric_option: "mean"}).reset_index()
+    
     col_left1, col_right1 = st.columns(2)
+    
     with col_left1:
 
         param_col1, param_col2 = st.columns(2)
@@ -111,8 +101,6 @@ def main():
         with param_col2:
             # Select variable for visualization
             dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
-        
-        timing_analysis = filtered_data.groupby(["time_bucket", "weekday"]).agg({metric_option: "mean"}).reset_index()
         
         # Create bar chart with selected metric
         fig = px.bar(
