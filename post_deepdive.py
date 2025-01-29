@@ -112,7 +112,7 @@ def main():
             # Select variable for visualization
             dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
         
-        timing_analysis = filtered_data.groupby(["time_bucket"]).agg({metric_option: "mean"}).reset_index()
+        timing_analysis = filtered_data.groupby(["time_bucket", "weekday"]).agg({metric_option: "mean"}).reset_index()
         
         # Create bar chart with selected metric
         fig = px.bar(
