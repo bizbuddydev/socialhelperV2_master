@@ -54,6 +54,17 @@ def filter_last_6_months(df):
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
+# Convert time_of_day to readable format and bucket time values
+def format_and_bucket_time(df):
+    df["time_of_day"] = pd.to_datetime(df["time_of_day"], format='%H:%M:%S').dt.strftime('%I:%M %p')
+    df["time_bucket"] = pd.cut(
+        pd.to_datetime(df["time_of_day"], format='%I:%M %p').dt.hour,
+        bins=[8, 10, 12, 14, 16, 24],
+        labels=["8-10 AM", "10-12 PM", "12-2 PM", "2-4 PM", "4+ PM"],
+        right=False
+    )
+    return df
+
 # Use the variables in your app
 account_name = config["ACCOUNT_NAME"]
 datasetid = config["TESTING_DATASET_ID"]
@@ -69,6 +80,8 @@ ORDER BY created_time DESC
 # Load/Transform Data
 data = fetch_data(query)
 data['post_date'] = data['created_time'].dt.date
+
+data = format_and_bucket_time(data)
 
 
 def main():
@@ -92,22 +105,22 @@ def main():
     col_left1, col_right1 = st.columns(2)
     with col_left1:
         
-        # Aggregate data
-        timing_analysis = filtered_data.groupby(["weekday", "time_of_day"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        # Aggregate data using time_bucket instead of raw timestamps
+        timing_analysis = filtered_data.groupby(["weekday", "time_bucket"]).agg({"reach": "mean", "like_count": "mean"}).reset_index()
         
         # Melt data for Plotly
-        melted_data = timing_analysis.melt(id_vars=["weekday", "time_of_day"], value_vars=["reach", "like_count"],
+        melted_data = timing_analysis.melt(id_vars=["weekday", "time_bucket"], value_vars=["reach", "like_count"],
                                            var_name="Metric", value_name="Value")
         
-        # Create bar chart
+        # Create bar chart with time buckets
         fig = px.bar(
             melted_data,
-            x="time_of_day",
+            x="time_bucket",
             y="Value",
             color="Metric",
             barmode="group",
-            title="Reach & Likes by Time of Day",
-            labels={"Value": "Average Value", "time_of_day": "Time of Day"},
+            title="Reach & Likes by Time Bucket",
+            labels={"Value": "Average Value", "time_bucket": "Time of Day"},
             template="plotly_white"
         )
         
