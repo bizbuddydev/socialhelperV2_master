@@ -220,5 +220,7 @@ def main():
         )
         st.plotly_chart(fig_subjectivity)
 
+    st.dataframe(data)
+
 if __name__ == "__main__":
     main()
