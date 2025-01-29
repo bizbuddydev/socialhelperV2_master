@@ -6,6 +6,10 @@ from datetime import date, timedelta
 import plotly.express as px
 import json
 
+# For wordcloud
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
 st.set_page_config(page_title="Post Analyzer 🚀", layout="wide", page_icon="📱")
 
 # Define links to other pages
@@ -169,6 +173,19 @@ def main():
         template="plotly_white"
         )
         st.plotly_chart(fig_words)
+
+    # Combine text from processed_speech and caption columns
+    text_data = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str))
+    
+    # Generate the word cloud
+    wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_data)
+    
+    # Display in Streamlit
+    st.subheader("Word Cloud of Speech & Captions")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.imshow(wordcloud, interpolation="bilinear")
+    ax.axis("off")
+    st.pyplot(fig)
 
     col_left1, col_right1 = st.columns(2)
     
