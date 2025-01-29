@@ -90,6 +90,8 @@ def main():
     
     with col_left1:
 
+        st.subheader("Timing Analysis")
+
         param_col1, param_col2 = st.columns(2)
             
         with param_col1:
