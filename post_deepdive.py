@@ -74,6 +74,7 @@ ORDER BY created_time DESC
 # Load/Transform Data
 data = fetch_data(query)
 data['post_date'] = data['created_time'].dt.date
+data = data.drop_duplicates()
 
 def main():
     st.title("Social Buddy 🚀 - Post Deep Dive")
