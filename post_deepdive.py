@@ -139,9 +139,7 @@ def main():
         fig_text_length = px.scatter(
         filtered_data,
         x="caption_length",
-        y="reach",
-        size="like_count",
-        color="speech_length",
+        y= metric_option,
         title="Text Length vs Engagement",
         labels={"caption_length": "Caption Length", "reach": "Reach", "speech_length": "Speech Length"},
         template="plotly_white"
@@ -152,8 +150,8 @@ def main():
 
         fig_cta = px.bar(
             cta_analysis,
-            x="call_to_action",
-            y="reach",
+            x=metric_option,
+            y="call_to_action",
             title="Effectiveness of Call-to-Action Phrases",
             labels={"call_to_action": "CTA Phrase", "reach": "Average Reach"},
             template="plotly_white"
@@ -162,8 +160,8 @@ def main():
     with col_right2:
         fig_words = px.scatter(
         filtered_data,
-        x="most_common_word",
-        y="common_word_count",
+        x="common_word_count",
+        y="most_common_word",
         size="reach",
         color="theme_repetition",
         title="Impact of Word Choice on Engagement",
