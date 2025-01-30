@@ -226,6 +226,20 @@ def main():
             """
             st.write("Performance Metrics:")
             st.markdown(metrics_html, unsafe_allow_html=True)
+
+            # Display post info in scorecards
+            basic_info_html = f"""
+            <div class="scorecards">
+                <div class="scorecard">Theme: {row['main_theme_aps']}</div>
+                <div class="scorecard">Most Common Word: {row['most_common_word']}</div>
+                <div class="scorecard">Initial Imagery: {row['main_focus_aps']}%</div>
+                <div class="scorecard">Intial Color Schemes: {row['color_scheme_aps']}</div>
+                <div class="scorecard">Hastags: {row['hashtags_aps']}</div>
+            </div>
+            """
+
+            st.write("Performance Metrics:")
+            st.markdown(basic_info_html, unsafe_allow_html=True)
         
         with col2:
             # Display media in a styled container
