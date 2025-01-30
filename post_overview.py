@@ -232,7 +232,7 @@ def main():
             <div class="scorecards">
                 <div class="scorecard">Theme: {row['main_theme']}</div>
                 <div class="scorecard">Most Common Word: {row['most_common_word']}</div>
-                <div class="scorecard">Initial Imagery: {row['main_focus']}%</div>
+                <div class="scorecard">Initial Imagery: {row['main_focus']}</div>
                 <div class="scorecard">Intial Color Schemes: {row['color_scheme']}</div>
             </div>
             """
@@ -240,9 +240,9 @@ def main():
             # Display post info in scorecards
             post_structure_html = f"""
             <div class="scorecards">
-                <div class="scorecard">Time of Day: /n{row['time_bucket']}</div>
+                <div class="scorecard">Time of Day: {row['time_bucket']}</div>
                 <div class="scorecard">Weekday: {row['weekday']}</div>
-                <div class="scorecard">Speech Length: {row['speech_length']}%</div>
+                <div class="scorecard">Speech Length: {row['speech_length']} words</div>
                 <div class="scorecard">Speech Rate: {row['speech_rate']} words per min</div>
             </div>
             """
