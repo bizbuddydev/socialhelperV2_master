@@ -88,7 +88,7 @@ ap_data = fetch_data(ap_query)
 
 merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
 
-merged_data["speech_rate"] = round(merged_data["speech_rate"])
+merged_data["speech_rate"] = round(merged_data["speech_rate"], 2)
 
 # Main app
 def main():
