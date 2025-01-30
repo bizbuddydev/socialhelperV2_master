@@ -86,7 +86,7 @@ data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 # Get analyzed posts data and merge
 ap_data = fetch_data(ap_query)
 
-merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left")
+merged_data = data.merge(ap_data, left_on="video_id", right_on="post_id", how="left")
 
 
 # Main app
