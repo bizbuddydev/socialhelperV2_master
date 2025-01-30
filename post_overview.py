@@ -172,12 +172,11 @@ def main():
             display: inline-block;
             padding: 8px 16px;
             margin: 5px;
-            background-color: #f3f3f3;
             border-radius: 8px;
             text-align: center;
             font-size: 14px;
             font-weight: bold;
-            color: #000000;
+
         }
     </style>
     """, unsafe_allow_html=True)
