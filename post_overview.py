@@ -174,8 +174,6 @@ def main():
         .scorecards {
             margin-left: 20px;
             margin-right: 20px;
-            background-color: #808080;
-            color: #000000;
         }
         .caption {
             font-size: 16px;
@@ -195,7 +193,8 @@ def main():
             text-align: center;
             font-size: 14px;
             font-weight: bold;
-
+            background-color: #808080;
+            color: #000000;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -247,7 +246,7 @@ def main():
                 <div class="scorecard">Time of Day: {row['time_bucket']}</div>
                 <div class="scorecard">Weekday: {row['weekday']}</div>
                 <div class="scorecard">Speech Length: {row['speech_length']} words</div>
-                <div class=f"scorecard">Speech Rate: {row['speech_rate']} words per sec</div>
+                <div class="scorecard">Speech Rate: {row['speech_rate']} words per sec</div>
             </div>
             """
 
