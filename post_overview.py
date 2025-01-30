@@ -61,7 +61,9 @@ tableid = config["POST_TABLE_ID"]
 ### Get data ###
 query = f"""
 SELECT *
-FROM `bizbuddydemo-v1.{datasetid}.{tableid}`
+FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
+WHERE page_id = 17841467554159158
+AND insert_date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
 ORDER BY created_time DESC
 """
 
