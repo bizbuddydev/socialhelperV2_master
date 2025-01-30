@@ -220,7 +220,7 @@ def main():
                 elif row['media_type'] == 'VIDEO':
                     st.video(row['source'], start_time=0, format="video/mp4")
                 st.markdown('</div>', unsafe_allow_html=True)
-            except:
+            except Exception as e:
                 st.warning(f"Skipping post due to media error: {str(e)}")
         st.markdown("---")  # Divider between posts
 
