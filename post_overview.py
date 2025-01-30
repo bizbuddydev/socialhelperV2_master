@@ -159,7 +159,7 @@ def main():
     
     # If no filter is selected, display all data sorted by date
     if "filtered_data" not in locals():
-        filtered_data = merged_data.sort_values(by="created_time_posts_posts", ascending=False).head(25)
+        filtered_data = merged_data.sort_values(by="created_time_posts", ascending=False).head(25)
     
     st.markdown("""
     <style>
