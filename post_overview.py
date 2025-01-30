@@ -44,11 +44,11 @@ def fetch_data(query: str) -> pd.DataFrame:
 # Define filter functions
 def filter_last_30_days(df):
     cutoff = date.today() - timedelta(days=30)
-    return df[df["created_time"] >= cutoff].sort_values(by="created_time", ascending=False)
+    return df[df["created_time_posts"] >= cutoff].sort_values(by="created_time_posts", ascending=False)
 
 def filter_last_6_months(df):
     cutoff = date.today() - timedelta(days=182)  # Approx. 6 months
-    return df[df["created_time"] >= cutoff].sort_values(by="created_time", ascending=False)
+    return df[df["created_time_posts"] >= cutoff].sort_values(by="created_time_posts", ascending=False)
 
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
@@ -64,7 +64,7 @@ SELECT *
 FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
 WHERE page_id = 17841467554159158
 AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
-ORDER BY created_time DESC
+ORDER BY created_time_posts DESC
 """
 
 
@@ -75,13 +75,13 @@ ap_query = f"""
 SELECT *
 FROM `bizbuddydemo-v2.{testing_dataset}.{testing_table_id}`
 WHERE page_id = 17841467554159158
-ORDER BY created_time DESC
+ORDER BY created_time_posts DESC
 """
 
 # Load/Transform Data
 data = fetch_data(query)
 data["Like Rate"] = round(data["like_count"]/data["reach"] * 100, 2)
-data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
+data["created_time_posts"] = pd.to_datetime(data["created_time_posts"]).dt.date
 
 # Get analyzed posts data and merge
 ap_data = fetch_data(ap_query)
@@ -159,7 +159,7 @@ def main():
     
     # If no filter is selected, display all data sorted by date
     if "filtered_data" not in locals():
-        filtered_data = merged_data.sort_values(by="created_time_posts", ascending=False).head(25)
+        filtered_data = merged_data.sort_values(by="created_time_posts_posts", ascending=False).head(25)
     
     st.markdown("""
     <style>
@@ -208,8 +208,8 @@ def main():
         spacer1, col1, col2, spacer2 = st.columns([0.5, 2, 1, 0.5])  # Adjust widths as needed
         
         with col1:
-            # Display created_time
-            st.markdown(f"<div class='details'>Posted On: {row['created_time']}</div>", unsafe_allow_html=True)
+            # Display created_time_posts
+            st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
     
             # Display caption with title
             st.markdown(f"<div class='caption'>Caption: {row['caption']}</div>", unsafe_allow_html=True)
