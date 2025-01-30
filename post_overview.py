@@ -67,6 +67,15 @@ AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
 ORDER BY created_time DESC
 """
 
+### Get data ###
+ap_query = f"""
+SELECT *
+FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
+WHERE page_id = 17841467554159158
+AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+ORDER BY created_time DESC
+"""
+
 # Load/Transform Data
 data = fetch_data(query)
 data["Like Rate"] = round(data["like_count"]/data["reach"] * 100, 2)
@@ -208,6 +217,7 @@ def main():
                 <div class="scorecard">Saves: {row['saved']}</div>
             </div>
             """
+            st.write("Performance Metrics:)
             st.markdown(metrics_html, unsafe_allow_html=True)
         
         with col2:
