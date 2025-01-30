@@ -174,6 +174,8 @@ def main():
         .scorecards {
             margin-left: 20px;
             margin-right: 20px;
+            background-color: #808080;
+            color: #000000;
         }
         .caption {
             font-size: 16px;
