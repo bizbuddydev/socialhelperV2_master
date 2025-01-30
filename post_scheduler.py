@@ -8,11 +8,12 @@ import json
 
 st.set_page_config(page_title="Post Scheduler", layout="wide", page_icon = "🗓️")
 
-# Define links to other pages
 PAGES = {
-    "📊 Overview": "https://smp-bizbuddy-accountoverview.streamlit.app/",
-    "📱 Posts": "https://smp-bizbuddy-postoverview.streamlit.app",
-    "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
+    "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
+    "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
+    # "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
+    "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
+    "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
     "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
 }
 
