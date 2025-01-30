@@ -213,13 +213,15 @@ def main():
         
         with col2:
             # Display media in a styled container
-            st.markdown('<div class="media">', unsafe_allow_html=True)
-            if row['media_type'] == 'IMAGE':
-                st.image(row['source'], width=MEDIA_WIDTH)
-            elif row['media_type'] == 'VIDEO':
-                st.video(row['source'], start_time=0, format="video/mp4")
-            st.markdown('</div>', unsafe_allow_html=True)
-    
+            try:
+                st.markdown('<div class="media">', unsafe_allow_html=True)
+                if row['media_type'] == 'IMAGE':
+                    st.image(row['source'], width=MEDIA_WIDTH)
+                elif row['media_type'] == 'VIDEO':
+                    st.video(row['source'], start_time=0, format="video/mp4")
+                st.markdown('</div>', unsafe_allow_html=True)
+            except:
+                st.warning(f"Skipping post due to media error: {str(e)}")
         st.markdown("---")  # Divider between posts
 
 if __name__ == "__main__":
