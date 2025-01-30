@@ -64,7 +64,7 @@ SELECT *
 FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
 WHERE page_id = 17841467554159158
 AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
-ORDER BY created_time_posts DESC
+ORDER BY created_time DESC
 """
 
 
@@ -75,7 +75,7 @@ ap_query = f"""
 SELECT *
 FROM `bizbuddydemo-v2.{testing_dataset}.{testing_table_id}`
 WHERE page_id = 17841467554159158
-ORDER BY created_time_posts DESC
+ORDER BY created_time DESC
 """
 
 # Load/Transform Data
