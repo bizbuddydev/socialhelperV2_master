@@ -212,7 +212,7 @@ def main():
             st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
     
             # Display caption with title
-            st.markdown(f"<div class='caption'>Caption: {row['caption']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='caption'>Caption: {row['caption_posts']}</div>", unsafe_allow_html=True)
             
             # Display metrics in scorecards
             metrics_html = f"""
