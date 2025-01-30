@@ -156,6 +156,7 @@ def main():
             filtered_data = top_10_by_column(merged_data, "comments_count")
     
     st.markdown('</div>', unsafe_allow_html=True)
+    st.write(merged_data)
     
     # If no filter is selected, display all data sorted by date
     if "filtered_data" not in locals():
