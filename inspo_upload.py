@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import date, timedelta
 import json
 
-st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="📱")
+st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="🚝")
 
 # Define links to other pages
 PAGES = {
