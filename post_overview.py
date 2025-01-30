@@ -81,7 +81,7 @@ ORDER BY created_time DESC
 # Load/Transform Data
 data = fetch_data(query)
 data["Like Rate"] = round(data["like_count"]/data["reach"] * 100, 2)
-data["created_time_posts"] = pd.to_datetime(data["created_time_posts"]).dt.date
+data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 
 # Get analyzed posts data and merge
 ap_data = fetch_data(ap_query)
