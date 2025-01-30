@@ -74,7 +74,7 @@ testing_table_id = config["ANALYSIS_TABLE_ID"]
 ap_query = f"""
 SELECT *
 FROM `bizbuddydemo-v2.{testing_dataset}.{testing_table_id}`
-WHERE video_id = 17841467554159158
+WHERE page_id = 17841467554159158
 ORDER BY created_time DESC
 """
 
@@ -86,7 +86,7 @@ data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 # Get analyzed posts data and merge
 ap_data = fetch_data(ap_query)
 
-merged_data = data.merge(ap_data, left_on="video_id", right_on="post_id", how="left")
+merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left")
 
 
 # Main app
