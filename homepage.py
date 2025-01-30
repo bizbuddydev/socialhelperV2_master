@@ -20,7 +20,7 @@ PAGES = {
     "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
     # "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
     "📡 Deep Dive": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
-    "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
+    "🚝 Inspiration Upload": "https://bizbuddy-postdd-smp.streamlit.app/",
     "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
 }
 
