@@ -230,11 +230,11 @@ def main():
             # Display post info in scorecards
             basic_info_html = f"""
             <div class="scorecards">
-                <div class="scorecard">Theme: {row['main_theme_aps']}</div>
+                <div class="scorecard">Theme: {row['main_theme']}</div>
                 <div class="scorecard">Most Common Word: {row['most_common_word']}</div>
-                <div class="scorecard">Initial Imagery: {row['main_focus_aps']}%</div>
-                <div class="scorecard">Intial Color Schemes: {row['color_scheme_aps']}</div>
-                <div class="scorecard">Hastags: {row['hashtags_aps']}</div>
+                <div class="scorecard">Initial Imagery: {row['main_focus']}%</div>
+                <div class="scorecard">Intial Color Schemes: {row['color_scheme']}</div>
+                <div class="scorecard">Hastags: {row['hashtags']}</div>
             </div>
             """
 
