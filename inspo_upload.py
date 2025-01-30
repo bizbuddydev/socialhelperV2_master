@@ -47,10 +47,27 @@ def main():
     uploaded_file = None
     article_text = ""
 
-    if content_type == "Video":
-        uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "mov", "avi"])
-    elif content_type == "Image":
-        uploaded_file = st.file_uploader("Upload an image file", type=["png", "jpg", "jpeg"])
+    if content_type in ["Video", "Image"]:
+        uploaded_file = st.file_uploader(
+            f"Upload a {content_type.lower()} file", 
+            type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
+        )
+
+        if uploaded_file:
+            st.success(f"Uploaded: {uploaded_file.name}")
+
+            # Step 3: Why is this inspirational?
+            inspiration_reason = st.radio(
+                "Why did you upload this?",
+                ["Aesthetic/Post Structure", "Content"]
+            )
+
+            # Step 4: Caption or Notes
+            caption_text = st.text_area(
+                "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
+                height=100
+            )
+
     elif content_type == "Article":
         article_choice = st.radio("How do you want to add your article?", ["Upload a file", "Paste text"])
 
@@ -59,10 +76,10 @@ def main():
         else:
             article_text = st.text_area("Paste your article text here", height=200)
 
-    # Step 3: Display file name or text preview
-    if uploaded_file:
-        st.success(f"Uploaded: {uploaded_file.name}")
-    elif article_text:
-        st.success("Text added successfully")
+        if uploaded_file:
+            st.success(f"Uploaded: {uploaded_file.name}")
+        elif article_text:
+            st.success("Text added successfully")
+
 if __name__ == "__main__":
     main()
