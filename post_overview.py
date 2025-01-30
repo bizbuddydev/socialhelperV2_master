@@ -244,7 +244,7 @@ def main():
                 <div class="scorecard">Time of Day: {row['time_bucket']}</div>
                 <div class="scorecard">Weekday: {row['weekday']}</div>
                 <div class="scorecard">Speech Length: {row['speech_length']} words</div>
-                <div class=f"scorecard">Speech Rate: {row['speech_rate']} words per min</div>
+                <div class=f"scorecard">Speech Rate: {row['speech_rate']} words per sec</div>
             </div>
             """
 
