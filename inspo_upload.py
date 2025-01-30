@@ -35,7 +35,6 @@ credentials = service_account.Credentials.from_service_account_info(
 project_id = st.secrets["gcp_service_account"]["project_id"]
 
 def main():
-def main():
     st.title("📱 Post Inspiration Uploader")
 
     # Step 1: Select content type
