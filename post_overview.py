@@ -249,6 +249,9 @@ def main():
 
             st.write("Post Attributes:")
             st.markdown(basic_info_html, unsafe_allow_html=True)
+
+            st.write("Post Structure:")
+            st.markdown(post_structure_html, unsafe_allow_html=True)
         
         with col2:
             # Display media in a styled container
