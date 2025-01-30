@@ -234,11 +234,20 @@ def main():
                 <div class="scorecard">Most Common Word: {row['most_common_word']}</div>
                 <div class="scorecard">Initial Imagery: {row['main_focus']}%</div>
                 <div class="scorecard">Intial Color Schemes: {row['color_scheme']}</div>
-                <div class="scorecard">Hastags: {row['hashtags']}</div>
             </div>
             """
 
-            st.write("Performance Metrics:")
+            # Display post info in scorecards
+            post_structure_html = f"""
+            <div class="scorecards">
+                <div class="scorecard">Time of Day: /n{row['time_bucket']}</div>
+                <div class="scorecard">Weekday: {row['weekday']}</div>
+                <div class="scorecard">Speech Length: {row['speech_length']}%</div>
+                <div class="scorecard">Speech Rate: {row['spech_rate']} words per min</div>
+            </div>
+            """
+
+            st.write("Post Attributes:")
             st.markdown(basic_info_html, unsafe_allow_html=True)
         
         with col2:
