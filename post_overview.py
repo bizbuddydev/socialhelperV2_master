@@ -129,37 +129,37 @@ def main():
     
     with col1:
         if st.button("Last 30 Days"):
-            filtered_data = filter_last_30_days(data)
+            filtered_data = filter_last_30_days(merged_data)
     
     with col2:
         if st.button("Last 6 Months"):
-            filtered_data = filter_last_6_months(data)
+            filtered_data = filter_last_6_months(merged_data)
 
     with col3:
         if st.button("All Time"):
-            filtered_data = data
+            filtered_data = merged_data
     
     with col4:
         if st.button("Top 10 by Reach"):
-            filtered_data = top_10_by_column(data, "reach")
+            filtered_data = top_10_by_column(merged_data, "reach")
     
     with col5:
         if st.button("Top 10 by Likes"):
-            filtered_data = top_10_by_column(data, "like_count")
+            filtered_data = top_10_by_column(merged_data, "like_count")
     
     with col6:
         if st.button("Top 10 by Like Rate"):
-            filtered_data = top_10_by_column(data, "Like Rate")
+            filtered_data = top_10_by_column(merged_data, "Like Rate")
     
     with col7:
         if st.button("Top 10 by Comments"):
-            filtered_data = top_10_by_column(data, "comments_count")
+            filtered_data = top_10_by_column(merged_data, "comments_count")
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     # If no filter is selected, display all data sorted by date
     if "filtered_data" not in locals():
-        filtered_data = data.sort_values(by="created_time", ascending=False).head(25)
+        filtered_data = merged_data.sort_values(by="created_time", ascending=False).head(25)
     
     st.markdown("""
     <style>
