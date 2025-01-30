@@ -201,7 +201,6 @@ def main():
         fig_polarity = px.scatter(
             filtered_data,
             x="polarity",
-            color="sentiment",
             y=metric_option,
             title="Sentiment vs. Engagement",
             labels={"polarity": "Sentiment", metric_option: metric_option},
