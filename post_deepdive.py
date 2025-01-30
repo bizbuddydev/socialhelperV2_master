@@ -181,6 +181,8 @@ def main():
     with col_right3:
 
         st.subheader("Terms from Speech/Captions")
+        st.write("Word clouds show words used in a corpus of text with larger words appearing more often.")
+        
         # Combine text from processed_speech and caption columns
         text_data = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str))
         
@@ -198,6 +200,7 @@ def main():
     
     with col_left4:
         st.subheader("Polarity & Engagement Correlation")
+        st.write("Polarity is a measure of how positive or negative text is.")
         fig_polarity = px.scatter(
             filtered_data,
             x="polarity",
@@ -210,6 +213,7 @@ def main():
     
     with col_right4:
         st.subheader("Opinionated vs. Factual Content")
+        st.write("Polarity is a measure of how opinionated the text is.")
         fig_subjectivity = px.scatter(
             filtered_data,
             x="subjectivity",
