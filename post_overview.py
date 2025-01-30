@@ -86,7 +86,7 @@ data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 # Get analyzed posts data and merge
 ap_data = fetch_data(ap_query)
 
-merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left")
+merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
 
 
 # Main app
@@ -156,11 +156,10 @@ def main():
             filtered_data = top_10_by_column(merged_data, "comments_count")
     
     st.markdown('</div>', unsafe_allow_html=True)
-    st.write(merged_data)
     
     # If no filter is selected, display all data sorted by date
     if "filtered_data" not in locals():
-        filtered_data = merged_data.sort_values(by="created_time", ascending=False).head(25)
+        filtered_data = merged_data.sort_values(by="created_time_posts", ascending=False).head(25)
     
     st.markdown("""
     <style>
