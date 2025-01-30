@@ -67,12 +67,14 @@ AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
 ORDER BY created_time DESC
 """
 
+
+testing_dataset = config["TESTING_DATASET_ID"]
+testing_table_id = config["ANALYSIS_TABLE_ID"]
 ### Get data ###
 ap_query = f"""
 SELECT *
-FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
-WHERE page_id = 17841467554159158
-AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+FROM `bizbuddydemo-v2.{testing_dataset}.{testing_table_id}`
+WHERE video_id = 17841467554159158
 ORDER BY created_time DESC
 """
 
@@ -81,6 +83,8 @@ data = fetch_data(query)
 data["Like Rate"] = round(data["like_count"]/data["reach"] * 100, 2)
 data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 
+
+ap_data = fetch_Data(ap_query)
 
 # Main app
 def main():
@@ -217,7 +221,7 @@ def main():
                 <div class="scorecard">Saves: {row['saved']}</div>
             </div>
             """
-            st.write("Performance Metrics:)
+            st.write("Performance Metrics:")
             st.markdown(metrics_html, unsafe_allow_html=True)
         
         with col2:
