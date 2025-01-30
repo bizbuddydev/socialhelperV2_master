@@ -167,6 +167,7 @@ def main():
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 10px;
+            color: #000000;
         }
         .scorecard {
             display: inline-block;
