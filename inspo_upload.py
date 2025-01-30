@@ -43,11 +43,22 @@ def main():
         ["Select an option", "Video", "Image", "Article"]
     )
 
-    # Step 2: Show relevant upload option
-    uploaded_file = None
-    article_text = ""
+    # Step 2: Ask why they are uploading this before file upload (for Video & Image)
+    inspiration_reason, caption_text = None, None
 
     if content_type in ["Video", "Image"]:
+        inspiration_reason = st.radio(
+            "Why did you upload this?",
+            ["Aesthetic/Post Structure", "Content"]
+        )
+
+        # Step 3: Caption or Notes before file upload
+        caption_text = st.text_area(
+            "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
+            height=100
+        )
+
+        # Step 4: Now allow file upload
         uploaded_file = st.file_uploader(
             f"Upload a {content_type.lower()} file", 
             type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
@@ -55,18 +66,6 @@ def main():
 
         if uploaded_file:
             st.success(f"Uploaded: {uploaded_file.name}")
-
-            # Step 3: Why is this inspirational?
-            inspiration_reason = st.radio(
-                "Why did you upload this?",
-                ["Aesthetic/Post Structure", "Content"]
-            )
-
-            # Step 4: Caption or Notes
-            caption_text = st.text_area(
-                "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
-                height=100
-            )
 
     elif content_type == "Article":
         article_choice = st.radio("How do you want to add your article?", ["Upload a file", "Paste text"])
