@@ -88,6 +88,7 @@ ap_data = fetch_data(ap_query)
 
 merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
 
+merged_data["speech_rate"] = round(merged_data["speech_rate"])
 
 # Main app
 def main():
@@ -243,7 +244,7 @@ def main():
                 <div class="scorecard">Time of Day: {row['time_bucket']}</div>
                 <div class="scorecard">Weekday: {row['weekday']}</div>
                 <div class="scorecard">Speech Length: {row['speech_length']} words</div>
-                <div class=f"scorecard">Speech Rate: {row['speech_rate']}.2f words per min</div>
+                <div class=f"scorecard">Speech Rate: {row['speech_rate']} words per min</div>
             </div>
             """
 
