@@ -37,18 +37,23 @@ project_id = st.secrets["gcp_service_account"]["project_id"]
 storage_client = storage.Client(credentials=credentials)
 bucket_name = "bizbuddy-testbucketimg"  # All file types go to the same bucket for testing
 
+from datetime import timedelta
+
 def upload_to_gcs(uploaded_file, file_type):
-    """Uploads file to Google Cloud Storage and returns the public URL."""
+    """Uploads file to Google Cloud Storage and returns a signed URL."""
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(uploaded_file.name)
-    
+
     # Upload file
     blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
-    
-    # Make the file publicly accessible (optional)
-    blob.make_public()
-    
-    return blob.public_url
+
+    # Generate a signed URL (valid for 24 hours)
+    signed_url = blob.generate_signed_url(
+        expiration=timedelta(hours=24),  # Change expiration time as needed
+        method="GET"
+    )
+
+    return signed_url
 
 def main():
     st.title("📱 Post Inspiration Uploader")
