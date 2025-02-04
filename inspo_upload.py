@@ -1,9 +1,8 @@
 import streamlit as st
 from google.oauth2 import service_account
-from google.cloud import bigquery
-import pandas as pd
-from datetime import date, timedelta
+from google.cloud import storage
 import json
+import os
 
 st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="🚝")
 
@@ -11,7 +10,6 @@ st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="🚝")
 PAGES = {
     "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
     "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
-    # "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
     "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
     "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
     "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
@@ -22,12 +20,11 @@ st.sidebar.title("Navigation")
 for page, url in PAGES.items():
     st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)
 
-# Load the configuration file
+# Load the account configuration
 def load_config(file_path="config.json"):
     with open(file_path, "r") as f:
         return json.load(f)
 
-# Load the account configuration
 config = load_config()
 
 # Load credentials and project ID from st.secrets
@@ -35,6 +32,23 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
 project_id = st.secrets["gcp_service_account"]["project_id"]
+
+# Initialize Google Cloud Storage client
+storage_client = storage.Client(credentials=credentials)
+bucket_name = "bizbuddy-testbucketimg"  # All file types go to the same bucket for testing
+
+def upload_to_gcs(uploaded_file, file_type):
+    """Uploads file to Google Cloud Storage and returns the public URL."""
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(uploaded_file.name)
+    
+    # Upload file
+    blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
+    
+    # Make the file publicly accessible (optional)
+    blob.make_public()
+    
+    return blob.public_url
 
 def main():
     st.title("📱 Post Inspiration Uploader")
@@ -45,8 +59,7 @@ def main():
         ["Select an option", "Video", "Image", "Article"]
     )
 
-    # Step 2: Ask why they are uploading this before file upload (for Video & Image)
-    inspiration_reason, caption_text = None, None
+    inspiration_reason, caption_text, uploaded_file = None, None, None
 
     if content_type in ["Video", "Image"]:
         inspiration_reason = st.radio(
@@ -54,20 +67,15 @@ def main():
             ["Aesthetic/Post Structure", "Content"]
         )
 
-        # Step 3: Caption or Notes before file upload
         caption_text = st.text_area(
             "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
             height=100
         )
 
-        # Step 4: Now allow file upload
         uploaded_file = st.file_uploader(
             f"Upload a {content_type.lower()} file", 
             type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
         )
-
-        if uploaded_file:
-            st.success(f"Uploaded: {uploaded_file.name}")
 
     elif content_type == "Article":
         article_choice = st.radio("How do you want to add your article?", ["Upload a file", "Paste text"])
@@ -77,10 +85,13 @@ def main():
         else:
             article_text = st.text_area("Paste your article text here", height=200)
 
-        if uploaded_file:
-            st.success(f"Uploaded: {uploaded_file.name}")
-        elif article_text:
-            st.success("Text added successfully")
+    # If a file is uploaded, process upload to GCS
+    if uploaded_file:
+        file_type = uploaded_file.type.split('/')[0]  # Extract file type (image, video, text)
+        public_url = upload_to_gcs(uploaded_file, file_type)
+
+        st.success(f"Uploaded: {uploaded_file.name}")
+        st.markdown(f"[View File in Cloud Storage]({public_url})")
 
 if __name__ == "__main__":
     main()
