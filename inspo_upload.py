@@ -93,7 +93,10 @@ def main():
     # If a file is uploaded, process upload to GCS
     if uploaded_file:
         file_type = uploaded_file.type.split('/')[0]  # Extract file type (image, video, text)
+        public_url = upload_to_gcs(uploaded_file, file_type)
+
         st.success(f"Uploaded: {uploaded_file.name}")
+        st.markdown(f"[View File in Cloud Storage]({public_url})")
 
 if __name__ == "__main__":
     main()
