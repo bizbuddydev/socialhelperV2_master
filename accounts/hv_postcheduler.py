@@ -285,14 +285,21 @@ def delete_post_by_caption(caption):
 
 
 def fetch_post_data(page_id):
-    """Fetch post data from BigQuery."""
-    query = f"""
+    """Fetch post data from BigQuery for a specific page ID."""
+    query = """
         SELECT date, caption, post_type, themes, tone, source
-        FROM `{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{IDEAS_TABLE_ID}`
+        FROM `bizbuddydemo-v2.strategy_data.postideas`
         WHERE page_id = @page_id
         ORDER BY date ASC
     """
-    query_job = bq_client.query(query)
+
+    query_job = bq_client.query(
+        query,
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        ),
+    )
+
     return query_job.to_dataframe()
 
 def main():
