@@ -35,6 +35,7 @@ ACCOUNT_NAME = config["ACCOUNT_NAME"]
 PROJECT_ID = config["PROJECT_ID"]
 ACCOUNT_DATASET_ID = config["ACCOUNT_DATASET_ID"]
 IDEAS_TABLE_ID = config["IDEAS_TABLE_ID"]
+PAGE_ID = config["PAGE_ID"]
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
@@ -330,7 +331,7 @@ def main():
         manually_add_post()
 
     # Fetch data from BigQuery
-    posts = fetch_post_data()
+    posts = fetch_post_data(PAGE_ID)
 
     # Display posts
     st.subheader("Upcoming Posts")
