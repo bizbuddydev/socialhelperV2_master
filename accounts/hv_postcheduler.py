@@ -97,6 +97,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     )
 
     idea_json = response.choices[0].message.content.strip()
+    st.write(idea_json)
 
     # ✅ Check if response is valid JSON
     try:
@@ -311,7 +312,6 @@ def fetch_post_data(page_id):
     return query_job.to_dataframe()
 
 def main():
-    st.write("Checking for data")
     past_post_ideas = fetch_past_post_ideas(PAGE_ID)
     account_inspiration = fetch_account_inspiration(PAGE_ID)
     past_posts = fetch_past_post_concepts(PAGE_ID)
