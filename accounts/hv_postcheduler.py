@@ -309,7 +309,7 @@ def main():
     st.write("Checking for data")
     past_post_ideas = fetch_past_post_ideas(PAGE_ID)
     account_inspiration = fetch_account_inspiration(PAGE_ID)
-    past_post_ideas = fetch_past_post_concepts(PAGE_ID)
+    past_posts = fetch_past_post_concepts(PAGE_ID)
     account_insights = fetch_account_insights(PAGE_ID)
     
     st.markdown(
