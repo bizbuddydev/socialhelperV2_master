@@ -69,27 +69,29 @@ def fetch_latest_date():
     return latest_date + timedelta(days=3)
 
 # Function to generate a single post idea
-def generate_post_idea(strategy):
-    """
-    Generate a single post idea using the provided strategy.
+def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
 
-    Args:
-        strategy (dict): A dictionary containing the social media strategy.
-
-    Returns:
-        pd.DataFrame: A dataframe containing the generated post idea.
-    """
     prompt = (
-        f"Based on this social media strategy: {strategy}, generate 1 post idea. "
-        "Each idea should include the post Date, caption content, post type (e.g., Reel, Story, Static Post), "
-        "themes (from the strategy), and tone. Ensure that the returned JSON object only has these columns with the exact names: 'Date', 'caption', 'post_type', 'themes', 'tone', 'source'. Ensure the idea aligns with the strategy and introduces a mix of concepts. "
-        "Format as a JSON object."
+        f"You are a social media manager creating a post for an Instagram account based on the following context:\n\n"
+        f"** Here is their Social Media Strategy:** {strategy}\n\n"
+        f"** Here is past posts themes and types. Try to recommend similar ideas but avoid direct overlap:**\n{past_posts}\n\n"
+        f"** Here is ideas about post structure / ideas that the user finds inspirational, factor this is in:**\n{account_inspiration}\n\n"
+        f"** Here are the Past Post Ideas, don't recommend the same things:**\n{past_post_ideas}\n\n"
+        f"** Here is some Account Insights about what types of ideas and concepts have worked well for this account in the past. This should be weighted heavlily as you decide which post to suggest.:**\n{account_insights}\n\n"
+        "**Generate 1 new post idea** based on this context. Ensure the idea aligns with the strategy but also introduces a mix of concepts.\n"
+        "Each idea should include:\n"
+        "- **post_summary** - (e.g., Summarize this post)\n"
+        "- **caption**\n"
+        "- **post_type** (e.g., Reel, Story, Static Post)\n"
+        "- **themes**\n"
+        "- **tone**\n"
+        "**Output the response as a JSON object** with the **exact** keys: 'post_summary, 'caption', 'post_type', 'themes', 'tone'."
     )
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are a social media manager with expertise in creating engaging content."},
+            {"role": "system", "content": "You are an experienced social media manager with expertise in creating engaging content."},
             {"role": "user", "content": prompt}
         ]
     )
@@ -100,7 +102,8 @@ def generate_post_idea(strategy):
     idea_df = pd.read_json(idea_json, typ="series").to_frame().T
 
     # Assign a date to the post
-    idea_df["Date"] = fetch_latest_date()
+    idea_df["date"] = fetch_latest_date()
+    idea_df["source"] = "ChatGPT"
 
     return idea_df
 
@@ -250,7 +253,7 @@ def add_post_to_bigquery(post_df):
     Args:
         post_df (pd.DataFrame): The dataframe containing the post idea to be added.
     """
-    table_id = "bizbuddydemo-v1.strategy_data.smp_postideas"
+    table_id = "bizbuddydemo-v1.strategy_data.postideas"
 
     # Convert list-type columns to JSON-serializable strings
     for column in post_df.columns:
@@ -320,23 +323,19 @@ def main():
             # Load strategy data (placeholder example)
             strategy = {
                 "content_plan": [
-                    "Testimonials from clients who have improved their performance through your services.",
-                    "Short videos or animated infographics explaining different concepts in sports psychology.",
-                    "Case studies showing how mental performance can affect sports outcomes.",
-                    "Behind-the-scenes content showing what a 1 on 1 session may look like.",
-                    "Inspirational quotes about mental resilience and strength.",
-                    "Regular Q&A's or AMA (Ask Me Anything) sessions to address common questions or misconceptions about sports psychology."
+                    "The content shared on The Harborview's Instagram should incorporate a blend of their services, location, and unique factors. Here are some suggestions: Showcase the hotel rooms and amenities like the gym, pool, and dining areas in high-quality photos or short videos. Highlight the beautiful views of Lake Washington from different points of the hotel. Promote deals and packages available for weekend getaways. Share customer testimonials and stories. Post behind-the-scenes content of the staff preparing for guests. Highlight local attractions and events in Port Washington."
                 ],
                 "tone": ["Inspirational", "Educational", "Casual"],
                 "post_types": ["Reel", "Story", "Static Post"],
-                "past_posts_summary": """Final Summary: This Instagram account primarily focuses on mental performance coaching in sports, offering insights, strategies, and examples of successful athletes who utilize these techniques. Posts often delve into specific mental strategies like visualization, self-talk, positive affirmations, and maintaining focus on the present moment or process rather than the outcome. The account also emphasizes the importance of resilience, confidence, body language, and optimal arousal levels for peak performance. The strategists also discuss the value of reframing negative experiences as learning opportunities and the role of good sleep habits in cognitive function. Teamwork in sports is frequently highlighted, with a focus on football and volleyball. Engagement with followers is encouraged through calls to action, such as following the page or sending direct messages for additional information or inquiries about one-on-one coaching sessions."""
             }
 
             # Generate a post idea
             post_df = generate_post_idea(strategy)
 
+            st.write(post_df)
+
             # Add the post to BigQuery
-            add_post_to_bigquery(post_df)
+            #add_post_to_bigquery(post_df)
 
         st.success("Post successfully added!")
 
