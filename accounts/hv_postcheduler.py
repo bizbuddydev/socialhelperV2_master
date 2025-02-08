@@ -8,11 +8,12 @@ import json
 
 st.set_page_config(page_title="Post Scheduler", layout="wide", page_icon = "🗓️")
 
-# Define links to other pages
 PAGES = {
-    "📊 Overview": "https://smp-bizbuddy-accountoverview.streamlit.app/",
-    "📱 Posts": "https://smp-bizbuddy-postoverview.streamlit.app",
-    "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
+    "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
+    "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
+    # "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
+    "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
+    "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
     "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
 }
 
@@ -34,8 +35,6 @@ ACCOUNT_NAME = config["ACCOUNT_NAME"]
 PROJECT_ID = config["PROJECT_ID"]
 ACCOUNT_DATASET_ID = config["ACCOUNT_DATASET_ID"]
 IDEAS_TABLE_ID = config["IDEAS_TABLE_ID"]
-
-PAGE_ID = 17841410640947509
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
@@ -59,10 +58,9 @@ def fetch_latest_date():
     Returns:
         datetime: The calculated next post date.
     """
-    query = f"""
+    query = """
         SELECT MAX(date) as latest_date
-        FROM `bizbuddydemo-v2.strategy_data.postideas`
-        WHERE page_id = {PAGE_ID} 
+        FROM `bizbuddydemo-v1.strategy_data.smp_postideas`
     """
     query_job = bq_client.query(query)
     result = query_job.result()
@@ -96,19 +94,119 @@ def generate_post_idea(strategy):
     )
 
     idea_json = response.choices[0].message.content.strip()
-    st.write(idea_json)
 
     # Convert the JSON idea to a DataFrame
     idea_df = pd.read_json(idea_json, typ="series").to_frame().T
-    
-    # Convert parsed JSON to DataFrame
-    idea_df = pd.DataFrame.from_dict([parsed_json])
 
     # Assign a date to the post
     idea_df["Date"] = fetch_latest_date()
-    idea_df["page_ig"] = PAGE_ID
 
     return idea_df
+
+# Get past post ideas
+def fetch_past_post_ideas(page_id):
+    query = f"""
+        SELECT themes, post_type 
+        FROM `bizbuddydemo-v2.strategy_data.postideas` 
+        WHERE page_id = @page_id 
+        ORDER BY date 
+        LIMIT 5
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No past posts found."
+
+    # Format the output as a numbered list
+    past_posts_list = [
+        f"{i+1}. {row['themes']} ({row['post_type']})"
+        for i, row in results_df.iterrows()
+    ]
+    
+    return "\n".join(past_posts_list)
+
+# Get account inspo
+def fetch_account_inspiration(page_id):
+    query = f"""
+        SELECT post_structure, post_ideas 
+        FROM `bizbuddydemo-v2.strategy_data.accountinspiration` 
+        WHERE page_id = @page_id 
+        ORDER BY update_date 
+        LIMIT 1
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No inspiration data found."
+
+    post_structure = results_df.iloc[0]["post_structure"]
+    post_ideas = results_df.iloc[0]["post_ideas"]
+
+    return f"Post structure: {post_structure}. Post ideas: {post_ideas}."
+
+# Pull insights and past concepts
+def fetch_past_post_concepts(page_id):
+    query = f"""
+        SELECT past_ideas 
+        FROM `bizbuddydemo-v2.strategy_data.accountpastconcepts` 
+        WHERE page_id = @page_id 
+        ORDER BY update_date 
+        LIMIT 1
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No past post ideas found."
+
+    return results_df.iloc[0]["past_ideas"]
+
+# Get account insights
+def fetch_account_insights(page_id):
+    query = f"""
+        SELECT notes 
+        FROM `bizbuddydemo-v2.strategy_data.accountinsights` 
+        WHERE page_id = @page_id 
+        ORDER BY update_date 
+        LIMIT 1
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No account insights found."
+
+    return results_df.iloc[0]["notes"]
 
 # Function to manually add a post idea in the Streamlit app
 def manually_add_post():
@@ -151,7 +249,7 @@ def add_post_to_bigquery(post_df):
     Args:
         post_df (pd.DataFrame): The dataframe containing the post idea to be added.
     """
-    table_id = "bizbuddydemo-v2.strategy_data.postideas"
+    table_id = "bizbuddydemo-v1.strategy_data.smp_postideas"
 
     # Convert list-type columns to JSON-serializable strings
     for column in post_df.columns:
@@ -190,8 +288,6 @@ def fetch_post_data():
     query = f"""
         SELECT date, caption, post_type, themes, tone, source
         FROM `{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{IDEAS_TABLE_ID}`
-        WHERE page_id = {PAGE_ID}
-        AND date > CURRENT_DATE()
         ORDER BY date ASC
     """
     query_job = bq_client.query(query)
