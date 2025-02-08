@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import openai
 import json
+import re
 
 st.set_page_config(page_title="Post Scheduler", layout="wide", page_icon = "🗓️")
 
@@ -75,9 +76,9 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         f"You are a social media manager creating a post for an Instagram account based on the following context:\n\n"
         f"** Here is their Social Media Strategy:** {strategy}\n\n"
         f"** Here is past posts themes and types. Try to recommend similar ideas but avoid direct overlap:**\n{past_posts}\n\n"
-        f"** Here is ideas about post structure / ideas that the user finds inspirational, factor this is in:**\n{account_inspiration}\n\n"
+        f"** Here is ideas about post structure / ideas that the user finds inspirational, factor this in:**\n{account_inspiration}\n\n"
         f"** Here are the Past Post Ideas, don't recommend the same things:**\n{past_post_ideas}\n\n"
-        f"** Here is some Account Insights about what types of ideas and concepts have worked well for this account in the past. This should be weighted heavlily as you decide which post to suggest.:**\n{account_insights}\n\n"
+        f"** Here is some Account Insights about what types of ideas and concepts have worked well for this account in the past. This should be weighted heavily as you decide which post to suggest:**\n{account_insights}\n\n"
         "**Generate 1 new post idea** based on this context. Ensure the idea aligns with the strategy but also introduces a mix of concepts.\n"
         "Each idea should include:\n"
         "- **post_summary** - (e.g., Summarize this post)\n"
@@ -85,7 +86,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         "- **post_type** (e.g., Reel, Story, Static Post)\n"
         "- **themes**\n"
         "- **tone**\n"
-        "**Output the response as a JSON object** with the **exact** keys: 'post_summary, 'caption', 'post_type', 'themes', 'tone'."
+        "**Output the response as a JSON object** with the **exact** keys: 'post_summary', 'caption', 'post_type', 'themes', 'tone'."
     )
 
     response = client.chat.completions.create(
@@ -97,17 +98,22 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     )
 
     idea_json = response.choices[0].message.content.strip()
-    st.write(idea_json)
+    st.write("Raw AI Response:", idea_json)  # Debugging: Show the raw response
 
-    # ✅ Check if response is valid JSON
+    # ✅ **Fix 1: Extract only the JSON using a regex**
+    json_match = re.search(r"\{.*\}", idea_json, re.DOTALL)
+    if json_match:
+        idea_json = json_match.group(0)  # Extract just the JSON portion
+
+    # ✅ **Fix 2: Validate JSON before loading**
     try:
         idea_dict = json.loads(idea_json)  # Convert JSON string to dictionary
         idea_df = pd.DataFrame([idea_dict])  # Convert dictionary to DataFrame
-    except json.JSONDecodeError:
-        st.error("Failed to parse AI-generated post idea. Response was not valid JSON.")
+    except json.JSONDecodeError as e:
+        st.error(f"Failed to parse AI-generated post idea. Response was not valid JSON.\nError: {e}")
         return pd.DataFrame()  # Return an empty DataFrame to prevent breaking the app
 
-    # Assign a date to the post
+    # Assign a date and source
     idea_df["date"] = fetch_latest_date()
     idea_df["source"] = "ChatGPT"
 
