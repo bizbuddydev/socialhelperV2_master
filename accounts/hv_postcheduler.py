@@ -52,22 +52,30 @@ openai.api_key = st.secrets["openai"]["api_key"]
 client = openai
 
 
-# Function to fetch the latest date and calculate the next post date
-def fetch_latest_date():
-    """
-    Fetch the latest date from the smp_postideas table and return 3 days after it.
+def fetch_latest_date(page_id):
 
-    Returns:
-        datetime: The calculated next post date.
-    """
     query = """
         SELECT MAX(date) as latest_date
-        FROM `bizbuddydemo-v1.strategy_data.smp_postideas`
+        FROM `bizbuddydemo-v2.strategy_data.postideas`
+        WHERE page_id = @page_id
     """
-    query_job = bq_client.query(query)
-    result = query_job.result()
-    latest_date = result.to_dataframe().iloc[0]["latest_date"]
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+
+    result_df = query_job.to_dataframe()
+
+    # Handle case where there are no posts for the given page_id
+    if result_df.empty or pd.isna(result_df.iloc[0]["latest_date"]):
+        return datetime.now().date() + timedelta(days=3)  # Default to 3 days from today
+
+    latest_date = result_df.iloc[0]["latest_date"]
     return latest_date + timedelta(days=3)
+
 
 # Function to generate a single post idea
 def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
