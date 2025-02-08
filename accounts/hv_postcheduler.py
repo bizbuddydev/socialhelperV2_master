@@ -303,6 +303,12 @@ def fetch_post_data(page_id):
     return query_job.to_dataframe()
 
 def main():
+    st.write("Checking for data")
+    st.write(fetch_past_post_ideas(PAGE_ID))
+    st.write(fetch_account_inspiration(PAGE_ID))
+    st.write(fetch_past_post_concepts(PAGE_ID))
+    st.write(fetch_account_inspiration(PAGE_ID))
+    
     st.markdown(
         """<h1 style='text-align: center;'>Post Scheduler and Idea Generator</h1>""",
         unsafe_allow_html=True
