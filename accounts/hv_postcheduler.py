@@ -122,7 +122,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         return pd.DataFrame()  # Return an empty DataFrame to prevent breaking the app
 
     # Assign a date and source
-    idea_df["date"] = fetch_latest_date()
+    idea_df["date"] = fetch_latest_date(PAGE_ID)
     idea_df["source"] = "ChatGPT"
 
     return idea_df
