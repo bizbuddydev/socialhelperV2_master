@@ -307,10 +307,10 @@ def fetch_post_data(page_id):
 
 def main():
     st.write("Checking for data")
-    st.write(fetch_past_post_ideas(PAGE_ID))
-    st.write(fetch_account_inspiration(PAGE_ID))
-    st.write(fetch_past_post_concepts(PAGE_ID))
-    st.write(fetch_account_inspiration(PAGE_ID))
+    past_post_ideas = fetch_past_post_ideas(PAGE_ID)
+    account_inspiration = fetch_account_inspiration(PAGE_ID)
+    past_post_ideas = fetch_past_post_concepts(PAGE_ID)
+    account_insights = fetch_account_insights(PAGE_ID)
     
     st.markdown(
         """<h1 style='text-align: center;'>Post Scheduler and Idea Generator</h1>""",
@@ -330,7 +330,7 @@ def main():
             }
 
             # Generate a post idea
-            post_df = generate_post_idea(strategy)
+            post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights)
 
             st.write(post_df)
 
