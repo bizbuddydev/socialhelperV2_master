@@ -98,8 +98,13 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
 
     idea_json = response.choices[0].message.content.strip()
 
-    # Convert the JSON idea to a DataFrame
-    idea_df = pd.read_json(idea_json, typ="series").to_frame().T
+    # ✅ Check if response is valid JSON
+    try:
+        idea_dict = json.loads(idea_json)  # Convert JSON string to dictionary
+        idea_df = pd.DataFrame([idea_dict])  # Convert dictionary to DataFrame
+    except json.JSONDecodeError:
+        st.error("Failed to parse AI-generated post idea. Response was not valid JSON.")
+        return pd.DataFrame()  # Return an empty DataFrame to prevent breaking the app
 
     # Assign a date to the post
     idea_df["date"] = fetch_latest_date()
