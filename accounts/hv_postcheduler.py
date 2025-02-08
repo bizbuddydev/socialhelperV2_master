@@ -283,11 +283,12 @@ def delete_post_by_caption(caption):
     query_job.result()  # Wait for the query to complete
 
 
-def fetch_post_data():
+def fetch_post_data(page_id):
     """Fetch post data from BigQuery."""
     query = f"""
         SELECT date, caption, post_type, themes, tone, source
         FROM `{PROJECT_ID}.{ACCOUNT_DATASET_ID}.{IDEAS_TABLE_ID}`
+        WHERE page_id = @page_id
         ORDER BY date ASC
     """
     query_job = bq_client.query(query)
