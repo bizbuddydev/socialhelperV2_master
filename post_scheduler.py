@@ -103,7 +103,7 @@ def generate_post_idea(strategy):
 
     return idea_df
 
-def fetch_past_posts(page_id):
+def fetch_past_post_ideas(page_id):
     query = f"""
         SELECT themes, post_type 
         FROM `bizbuddydemo-v2.strategy_data.postideas` 
@@ -131,6 +131,57 @@ def fetch_past_posts(page_id):
     ]
     
     return "\n".join(past_posts_list)
+
+# Get account inspo
+def fetch_account_inspiration(page_id):
+    query = f"""
+        SELECT post_structure, post_ideas 
+        FROM `bizbuddydemo-v2.strategy_data.accountinspiration` 
+        WHERE page_id = @page_id 
+        ORDER BY update_date 
+        LIMIT 1
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No inspiration data found."
+
+    post_structure = results_df.iloc[0]["post_structure"]
+    post_ideas = results_df.iloc[0]["post_ideas"]
+
+    return f"Post structure: {post_structure}. Post ideas: {post_ideas}."
+
+# Pull insights and past concepts
+def fetch_past_post_concepts(page_id):
+    query = f"""
+        SELECT past_ideas 
+        FROM `bizbuddydemo-v2.strategy_data.accountpastconcepts` 
+        WHERE page_id = @page_id 
+        ORDER BY update_date 
+        LIMIT 1
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No past post ideas found."
+
+    return results_df.iloc[0]["past_ideas"]
 
 # Function to manually add a post idea in the Streamlit app
 def manually_add_post():
