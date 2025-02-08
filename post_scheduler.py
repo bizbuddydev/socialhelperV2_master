@@ -103,6 +103,35 @@ def generate_post_idea(strategy):
 
     return idea_df
 
+def fetch_past_posts(page_id):
+    query = f"""
+        SELECT themes, post_type 
+        FROM `bizbuddydemo-v2.strategy_data.postideas` 
+        WHERE page_id = @page_id 
+        ORDER BY date 
+        LIMIT 5
+    """
+    
+    query_job = bq_client.query(
+        query, 
+        job_config=bigquery.QueryJobConfig(
+            query_parameters=[bigquery.ScalarQueryParameter("page_id", "INT64", page_id)]
+        )
+    )
+    
+    results_df = query_job.to_dataframe()
+
+    if results_df.empty:
+        return "No past posts found."
+
+    # Format the output as a numbered list
+    past_posts_list = [
+        f"{i+1}. {row['themes']} ({row['post_type']})"
+        for i, row in results_df.iterrows()
+    ]
+    
+    return "\n".join(past_posts_list)
+
 # Function to manually add a post idea in the Streamlit app
 def manually_add_post():
     """
