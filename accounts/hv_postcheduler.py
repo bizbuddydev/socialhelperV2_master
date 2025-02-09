@@ -142,6 +142,55 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     return idea_df
 
 
+def tweak_post_idea(existing_post, user_tweaks):
+    """
+    Generate a new version of a post idea based on user-provided tweaks.
+
+    Args:
+        existing_post (dict): The original post data including 'post_summary', 'caption', 'post_type', 'themes', and 'tone'.
+        user_tweaks (str): The modifications the user wants to make to the post.
+
+    Returns:
+        dict: A new post idea with the applied tweaks.
+    """
+    prompt = (
+        f"You are a social media manager improving an existing Instagram post based on user feedback.\n\n"
+        f"**Here is the original post:**\n"
+        f"Post Summary: {existing_post['post_summary']}\n"
+        f"Caption: {existing_post['caption']}\n"
+        f"Post Type: {existing_post['post_type']}\n"
+        f"Themes: {existing_post['themes']}\n"
+        f"Tone: {existing_post['tone']}\n\n"
+        f"**User Feedback on Changes:** {user_tweaks}\n\n"
+        "Please generate an improved version of this post while retaining its core structure. Ensure the updated post aligns with the requested tweaks.\n"
+        "Return the output as a JSON object with the exact keys: 'post_summary', 'caption', 'post_type', 'themes', 'tone'."
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        temperature=1.0,  # Keeps responses creative but consistent
+        messages=[
+            {"role": "system", "content": "You are a social media manager refining an Instagram post based on user input."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    idea_json = response.choices[0].message.content.strip()
+
+    # ✅ Extract only the JSON using regex
+    json_match = re.search(r"\{.*\}", idea_json, re.DOTALL)
+    if json_match:
+        idea_json = json_match.group(0)
+
+    # ✅ Validate JSON before loading
+    try:
+        new_post = json.loads(idea_json)  # Convert JSON string to dictionary
+        return new_post  # Return updated post idea
+    except json.JSONDecodeError as e:
+        st.error(f"Failed to parse AI-generated post idea. Response was not valid JSON.\nError: {e}")
+        return None
+
+
 # Get past post ideas
 def fetch_past_post_ideas(page_id):
     query = f"""
@@ -322,6 +371,72 @@ def delete_post_by_caption(caption):
     ))
     query_job.result()  # Wait for the query to complete
 
+def display_posts_with_tweak_option(posts_df):
+    """
+    Display each post with a 'Tweak Post' option.
+
+    Args:
+        posts_df (pd.DataFrame): DataFrame containing posts with necessary fields.
+    """
+    for index, row in posts_df.iterrows():
+        with st.expander(f"📢 {row['post_summary']}"):
+            st.write(f"**Caption:** {row['caption']}")
+            st.write(f"**Post Type:** {row['post_type']}")
+            st.write(f"**Themes:** {', '.join(row['themes'])}")
+            st.write(f"**Tone:** {', '.join(row['tone'])}")
+
+            # Provide tweak option
+            user_tweak = st.text_area(f"Enter what you want to tweak about this post (Required)", key=f"tweak_{index}")
+
+            if st.button("Tweak Post", key=f"tweak_button_{index}"):
+                if not user_tweak.strip():
+                    st.error("You must enter something to tweak before submitting.")
+                else:
+                    with st.spinner("Updating post..."):
+                        updated_post = tweak_post_idea(row.to_dict(), user_tweak)
+
+                        if updated_post:
+                            update_post_in_bigquery(row["page_id"], row["caption"], updated_post)
+
+
+def update_post_in_bigquery(page_id, previous_caption, updated_post):
+    """
+    Update an existing post in BigQuery based on the previous caption.
+
+    Args:
+        page_id (str): The ID of the page where the post belongs.
+        previous_caption (str): The caption of the original post (used as an identifier for the update).
+        updated_post (dict): The updated post data including 'post_summary', 'caption', 'post_type', 'themes', and 'tone'.
+    """
+    client = bigquery.Client()
+
+    query = f"""
+    UPDATE `your_project.your_dataset.posts`
+    SET post_summary = @post_summary,
+        caption = @caption,
+        post_type = @post_type,
+        themes = @themes,
+        tone = @tone,
+        last_updated = CURRENT_TIMESTAMP()
+    WHERE page_id = @page_id AND caption = @previous_caption
+    """
+
+    job_config = bigquery.QueryJobConfig(
+        query_parameters=[
+            bigquery.ScalarQueryParameter("post_summary", "STRING", updated_post["post_summary"]),
+            bigquery.ScalarQueryParameter("caption", "STRING", updated_post["caption"]),
+            bigquery.ScalarQueryParameter("post_type", "STRING", updated_post["post_type"]),
+            bigquery.ScalarQueryParameter("themes", "STRING", ",".join(updated_post["themes"])),
+            bigquery.ScalarQueryParameter("tone", "STRING", ",".join(updated_post["tone"])),
+            bigquery.ScalarQueryParameter("page_id", "STRING", page_id),
+            bigquery.ScalarQueryParameter("previous_caption", "STRING", previous_caption),
+        ]
+    )
+
+    query_job = client.query(query, job_config=job_config)
+    query_job.result()  # Wait for job to complete
+
+    st.success("Post successfully updated in BigQuery!")
 
 def fetch_post_data(page_id):
     """Fetch post data from BigQuery for a specific page ID."""
