@@ -267,20 +267,19 @@ def manually_add_post():
         except Exception as e:
             st.error(f"Failed to add post: {e}")
 
-# Function to add a row to the smp_postideas table in BigQuery
 def add_post_to_bigquery(post_df):
-    """
-    Add a generated post idea to the smp_postideas table in BigQuery.
-
-    Args:
-        post_df (pd.DataFrame): The dataframe containing the post idea to be added.
-    """
     table_id = "bizbuddydemo-v2.strategy_data.postideas"
 
-    # Convert list-type columns to JSON-serializable strings
+    # ✅ Ensure 'date' is a proper datetime64 format before uploading
+    post_df["date"] = pd.to_datetime(post_df["date"]).dt.date
+
+    # ✅ Convert list-type columns to JSON-serializable strings
     for column in post_df.columns:
         if post_df[column].apply(lambda x: isinstance(x, list)).any():
             post_df[column] = post_df[column].apply(json.dumps)
+
+    # ✅ Ensure all columns are correctly formatted
+    print(post_df.dtypes)  # Debugging step to check column types before uploading
 
     # Insert the DataFrame row directly into BigQuery
     job = bq_client.load_table_from_dataframe(post_df, table_id)
