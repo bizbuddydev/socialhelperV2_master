@@ -119,6 +119,8 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         ]
     )
 
+    st.write(prompt)
+
     idea_json = response.choices[0].message.content.strip()
 
     # ✅ Extract only the JSON using regex
