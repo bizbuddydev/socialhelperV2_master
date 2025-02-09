@@ -166,7 +166,6 @@ def tweak_post_idea(existing_post, user_tweaks):
         "Return the output as a JSON object with the exact keys: 'post_summary', 'caption', 'post_type', 'themes', 'tone'."
     )
 
-    st.write("Have prompt")
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -179,7 +178,6 @@ def tweak_post_idea(existing_post, user_tweaks):
 
     idea_json = response.choices[0].message.content.strip()
 
-    st.write("Have response")
 
     # ✅ Extract only the JSON using regex
     json_match = re.search(r"\{.*\}", idea_json, re.DOTALL)
@@ -189,7 +187,6 @@ def tweak_post_idea(existing_post, user_tweaks):
     # ✅ Validate JSON before loading
     try:
         new_post = json.loads(idea_json)
-        st.write("Have post / Returned post")# Convert JSON string to dictionary
         return new_post  # Return updated post idea
     except json.JSONDecodeError as e:
         st.error(f"Failed to parse AI-generated post idea. Response was not valid JSON.\nError: {e}")
@@ -425,7 +422,6 @@ def update_post_in_bigquery(page_id, previous_caption, updated_post):
     WHERE caption = @previous_caption
     """
 
-    st.write("Updating Post")
     
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
@@ -530,10 +526,8 @@ def main():
                     else:
                         with st.spinner("Updating post..."):
                             updated_post = tweak_post_idea(row.to_dict(), user_tweak)
-                            st.write("HAve updated post in main")
     
                             if updated_post:
-                                st.write("Running bq update")
                                 update_post_in_bigquery(PAGE_ID, row["caption"], updated_post)
                                 st.success("Post successfully updated! Refresh the page to see changes.")
 
