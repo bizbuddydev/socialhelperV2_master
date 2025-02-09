@@ -421,7 +421,7 @@ def update_post_in_bigquery(page_id, previous_caption, updated_post):
         post_type = @post_type,
         themes = @themes,
         tone = @tone,
-        last_updated = CURRENT_TIMESTAMP()
+        date = CURRENT_TIMESTAMP()
     WHERE caption = @previous_caption
     """
 
