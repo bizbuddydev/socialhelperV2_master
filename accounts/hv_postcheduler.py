@@ -124,6 +124,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     # Assign a date and source
     idea_df["date"] = fetch_latest_date(PAGE_ID)
     idea_df["source"] = "ChatGPT"
+    idea_df["page_id"] = PAGE_ID
 
     return idea_df
 
