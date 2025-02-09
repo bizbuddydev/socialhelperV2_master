@@ -73,7 +73,12 @@ def fetch_latest_date(page_id):
         return pd.Timestamp(datetime.now().date() + timedelta(days=3))  # Return as datetime64[ns]
 
     latest_date = result_df.iloc[0]["latest_date"]
-    return pd.Timestamp(latest_date + timedelta(days=3))
+
+    # ✅ Convert latest_date to datetime if it's a string
+    if isinstance(latest_date, str):
+        latest_date = pd.to_datetime(latest_date).date()  # Convert to datetime.date
+
+    return pd.Timestamp(latest_date) + pd.Timedelta(days=3)
 
 def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
     """
