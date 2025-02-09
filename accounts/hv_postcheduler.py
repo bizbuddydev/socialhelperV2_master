@@ -113,13 +113,12 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
+        temperature=1.1,  # 🔥 Increased for more variation 
         messages=[
             {"role": "system", "content": "You are an experienced social media manager with expertise in creating engaging content."},
             {"role": "user", "content": prompt}
         ]
     )
-
-    st.write(prompt)
 
     idea_json = response.choices[0].message.content.strip()
 
