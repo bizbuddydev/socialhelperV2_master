@@ -296,7 +296,7 @@ def delete_post_by_caption(caption):
         caption (str): The caption of the post to delete.
     """
     query = f"""
-        DELETE FROM `bizbuddydemo-v1.strategy_data.smp_postideas`
+        DELETE FROM `bizbuddydemo-v2.strategy_data.postideas`
         WHERE caption = @caption
     """
     query_job = bq_client.query(query, job_config=bigquery.QueryJobConfig(
