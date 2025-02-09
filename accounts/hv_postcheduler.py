@@ -263,7 +263,7 @@ def manually_add_post():
 
     # Input fields for the post
     date = st.date_input("Date", datetime.now())
-    post_summary = st.text_area("Caption")
+    post_summary = st.text_area("Post Summary")
     caption = st.text_area("Caption")
     post_type = st.selectbox("Post Type", ["Reel", "Story", "Static Post"])
     themes = st.text_area("Themes (comma-separated)")
