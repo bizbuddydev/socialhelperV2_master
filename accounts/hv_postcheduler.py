@@ -263,21 +263,25 @@ def manually_add_post():
 
     # Input fields for the post
     date = st.date_input("Date", datetime.now())
+    post_summary = st.text_area("Caption")
     caption = st.text_area("Caption")
     post_type = st.selectbox("Post Type", ["Reel", "Story", "Static Post"])
     themes = st.text_area("Themes (comma-separated)")
     tone = st.text_area("Tone")
     source = "User"
+    page_id = PAGE_ID
 
     if st.button("Add Post", key="manual_add_post"):
         # Create a DataFrame for the new post
         post_df = pd.DataFrame({
             "date": [date],
+            "post_summary": [post_summary],
             "caption": [caption],
             "post_type": [post_type],
             "themes": [themes.split(",")],
             "tone": [tone],
-            "source": [source]
+            "source": [source],
+            "page_id": [page_id]
         })
 
         # Add the post to BigQuery
@@ -297,10 +301,6 @@ def add_post_to_bigquery(post_df):
     for column in post_df.columns:
         if post_df[column].apply(lambda x: isinstance(x, list)).any():
             post_df[column] = post_df[column].apply(json.dumps)
-
-    # ✅ Debugging check before upload
-    print("Data Types Before Upload:\n", post_df.dtypes)
-    print("Data Preview:\n", post_df.head())
 
     # Insert the DataFrame row into BigQuery
     job = bq_client.load_table_from_dataframe(post_df, table_id)
