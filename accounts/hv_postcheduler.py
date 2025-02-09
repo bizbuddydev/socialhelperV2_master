@@ -438,8 +438,6 @@ def update_post_in_bigquery(page_id, previous_caption, updated_post):
     query_job = bq_client.query(query, job_config=job_config)
     query_job.result()  # Wait for job to complete
 
-    st.success("Post successfully updated in BigQuery!")
-
 def fetch_post_data(page_id):
     """Fetch post data from BigQuery for a specific page ID."""
     query = """
