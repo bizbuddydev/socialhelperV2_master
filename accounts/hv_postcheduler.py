@@ -526,7 +526,7 @@ def main():
                             updated_post = tweak_post_idea(row.to_dict(), user_tweak)
     
                             if updated_post:
-                                update_post_in_bigquery(row["page_id"], row["caption"], updated_post)
+                                update_post_in_bigquery(PAGE_ID, row["caption"], updated_post)
                                 st.success("Post successfully updated! Refresh the page to see changes.")
 
             with col2:
