@@ -143,9 +143,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     # ✅ Ensure BigQuery-compatible types
     idea_df["source"] = "ChatGPT"
     idea_df["page_id"] = PAGE_ID
-
-    st.write("Final DataFrame Before Uploading:", idea_df.dtypes)  # Debugging: Show data types
-
+    
     return idea_df
 
 
