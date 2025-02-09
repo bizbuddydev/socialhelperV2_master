@@ -188,7 +188,8 @@ def tweak_post_idea(existing_post, user_tweaks):
 
     # ✅ Validate JSON before loading
     try:
-        new_post = json.loads(idea_json)  # Convert JSON string to dictionary
+        new_post = json.loads(idea_json)
+        st.write("Have post / Returned post")# Convert JSON string to dictionary
         return new_post  # Return updated post idea
     except json.JSONDecodeError as e:
         st.error(f"Failed to parse AI-generated post idea. Response was not valid JSON.\nError: {e}")
@@ -530,8 +531,10 @@ def main():
                     else:
                         with st.spinner("Updating post..."):
                             updated_post = tweak_post_idea(row.to_dict(), user_tweak)
+                            st.write("HAve updated post in main")
     
                             if updated_post:
+                                st.write("Running bq update")
                                 update_post_in_bigquery(PAGE_ID, row["caption"], updated_post)
                                 st.success("Post successfully updated! Refresh the page to see changes.")
 
