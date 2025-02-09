@@ -152,7 +152,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
 # Get past post ideas
 def fetch_past_post_ideas(page_id):
     query = f"""
-        SELECT themes, post_type 
+        SELECT post_summary
         FROM `bizbuddydemo-v2.strategy_data.postideas` 
         WHERE page_id = @page_id 
         ORDER BY date 
