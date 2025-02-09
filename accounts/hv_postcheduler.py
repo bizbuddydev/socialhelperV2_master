@@ -515,20 +515,19 @@ def main():
             
             # Split update and delete
             with col1:
-                with st.expander("Tweak post idea"):
-                    # --- NEW: Tweak Post Feature ---
-                    user_tweak = st.text_area(f"Enter what you want to tweak about this post (Required)", key=f"tweak_{index}")
-        
-                    if st.button("Tweak Post", key=f"tweak_button_{index}"):
-                        if not user_tweak.strip():
-                            st.error("You must enter something to tweak before submitting.")
-                        else:
-                            with st.spinner("Updating post..."):
-                                updated_post = tweak_post_idea(row.to_dict(), user_tweak)
-        
-                                if updated_post:
-                                    update_post_in_bigquery(row["page_id"], row["caption"], updated_post)
-                                    st.success("Post successfully updated! Refresh the page to see changes.")
+                # --- NEW: Tweak Post Feature ---
+                user_tweak = st.text_area(f"Enter what you want to tweak about this post (Required)", key=f"tweak_{index}")
+    
+                if st.button("Tweak Post", key=f"tweak_button_{index}"):
+                    if not user_tweak.strip():
+                        st.error("You must enter something to tweak before submitting.")
+                    else:
+                        with st.spinner("Updating post..."):
+                            updated_post = tweak_post_idea(row.to_dict(), user_tweak)
+    
+                            if updated_post:
+                                update_post_in_bigquery(row["page_id"], row["caption"], updated_post)
+                                st.success("Post successfully updated! Refresh the page to see changes.")
 
             with col2:
                 # Delete Post Option
