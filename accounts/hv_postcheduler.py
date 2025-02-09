@@ -166,6 +166,8 @@ def tweak_post_idea(existing_post, user_tweaks):
         "Return the output as a JSON object with the exact keys: 'post_summary', 'caption', 'post_type', 'themes', 'tone'."
     )
 
+    st.write("Have prompt")
+
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         temperature=1.0,  # Keeps responses creative but consistent
@@ -176,6 +178,8 @@ def tweak_post_idea(existing_post, user_tweaks):
     )
 
     idea_json = response.choices[0].message.content.strip()
+
+    st.write("Have response")
 
     # ✅ Extract only the JSON using regex
     json_match = re.search(r"\{.*\}", idea_json, re.DOTALL)
@@ -421,6 +425,8 @@ def update_post_in_bigquery(page_id, previous_caption, updated_post):
     WHERE page_id = @page_id AND caption = @previous_caption
     """
 
+    st.write("Updating Post")
+    
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
             bigquery.ScalarQueryParameter("post_summary", "STRING", updated_post["post_summary"]),
