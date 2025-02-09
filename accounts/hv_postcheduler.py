@@ -415,14 +415,14 @@ def update_post_in_bigquery(page_id, previous_caption, updated_post):
     """
 
     query = f"""
-    UPDATE `your_project.your_dataset.posts`
+    UPDATE `bizbuddydemo-v2.strategy_data.postideas`
     SET post_summary = @post_summary,
         caption = @caption,
         post_type = @post_type,
         themes = @themes,
         tone = @tone,
         last_updated = CURRENT_TIMESTAMP()
-    WHERE page_id = @page_id AND caption = @previous_caption
+    WHERE caption = @previous_caption
     """
 
     st.write("Updating Post")
