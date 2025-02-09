@@ -396,7 +396,7 @@ def display_posts_with_tweak_option(posts_df):
                         updated_post = tweak_post_idea(row.to_dict(), user_tweak)
 
                         if updated_post:
-                            update_post_in_bigquery(row["page_id"], row["caption"], updated_post)
+                            update_post_in_bigquery(PAGE_ID, row["caption"], updated_post)
 
 
 def update_post_in_bigquery(page_id, previous_caption, updated_post):
