@@ -413,7 +413,6 @@ def update_post_in_bigquery(page_id, previous_caption, updated_post):
         previous_caption (str): The caption of the original post (used as an identifier for the update).
         updated_post (dict): The updated post data including 'post_summary', 'caption', 'post_type', 'themes', and 'tone'.
     """
-    client = bigquery.Client()
 
     query = f"""
     UPDATE `your_project.your_dataset.posts`
