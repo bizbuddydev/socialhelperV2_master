@@ -328,7 +328,7 @@ def delete_post_by_caption(caption):
 def fetch_post_data(page_id):
     """Fetch post data from BigQuery for a specific page ID."""
     query = """
-        SELECT date, caption, post_type, themes, tone, source
+        SELECT date, post_summary, caption, post_type, themes, tone, source
         FROM `bizbuddydemo-v2.strategy_data.postideas`
         WHERE page_id = @page_id
         ORDER BY date ASC
