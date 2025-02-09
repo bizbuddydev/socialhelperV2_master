@@ -106,7 +106,6 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     )
 
     idea_json = response.choices[0].message.content.strip()
-    st.write("Raw AI Response:", idea_json)  # Debugging: Show the raw response
 
     # ✅ **Fix 1: Extract only the JSON using a regex**
     json_match = re.search(r"\{.*\}", idea_json, re.DOTALL)
@@ -126,6 +125,8 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
     idea_df["date"] = pd.to_datetime(idea_df["date"]).dt.date
     idea_df["source"] = "ChatGPT"
     idea_df["page_id"] = PAGE_ID
+
+    st.write(idea_df)
 
     return idea_df
 
