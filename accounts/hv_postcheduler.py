@@ -173,7 +173,7 @@ def fetch_past_post_ideas(page_id):
 
     # Format the output as a numbered list
     past_posts_list = [
-        f"{i+1}. {row['themes']} ({row['post_type']})"
+        f"{i+1}. {row['post_summary']}"
         for i, row in results_df.iterrows()
     ]
     
