@@ -273,7 +273,7 @@ def add_post_to_bigquery(post_df):
     Args:
         post_df (pd.DataFrame): The dataframe containing the post idea to be added.
     """
-    table_id = "bizbuddydemo-v1.strategy_data.postideas"
+    table_id = "bizbuddydemo-v2.strategy_data.postideas"
 
     # Convert list-type columns to JSON-serializable strings
     for column in post_df.columns:
@@ -351,10 +351,8 @@ def main():
             # Generate a post idea
             post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights)
 
-            st.write(post_df)
-
             # Add the post to BigQuery
-            #add_post_to_bigquery(post_df)
+            add_post_to_bigquery(post_df)
 
         st.success("Post successfully added!")
 
