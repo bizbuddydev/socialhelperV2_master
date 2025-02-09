@@ -80,20 +80,8 @@ def fetch_latest_date(page_id):
 
     return pd.Timestamp(latest_date) + pd.Timedelta(days=3)
 
-def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
-    """
-    Generate a single post idea using the provided strategy and additional context.
-
-    Args:
-        strategy (dict): A dictionary containing the social media strategy.
-        past_posts (str): A formatted string of past posts.
-        account_inspiration (str): A formatted string of inspiration for the account.
-        past_post_ideas (str): A formatted string of past post concepts.
-        account_insights (str): A formatted string of account insights.
-
-    Returns:
-        pd.DataFrame: A dataframe containing the generated post idea.
-    """
+def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights, user_context):
+    
     prompt = (
         f"You are a social media manager creating a post for an Instagram account based on the following context:\n\n"
         f"** Here is their Social Media Strategy:** {strategy}\n\n"
@@ -101,7 +89,13 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         f"** Here is ideas about post structure / ideas that the user finds inspirational, factor this in:**\n{account_inspiration}\n\n"
         f"** Here are the Past Post Ideas, don't recommend the same things:**\n{past_post_ideas}\n\n"
         f"** Here is some Account Insights about what types of ideas and concepts have worked well for this account in the past. This should be weighted heavily as you decide which post to suggest:**\n{account_insights}\n\n"
-        "**Generate 1 new post idea** based on this context. Ensure the idea aligns with the strategy but also introduces a mix of concepts.)\n"
+    )
+    
+    if user_context:
+        prompt += f"**Additional user-provided context for this post:** {user_context}\n\n"
+    
+    prompt += (
+        "**Generate 1 new post idea** based on this context. Ensure the idea aligns with the strategy but also introduces a mix of concepts.\n"
         "Each idea should include:\n"
         "- **post_summary** - (e.g., Summarize this post)\n"
         "- **caption**\n"
@@ -358,6 +352,9 @@ def main():
         unsafe_allow_html=True
     )
 
+ # User input for additional context
+    user_context = st.text_area("Optional: Add context for this post idea (e.g., seasonal theme, specific campaign focus, etc.)", "")
+
     # Add functionality to generate and add a post
     if st.button("Add AI Generated Post", key="generate_post_id"):
         with st.spinner("Generating and adding post..."):
@@ -370,13 +367,14 @@ def main():
                 "post_types": ["Reel", "Story", "Static Post"],
             }
 
-            # Generate a post idea
-            post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights)
+            # Generate a post idea with optional user context
+            post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights, user_context)
 
             # Add the post to BigQuery
             add_post_to_bigquery(post_df)
 
         st.success("Post successfully added!")
+
 
     with st.expander("Manually Add a Post:"):
         manually_add_post()
