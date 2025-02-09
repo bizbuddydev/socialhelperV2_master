@@ -516,7 +516,7 @@ def main():
             # Split update and delete
             with col1:
                 # --- NEW: Tweak Post Feature ---
-                user_tweak = st.text_area(f"Enter what you want to tweak about this post (Required)", key=f"tweak_{index}")
+                user_tweak = st.text_area(f"Enter what you want to tweak about this post (Required)", key=f"tweak_{index}", placeholder="e.g. Make the language of this post more cheerful... Add a call to action... ect.")
     
                 if st.button("Tweak Post", key=f"tweak_button_{index}"):
                     if not user_tweak.strip():
