@@ -386,6 +386,7 @@ def main():
     for index, row in posts.iterrows():
         with st.expander(f"{row['date']}, {row['post_type']}: {row['caption'][:50]}..."):
             st.markdown(f"**Date:** {row['date']}")
+            st.markdown(f"**Post Summary:** {row['post_summary']}")
             st.markdown(f"**Caption:** {row['caption']}")
             st.markdown(f"**Post Type:** {row['post_type']}")
             st.markdown(f"**Themes:** {row['themes']}")
