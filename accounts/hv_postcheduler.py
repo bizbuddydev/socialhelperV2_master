@@ -53,7 +53,6 @@ client = openai
 
 
 def fetch_latest_date(page_id):
-
     query = """
         SELECT MAX(date) as latest_date
         FROM `bizbuddydemo-v2.strategy_data.postideas`
@@ -71,15 +70,10 @@ def fetch_latest_date(page_id):
 
     # Handle case where there are no posts for the given page_id
     if result_df.empty or pd.isna(result_df.iloc[0]["latest_date"]):
-        return datetime.now().date() + timedelta(days=3)  # Default to 3 days from today
+        return pd.Timestamp(datetime.now().date() + timedelta(days=3))  # Return as datetime64[ns]
 
     latest_date = result_df.iloc[0]["latest_date"]
-    return latest_date + timedelta(days=3)
-
-
-import pandas as pd
-import json
-import re
+    return pd.Timestamp(latest_date + timedelta(days=3))
 
 def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
     """
@@ -135,8 +129,11 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         st.error(f"Failed to parse AI-generated post idea. Response was not valid JSON.\nError: {e}")
         return pd.DataFrame()  # Return an empty DataFrame to prevent breaking the app
 
-    # ✅ Convert date to datetime64 before sending to BigQuery
-    idea_df["date"] = pd.to_datetime(fetch_latest_date(PAGE_ID))
+    # ✅ Assign date directly from fetch_latest_date(), ensuring it's datetime64[ns]
+    idea_df["date"] = fetch_latest_date(PAGE_ID)
+    
+    # ✅ Convert 'date' to string if required by BigQuery
+    idea_df["date"] = idea_df["date"].astype(str)
 
     # ✅ Ensure BigQuery-compatible types
     idea_df["source"] = "ChatGPT"
@@ -288,23 +285,25 @@ def manually_add_post():
 def add_post_to_bigquery(post_df):
     table_id = "bizbuddydemo-v2.strategy_data.postideas"
 
-    # ✅ Ensure 'date' is a proper datetime64 format before uploading
-    post_df["date"] = pd.to_datetime(post_df["date"]).dt.date
+    # ✅ Ensure 'date' is in string format before uploading
+    post_df["date"] = post_df["date"].astype(str)
 
     # ✅ Convert list-type columns to JSON-serializable strings
     for column in post_df.columns:
         if post_df[column].apply(lambda x: isinstance(x, list)).any():
             post_df[column] = post_df[column].apply(json.dumps)
 
-    # ✅ Ensure all columns are correctly formatted
-    print(post_df.dtypes)  # Debugging step to check column types before uploading
+    # ✅ Debugging check before upload
+    print("Data Types Before Upload:\n", post_df.dtypes)
+    print("Data Preview:\n", post_df.head())
 
-    # Insert the DataFrame row directly into BigQuery
+    # Insert the DataFrame row into BigQuery
     job = bq_client.load_table_from_dataframe(post_df, table_id)
     job.result()  # Wait for the load job to complete
 
     if job.errors:
         raise Exception(f"Failed to insert row into BigQuery: {job.errors}")
+
 
 # Function to delete a post idea from BigQuery
 def delete_post_by_caption(caption):
