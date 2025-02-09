@@ -352,28 +352,29 @@ def main():
         unsafe_allow_html=True
     )
 
- # User input for additional context
-    user_context = st.text_area("Optional: Add context for this post idea (e.g., seasonal theme, specific campaign focus, etc.)", "")
-
-    # Add functionality to generate and add a post
-    if st.button("Add AI Generated Post", key="generate_post_id"):
-        with st.spinner("Generating and adding post..."):
-            # Load strategy data (placeholder example)
-            strategy = {
-                "content_plan": [
-                    "The content shared on The Harborview's Instagram should incorporate a blend of their services, location, and unique factors. Here are some suggestions: Showcase the hotel rooms and amenities like the gym, pool, and dining areas in high-quality photos or short videos. Highlight the beautiful views of Lake Washington from different points of the hotel. Promote deals and packages available for weekend getaways. Share customer testimonials and stories. Post behind-the-scenes content of the staff preparing for guests. Highlight local attractions and events in Port Washington."
-                ],
-                "tone": ["Inspirational", "Educational", "Casual"],
-                "post_types": ["Reel", "Story", "Static Post"],
-            }
-
-            # Generate a post idea with optional user context
-            post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights, user_context)
-
-            # Add the post to BigQuery
-            add_post_to_bigquery(post_df)
-
-        st.success("Post successfully added!")
+    with st.expander("Add an AI generated Post"):
+        # User input for additional context
+        user_context = st.text_area("Optional: Add context for this post idea (e.g., seasonal theme, specific campaign focus, etc.)", "")
+    
+        # Add functionality to generate and add a post
+        if st.button("Add AI Generated Post", key="generate_post_id"):
+            with st.spinner("Generating and adding post..."):
+                # Load strategy data (placeholder example)
+                strategy = {
+                    "content_plan": [
+                        "The content shared on The Harborview's Instagram should incorporate a blend of their services, location, and unique factors. Here are some suggestions: Showcase the hotel rooms and amenities like the gym, pool, and dining areas in high-quality photos or short videos. Highlight the beautiful views of Lake Washington from different points of the hotel. Promote deals and packages available for weekend getaways. Share customer testimonials and stories. Post behind-the-scenes content of the staff preparing for guests. Highlight local attractions and events in Port Washington."
+                    ],
+                    "tone": ["Inspirational", "Educational", "Casual"],
+                    "post_types": ["Reel", "Story", "Static Post"],
+                }
+    
+                # Generate a post idea with optional user context
+                post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights, user_context)
+    
+                # Add the post to BigQuery
+                add_post_to_bigquery(post_df)
+    
+            st.success("Post successfully added!")
 
 
     with st.expander("Manually Add a Post:"):
