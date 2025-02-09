@@ -101,7 +101,7 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         f"** Here is ideas about post structure / ideas that the user finds inspirational, factor this in:**\n{account_inspiration}\n\n"
         f"** Here are the Past Post Ideas, don't recommend the same things:**\n{past_post_ideas}\n\n"
         f"** Here is some Account Insights about what types of ideas and concepts have worked well for this account in the past. This should be weighted heavily as you decide which post to suggest:**\n{account_insights}\n\n"
-        "**Generate 1 new post idea** based on this context. Ensure the idea aligns with the strategy but also introduces a mix of concepts.\n"
+        "**Generate 1 new post idea** based on this context. Ensure the idea aligns with the strategy but also introduces a mix of concepts. For seasonal and trendy content keep in mind that is February (this does not mean you can't post about summer but that weather is not happening right now.)\n"
         "Each idea should include:\n"
         "- **post_summary** - (e.g., Summarize this post)\n"
         "- **caption**\n"
