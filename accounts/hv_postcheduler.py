@@ -469,7 +469,7 @@ def main():
 
     with st.expander("Add an AI generated Post"):
         # User input for additional context
-        user_context = st.text_area("Optional: Add context for this post idea (e.g., seasonal theme, specific campaign focus, etc.)", "")
+        user_context = st.text_area("Optional: Add context for this post idea (e.g., seasonal theme, specific campaign focus, etc.)", "test")
     
         # Add functionality to generate and add a post
         if st.button("Add AI Generated Post", key="generate_post_id"):
