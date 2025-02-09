@@ -77,9 +77,24 @@ def fetch_latest_date(page_id):
     return latest_date + timedelta(days=3)
 
 
-# Function to generate a single post idea
-def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
+import pandas as pd
+import json
+import re
 
+def generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights):
+    """
+    Generate a single post idea using the provided strategy and additional context.
+
+    Args:
+        strategy (dict): A dictionary containing the social media strategy.
+        past_posts (str): A formatted string of past posts.
+        account_inspiration (str): A formatted string of inspiration for the account.
+        past_post_ideas (str): A formatted string of past post concepts.
+        account_insights (str): A formatted string of account insights.
+
+    Returns:
+        pd.DataFrame: A dataframe containing the generated post idea.
+    """
     prompt = (
         f"You are a social media manager creating a post for an Instagram account based on the following context:\n\n"
         f"** Here is their Social Media Strategy:** {strategy}\n\n"
@@ -107,12 +122,12 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
 
     idea_json = response.choices[0].message.content.strip()
 
-    # ✅ **Fix 1: Extract only the JSON using a regex**
+    # ✅ Extract only the JSON using regex
     json_match = re.search(r"\{.*\}", idea_json, re.DOTALL)
     if json_match:
-        idea_json = json_match.group(0)  # Extract just the JSON portion
+        idea_json = json_match.group(0)
 
-    # ✅ **Fix 2: Validate JSON before loading**
+    # ✅ Validate JSON before loading
     try:
         idea_dict = json.loads(idea_json)  # Convert JSON string to dictionary
         idea_df = pd.DataFrame([idea_dict])  # Convert dictionary to DataFrame
@@ -120,15 +135,17 @@ def generate_post_idea(strategy, past_posts, account_inspiration, past_post_idea
         st.error(f"Failed to parse AI-generated post idea. Response was not valid JSON.\nError: {e}")
         return pd.DataFrame()  # Return an empty DataFrame to prevent breaking the app
 
-    # Assign a date and source
-    idea_df["date"] = fetch_latest_date(PAGE_ID)
-    idea_df["date"] = idea_df["date"].astype(str)
+    # ✅ Convert date to datetime64 before sending to BigQuery
+    idea_df["date"] = pd.to_datetime(fetch_latest_date(PAGE_ID))
+
+    # ✅ Ensure BigQuery-compatible types
     idea_df["source"] = "ChatGPT"
     idea_df["page_id"] = PAGE_ID
 
-    st.write(idea_df)
+    st.write("Final DataFrame Before Uploading:", idea_df.dtypes)  # Debugging: Show data types
 
     return idea_df
+
 
 # Get past post ideas
 def fetch_past_post_ideas(page_id):
