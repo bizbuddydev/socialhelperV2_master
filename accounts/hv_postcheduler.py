@@ -461,7 +461,7 @@ def main():
     account_inspiration = fetch_account_inspiration(PAGE_ID)
     past_posts = fetch_past_post_concepts(PAGE_ID)
     account_insights = fetch_account_insights(PAGE_ID)
-    
+
     st.markdown(
         """<h1 style='text-align: center;'>Post Scheduler and Idea Generator</h1>""",
         unsafe_allow_html=True
@@ -482,15 +482,15 @@ def main():
                     "tone": ["Inspirational", "Educational", "Casual"],
                     "post_types": ["Reel", "Story", "Static Post"],
                 }
-    
+
                 # Generate a post idea with optional user context
                 post_df = generate_post_idea(strategy, past_posts, account_inspiration, past_post_ideas, account_insights, user_context)
-    
-                # Add the post to BigQuery
-                add_post_to_bigquery(post_df)
-    
-            st.success("Post successfully added!")
 
+                # Add the post to BigQuery
+                if not post_df.empty:
+                    add_post_to_bigquery(post_df)
+
+            st.success("Post successfully added!")
 
     with st.expander("Manually Add a Post:"):
         manually_add_post()
@@ -510,7 +510,22 @@ def main():
             st.markdown(f"**Themes:** {row['themes']}")
             st.markdown(f"**Tone:** {row['tone']}")
             st.markdown(f"**Source:** {row['source']}")
-            
+
+            # --- NEW: Tweak Post Feature ---
+            user_tweak = st.text_area(f"Enter what you want to tweak about this post (Required)", key=f"tweak_{index}")
+
+            if st.button("Tweak Post", key=f"tweak_button_{index}"):
+                if not user_tweak.strip():
+                    st.error("You must enter something to tweak before submitting.")
+                else:
+                    with st.spinner("Updating post..."):
+                        updated_post = tweak_post_idea(row.to_dict(), user_tweak)
+
+                        if updated_post:
+                            update_post_in_bigquery(row["page_id"], row["caption"], updated_post)
+                            st.success("Post successfully updated! Refresh the page to see changes.")
+
+            # Delete Post Option
             if st.button("Delete Post", key=f"delete_{index}"):
                 try:
                     delete_post_by_caption(row['caption'])
@@ -520,3 +535,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
