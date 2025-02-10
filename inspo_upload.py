@@ -41,15 +41,54 @@ bucket_name = " bizbuddyfiles_inspiration"  # All file types go to the same buck
 def process_article(uploaded_file):
     return "In progress"
 
-def upload_to_gcs(uploaded_file, file_type, page_id):
-    """Uploads file to Google Cloud Storage with modified name and returns a signed URL."""
+
+
+def insert_into_bq(page_id, inspiration_context):
+    """Inserts a new row into BigQuery and returns the generated video_id."""
+    
+    # Define your BigQuery table
+    table_id = "your_project.your_dataset.your_table"
+
+    # Generate a unique video ID
+    video_id = str(uuid.uuid4())
+
+    # Get today's date in standard format
+    upload_date = datetime.today().strftime('%Y-%m-%d')
+
+    # Create the row to insert
+    rows_to_insert = [
+        {
+            "page_id": page_id,
+            "video_id": video_id,
+            "inspiration_context": inspiration_context,
+            "upload_date": upload_date,
+            "file_type": "video"
+        }
+    ]
+
+    # Insert row into BigQuery
+    errors = bq_client.insert_rows_json(table_id, rows_to_insert)
+    
+    if errors:
+        print(f"BigQuery insertion errors: {errors}")
+    else:
+        print(f"Inserted row with video_id: {video_id}")
+
+    return video_id  # Return generated ID to use for file naming
+    
+
+def upload_to_gcs(uploaded_file, file_type, page_id, inspiration_context):
+    """Uploads file to Google Cloud Storage with a generated video_id and returns a signed URL."""
     bucket = storage_client.bucket(bucket_name)
     
+    # Generate a unique ID and insert the data into BigQuery
+    video_id = insert_into_bq(page_id, inspiration_context)
+
     # Extract file extension
     file_ext = uploaded_file.name.split('.')[-1]
     
-    # Create new filename
-    new_filename = f"{uploaded_file.name}//{page_id}.{file_ext}"
+    # Create new filename (video_id + file extension)
+    new_filename = f"{video_id}.{file_ext}"
     
     blob = bucket.blob(new_filename)
 
@@ -63,6 +102,7 @@ def upload_to_gcs(uploaded_file, file_type, page_id):
     )
 
     return signed_url
+    
 
 def main():
     st.title("📱 Post Inspiration Uploader")
@@ -104,12 +144,21 @@ def main():
         file_type = uploaded_file.type.split('/')[0]  # Extract file type (image, video, text)
     
         if file_type == "video":
-            public_url = upload_to_gcs(uploaded_file, file_type)
-            st.success(f"Uploaded Video: {uploaded_file.name}")
-            st.markdown(f"[View Video in Cloud Storage]({public_url})")
-        elif file_type in ["text", "application"]:  # 'application' covers PDF, Word docs, etc.
+            # Get page_id and inspiration context from user input
+            page_id = st.text_input("Enter Page ID:")
+            inspiration_context = st.text_area("Why is this video inspirational?")
+            
+            if page_id and inspiration_context:
+                public_url = upload_to_gcs(uploaded_file, file_type, page_id, inspiration_context)
+                st.success(f"Uploaded Video: {uploaded_file.name}")
+                st.markdown(f"[View Video in Cloud Storage]({public_url})")
+            else:
+                st.warning("Please enter Page ID and Inspiration Context before uploading.")
+        
+        elif file_type in ["text", "application"]:  # 'application' covers PDFs, Word docs, etc.
             process_article(uploaded_file)
             st.success(f"Article Processed: {uploaded_file.name}")
+        
         else:
             st.warning(f"Unsupported file type: {uploaded_file.type}")
             
