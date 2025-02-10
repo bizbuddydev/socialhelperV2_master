@@ -90,13 +90,19 @@ def main():
         else:
             article_text = st.text_area("Paste your article text here", height=200)
 
-    # If a file is uploaded, process upload to GCS
+    # If a file is uploaded, process based on type
     if uploaded_file:
         file_type = uploaded_file.type.split('/')[0]  # Extract file type (image, video, text)
-        public_url = upload_to_gcs(uploaded_file, file_type)
-
-        st.success(f"Uploaded: {uploaded_file.name}")
-        st.markdown(f"[View File in Cloud Storage]({public_url})")
-
+    
+        if file_type == "video":
+            public_url = upload_to_gcs(uploaded_file, file_type)
+            st.success(f"Uploaded Video: {uploaded_file.name}")
+            st.markdown(f"[View Video in Cloud Storage]({public_url})")
+        elif file_type in ["text", "application"]:  # 'application' covers PDF, Word docs, etc.
+            process_article(uploaded_file)
+            st.success(f"Article Processed: {uploaded_file.name}")
+        else:
+            st.warning(f"Unsupported file type: {uploaded_file.type}")
+            
 if __name__ == "__main__":
     main()
