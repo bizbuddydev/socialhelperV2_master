@@ -3,6 +3,7 @@ from google.oauth2 import service_account
 from google.cloud import storage
 import json
 import os
+from datetime import timedelta
 
 st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="🚝")
 
@@ -37,12 +38,20 @@ project_id = st.secrets["gcp_service_account"]["project_id"]
 storage_client = storage.Client(credentials=credentials)
 bucket_name = "bizbuddy-testbucketimg"  # All file types go to the same bucket for testing
 
-from datetime import timedelta
+def process_article(uploaded_file):
+    return "In progress"
 
-def upload_to_gcs(uploaded_file, file_type):
-    """Uploads file to Google Cloud Storage and returns a signed URL."""
+def upload_to_gcs(uploaded_file, file_type, page_id):
+    """Uploads file to Google Cloud Storage with modified name and returns a signed URL."""
     bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(uploaded_file.name)
+    
+    # Extract file extension
+    file_ext = uploaded_file.name.split('.')[-1]
+    
+    # Create new filename
+    new_filename = f"{uploaded_file.name}//{page_id}.{file_ext}"
+    
+    blob = bucket.blob(new_filename)
 
     # Upload file
     blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
