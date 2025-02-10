@@ -36,7 +36,7 @@ project_id = st.secrets["gcp_service_account"]["project_id"]
 
 # Initialize Google Cloud Storage client
 storage_client = storage.Client(credentials=credentials)
-bucket_name = "bizbuddy-testbucketimg"  # All file types go to the same bucket for testing
+bucket_name = " bizbuddyfiles_inspiration"  # All file types go to the same bucket for testing
 
 def process_article(uploaded_file):
     return "In progress"
