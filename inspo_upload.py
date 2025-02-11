@@ -145,8 +145,8 @@ def main():
     
         if file_type == "video":
             # Get page_id and inspiration context from user input
-            page_id = st.text_input("Enter Page ID:")
-            inspiration_context = st.text_area("Why is this video inspirational?")
+            page_id = PAGE_ID
+            inspiration_context = caption_text
             
             if page_id and inspiration_context:
                 public_url = upload_to_gcs(uploaded_file, file_type, page_id, inspiration_context)
