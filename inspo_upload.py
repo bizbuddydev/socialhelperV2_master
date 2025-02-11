@@ -33,6 +33,7 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
 project_id = st.secrets["gcp_service_account"]["project_id"]
+PAGE_ID = 17841467554159158
 
 # Initialize Google Cloud Storage client
 storage_client = storage.Client(credentials=credentials)
@@ -40,7 +41,6 @@ bucket_name = " bizbuddyfiles_inspiration"  # All file types go to the same buck
 
 def process_article(uploaded_file):
     return "In progress"
-
 
 
 def insert_into_bq(page_id, inspiration_context):
