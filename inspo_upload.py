@@ -3,7 +3,7 @@ from google.oauth2 import service_account
 from google.cloud import storage
 import json
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 import uuid
 
 st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="🚝")
