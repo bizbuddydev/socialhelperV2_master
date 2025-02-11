@@ -51,7 +51,7 @@ def insert_into_bq(page_id, inspiration_context):
     """Inserts a new row into BigQuery and returns the generated video_id."""
     
     # Define your BigQuery table
-    table_id = "bizbuddydemo-v2.inspo_data.inpsoextractholder"
+    table_id = "bizbuddydemo-v2.inspo_data.inpspoextractholder"
 
     # Generate a unique video ID
     video_id = str(uuid.uuid4())
