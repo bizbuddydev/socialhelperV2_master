@@ -37,7 +37,7 @@ PAGE_ID = 17841467554159158
 
 # Initialize Google Cloud Storage client
 storage_client = storage.Client(credentials=credentials)
-bucket_name = " bizbuddyfiles_inspiration"  # All file types go to the same bucket for testing
+bucket_name = "bizbuddyfiles_inspiration"  # All file types go to the same bucket for testing
 
 def process_article(uploaded_file):
     return "In progress"
