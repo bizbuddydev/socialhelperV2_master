@@ -74,9 +74,9 @@ def insert_into_bq(page_id, inspiration_context):
     errors = bq_client.insert_rows_json(table_id, rows_to_insert)
     
     if errors:
-        print(f"BigQuery insertion errors: {errors}")
+        st.write(f"BigQuery insertion errors: {errors}")
     else:
-        print(f"Inserted row with video_id: {video_id}")
+        st.write(f"Inserted row with video_id: {video_id}")
 
     return video_id  # Return generated ID to use for file naming
     
