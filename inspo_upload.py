@@ -40,6 +40,8 @@ PAGE_ID = 17841467554159158
 storage_client = storage.Client(credentials=credentials)
 bucket_name = "bizbuddyfiles_inspiration"  # All file types go to the same bucket for testing
 
+bq_client = bigquery.Client(credentials=credentials, project=PROJECT_ID)
+
 def process_article(uploaded_file):
     return "In progress"
 
