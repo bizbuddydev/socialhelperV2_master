@@ -65,7 +65,7 @@ def insert_into_bq(page_id, inspiration_context):
             "page_id": page_id,
             "video_id": video_id,
             "inspiration_context": inspiration_context,
-            "upload_date": upload_date
+            "uploaded_date": upload_date
         }
     ]
 
