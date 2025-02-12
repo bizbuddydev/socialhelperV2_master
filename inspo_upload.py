@@ -174,21 +174,20 @@ def main():
 
         inspiration_reason, caption_text, uploaded_file = None, None, None
 
-        if content_type in ["Video"]:
-            inspiration_reason = st.radio(
-                "Why did you upload this?",
-                ["Aesthetic/Post Structure", "Content"]
-            )
+        inspiration_reason = st.radio(
+            "Why did you upload this?",
+            ["Aesthetic/Post Structure", "Content"]
+        )
 
-            caption_text = st.text_area(
-                "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
-                height=100
-            )
+        caption_text = st.text_area(
+            "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
+            height=100
+        )
 
-            uploaded_file = st.file_uploader(
-                f"Upload a {content_type.lower()} file", 
-                type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
-            )
+        uploaded_file = st.file_uploader(
+            f"Upload a {content_type.lower()} file", 
+            type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
+        )
 
         # If a file is uploaded, process based on type
         if uploaded_file:
