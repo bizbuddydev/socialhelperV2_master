@@ -147,7 +147,7 @@ def fetch_files_and_notes():
 
 
 def display_uploaded_files_and_notes():
-    """Displays files and their corresponding notes in the dashboard."""
+    """Displays files and their corresponding notes in a two-column layout (videos on left, notes on right)."""
     
     file_data = fetch_files_and_notes()
 
@@ -156,15 +156,19 @@ def display_uploaded_files_and_notes():
 
         for file_name, data in file_data.items():
             with st.expander(f"📄 {file_name}"):
-                st.video(data["public_url"])
-                
-                st.write("**Key Themes:**", data["key_themes"])
-                st.write("**Post Styles:**", data["post_styles"])
-                st.write("**Notable Patterns:**", data["notable_patterns"])
-                st.write("**Suggested Future Content:**", data["suggested_future_content"])
+                col1, col2 = st.columns([1, 1])  # Two equal-width columns
+
+                with col1:
+                    st.video(data["public_url"])  # Video on the left
+
+                with col2:
+                    st.write("### Notes")  # Title for clarity
+                    st.write("**Key Themes:**", data["key_themes"])
+                    st.write("**Post Styles:**", data["post_styles"])
+                    st.write("**Notable Patterns:**", data["notable_patterns"])
+                    st.write("**Suggested Future Content:**", data["suggested_future_content"])
     else:
         st.write("No files found in storage or no matching notes in BigQuery.")
-
 
 def main():
     st.title("📱 Post Inspiration Uploader")
