@@ -119,9 +119,9 @@ def fetch_files_and_notes():
 
     # Query BigQuery to get matching notes
     query = f"""
-    SELECT file_name, key_themes, post_styles, notable_patterns, suggested_future_content
+    SELECT video_id, key_themes, post_styles, notable_patterns, suggested_future_content
     FROM `bizbuddydemo-v2.inspo_data.inspoextractholder`
-    WHERE file_name IN UNNEST(@file_names)
+    WHERE video_id IN UNNEST(@file_names)
     """
     
     query_params = [
