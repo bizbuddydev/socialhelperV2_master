@@ -117,6 +117,8 @@ def fetch_files_and_notes():
     # Extract filenames (without extensions) from Cloud Storage
     file_names = {blob.name.rsplit('.', 1)[0]: blob.public_url for blob in blobs}
 
+    st.write(file_names)
+    
     # Query BigQuery to get matching notes
     query = f"""
     SELECT video_id, key_themes, post_styles, notable_patterns, suggested_future_content
