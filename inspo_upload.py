@@ -152,21 +152,21 @@ def display_uploaded_files_and_notes():
     file_data = fetch_files_and_notes()
 
     if file_data:
-        st.subheader("📂 Uploaded Files and Notes")
+        st.subheader("📂 Uploaded Inspirations and Analysis from them")
 
         for file_name, data in file_data.items():
-            with st.expander(f"📄 {file_name}"):
-                col1, col2 = st.columns([1, 1])  # Two equal-width columns
+            col1, col2 = st.columns([1, 1])  # Two equal-width columns
 
-                with col1:
-                    st.video(data["public_url"])  # Video on the left
+            with col1:
+                st.video(data["public_url"])  # Video on the left
 
-                with col2:
-                    st.write("### Notes")  # Title for clarity
-                    st.write("**Key Themes:**", data["key_themes"])
-                    st.write("**Post Styles:**", data["post_styles"])
-                    st.write("**Notable Patterns:**", data["notable_patterns"])
-                    st.write("**Suggested Future Content:**", data["suggested_future_content"])
+            with col2:
+                st.write("### Notes")  # Title for clarity
+                st.write("**Key Themes:**", data["key_themes"])
+                st.write("**Post Styles:**", data["post_styles"])
+                st.write("**Notable Patterns:**", data["notable_patterns"])
+                st.write("**Suggested Future Content:**", data["suggested_future_content"])
+                st.divider
     else:
         st.write("No files found in storage or no matching notes in BigQuery.")
 
