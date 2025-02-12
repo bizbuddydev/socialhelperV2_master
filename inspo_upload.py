@@ -185,7 +185,7 @@ def main():
         )
 
         uploaded_file = st.file_uploader(
-            f"Upload a {content_type.lower()} file", 
+            "Upload a file", 
             type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
         )
 
