@@ -56,7 +56,7 @@ def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
 # Use the variables in your app
-account_name = "the Harborview
+account_name = "The Harborview"
 datasetid = config["DATASET_ID"]
 tableid = config["POST_TABLE_ID"]
 
