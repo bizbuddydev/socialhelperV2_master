@@ -15,7 +15,7 @@ PAGES = {
     "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
     "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
     "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
-    "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
+    "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
 }
 
 # Sidebar navigation
