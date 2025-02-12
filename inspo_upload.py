@@ -43,9 +43,6 @@ bucket_name = "bizbuddyfiles_inspiration"  # All file types go to the same bucke
 
 bq_client = bigquery.Client(credentials=credentials, project=project_id)
 
-def process_article(uploaded_file):
-    return "In progress"
-
 
 def insert_into_bq(page_id, inspiration_context):
     """Inserts a new row into BigQuery and returns the generated video_id."""
@@ -174,14 +171,10 @@ def main():
 
     with st.expander("Upload New Inspiration Content"):
         # Step 1: Select content type
-        content_type = st.selectbox(
-            "What type of content are you uploading?",
-            ["Select an option", "Video", "Image", "Article"]
-        )
 
         inspiration_reason, caption_text, uploaded_file = None, None, None
 
-        if content_type in ["Video", "Image"]:
+        if content_type in ["Video"]:
             inspiration_reason = st.radio(
                 "Why did you upload this?",
                 ["Aesthetic/Post Structure", "Content"]
@@ -195,15 +188,6 @@ def main():
             uploaded_file = st.file_uploader(
                 f"Upload a {content_type.lower()} file", 
                 type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
-            )
-
-        elif content_type == "Article":
-            article_choice = st.radio("How do you want to add your article?", ["Upload a file", "Paste text"])
-
-            if article_choice == "Upload a file":
-                uploaded_file = st.file_uploader("Upload a text file", type=["txt", "pdf", "docx"])
-            else:
-                article_text = st.text_area("Paste your article text here", height=200)
 
         # If a file is uploaded, process based on type
         if uploaded_file:
@@ -220,10 +204,6 @@ def main():
                     st.markdown(f"[View Video in Cloud Storage]({public_url})")
                 else:
                     st.warning("Please enter Page ID and Inspiration Context before uploading.")
-            
-            elif file_type in ["text", "application"]:  # 'application' covers PDFs, Word docs, etc.
-                process_article(uploaded_file)
-                st.success(f"Article Processed: {uploaded_file.name}")
             
             else:
                 st.warning(f"Unsupported file type: {uploaded_file.type}")
