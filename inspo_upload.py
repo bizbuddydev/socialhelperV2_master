@@ -152,7 +152,7 @@ def display_uploaded_files_and_notes():
     file_data = fetch_files_and_notes()
 
     if file_data:
-        st.subheader("📂 Uploaded Inspirations and Analysis from them")
+        st.subheader("📂 Uploaded Inspirations and Analysis")
 
         for file_name, data in file_data.items():
             col1, col2 = st.columns([1, 1])  # Two equal-width columns
