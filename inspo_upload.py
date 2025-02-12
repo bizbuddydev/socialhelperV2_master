@@ -161,7 +161,7 @@ def display_uploaded_files_and_notes():
 
         for file_name, data in file_data.items():
             with st.expander(f"📄 {file_name}"):
-                st.video(data["public_url"], use_container_width=True)
+                st.video(data["public_url"])
                 
                 st.write("**Key Themes:**", data["key_themes"])
                 st.write("**Post Styles:**", data["post_styles"])
