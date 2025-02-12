@@ -10,7 +10,7 @@ st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="📱")
 # Define links to other pages
 PAGES = {
     "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
-    "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
+    "📱 Posts": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
     "🗓️ Scheduler": "https://hv-bizbuddyv2-posts.streamlit.app/",
     "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
     "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
