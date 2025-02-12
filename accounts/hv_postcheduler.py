@@ -463,7 +463,7 @@ def main():
     account_insights = fetch_account_insights(PAGE_ID)
 
     st.markdown(
-        """<h1 style='text-align: center;'>Post Scheduler and Idea Generator🧪</h1>""",
+        """<h1 style='text-align: center;'>Post Scheduler & Idea Generator🧪</h1>""",
         unsafe_allow_html=True
     )
 
