@@ -154,11 +154,26 @@ def display_uploaded_files_and_notes():
     if file_data:
         st.subheader("📂 Uploaded Inspirations and Analysis")
 
+        # Define standard size for videos
+        video_width = 500  # Set desired width
+        video_height = 300  # Set desired height
+
         for file_name, data in file_data.items():
             col1, col2 = st.columns([1, 1])  # Two equal-width columns
 
             with col1:
-                st.video(data["public_url"])  # Video on the left
+                # Embed the video in a standardized-size container using HTML
+                st.markdown(
+                    f'''
+                    <div style="width:{video_width}px; height:{video_height}px; overflow:hidden;">
+                        <video width="{video_width}" height="{video_height}" controls>
+                            <source src="{data['public_url']}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    ''',
+                    unsafe_allow_html=True
+                )
 
             with col2:
                 st.write("### Notes")  # Title for clarity
@@ -169,6 +184,7 @@ def display_uploaded_files_and_notes():
             st.divider()
     else:
         st.write("No files found in storage or no matching notes in BigQuery.")
+
 
 def main():
     st.title("📱 Post Inspiration Uploader")
