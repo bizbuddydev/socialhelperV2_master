@@ -166,7 +166,7 @@ def display_uploaded_files_and_notes():
                 st.write("**Post Styles:**", data["post_styles"])
                 st.write("**Notable Patterns:**", data["notable_patterns"])
                 st.write("**Suggested Future Content:**", data["suggested_future_content"])
-                st.divider
+                st.divider()
     else:
         st.write("No files found in storage or no matching notes in BigQuery.")
 
