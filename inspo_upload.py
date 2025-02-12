@@ -107,63 +107,131 @@ def upload_to_gcs(uploaded_file, file_type, page_id, inspiration_context):
     return signed_url
     
 
+def fetch_files_and_notes():
+    """Fetches file names from Google Cloud Storage and their corresponding notes from BigQuery."""
+    
+    # Fetch file names from Google Cloud Storage
+    bucket = storage_client.bucket(bucket_name)
+    blobs = list(bucket.list_blobs())
+
+    # Extract filenames (without extensions) from Cloud Storage
+    file_names = {blob.name.rsplit('.', 1)[0]: blob.public_url for blob in blobs}
+
+    # Query BigQuery to get matching notes
+    query = f"""
+    SELECT file_name, key_themes, post_styles, notable_patterns, suggested_future_content
+    FROM `bizbuddydemo-v2.inspo_data.inspoextractholder`
+    WHERE file_name IN UNNEST(@file_names)
+    """
+    
+    query_params = [
+        bigquery.ArrayQueryParameter("file_names", "STRING", list(file_names.keys()))
+    ]
+    
+    job_config = bigquery.QueryJobConfig(
+        query_parameters=query_params
+    )
+    
+    query_job = bq_client.query(query, job_config=job_config)
+    results = query_job.result()
+
+    # Store results in a dictionary
+    file_data = {}
+    for row in results:
+        file_data[row.file_name] = {
+            "public_url": file_names.get(row.file_name, ""),
+            "key_themes": row.key_themes,
+            "post_styles": row.post_styles,
+            "notable_patterns": row.notable_patterns,
+            "suggested_future_content": row.suggested_future_content
+        }
+    
+    return file_data
+
+
+def display_uploaded_files_and_notes():
+    """Displays files and their corresponding notes in the dashboard."""
+    
+    file_data = fetch_files_and_notes()
+
+    if file_data:
+        st.subheader("📂 Uploaded Files and Notes")
+
+        for file_name, data in file_data.items():
+            with st.expander(f"📄 {file_name}"):
+                st.image(data["public_url"], caption=file_name, use_column_width=True)
+                
+                st.write("**Key Themes:**", data["key_themes"])
+                st.write("**Post Styles:**", data["post_styles"])
+                st.write("**Notable Patterns:**", data["notable_patterns"])
+                st.write("**Suggested Future Content:**", data["suggested_future_content"])
+    else:
+        st.write("No files found in storage or no matching notes in BigQuery.")
+
+
 def main():
     st.title("📱 Post Inspiration Uploader")
 
-    # Step 1: Select content type
-    content_type = st.selectbox(
-        "What type of content are you uploading?",
-        ["Select an option", "Video", "Image", "Article"]
-    )
-
-    inspiration_reason, caption_text, uploaded_file = None, None, None
-
-    if content_type in ["Video", "Image"]:
-        inspiration_reason = st.radio(
-            "Why did you upload this?",
-            ["Aesthetic/Post Structure", "Content"]
+    with st.expander("Upload New Inspiration Content"):
+        # Step 1: Select content type
+        content_type = st.selectbox(
+            "What type of content are you uploading?",
+            ["Select an option", "Video", "Image", "Article"]
         )
 
-        caption_text = st.text_area(
-            "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
-            height=100
-        )
+        inspiration_reason, caption_text, uploaded_file = None, None, None
 
-        uploaded_file = st.file_uploader(
-            f"Upload a {content_type.lower()} file", 
-            type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
-        )
+        if content_type in ["Video", "Image"]:
+            inspiration_reason = st.radio(
+                "Why did you upload this?",
+                ["Aesthetic/Post Structure", "Content"]
+            )
 
-    elif content_type == "Article":
-        article_choice = st.radio("How do you want to add your article?", ["Upload a file", "Paste text"])
+            caption_text = st.text_area(
+                "Tell us more about this inspiration (e.g., what you like about it, key takeaways):", 
+                height=100
+            )
 
-        if article_choice == "Upload a file":
-            uploaded_file = st.file_uploader("Upload a text file", type=["txt", "pdf", "docx"])
-        else:
-            article_text = st.text_area("Paste your article text here", height=200)
+            uploaded_file = st.file_uploader(
+                f"Upload a {content_type.lower()} file", 
+                type=["mp4", "mov", "avi"] if content_type == "Video" else ["png", "jpg", "jpeg"]
+            )
 
-    # If a file is uploaded, process based on type
-    if uploaded_file:
-        file_type = uploaded_file.type.split('/')[0]  # Extract file type (image, video, text)
-    
-        if file_type == "video":
-            # Get page_id and inspiration context from user input
-            page_id = PAGE_ID
-            inspiration_context = caption_text
-            
-            if page_id and inspiration_context:
-                public_url = upload_to_gcs(uploaded_file, file_type, page_id, inspiration_context)
-                st.success(f"Uploaded Video: {uploaded_file.name}")
-                st.markdown(f"[View Video in Cloud Storage]({public_url})")
+        elif content_type == "Article":
+            article_choice = st.radio("How do you want to add your article?", ["Upload a file", "Paste text"])
+
+            if article_choice == "Upload a file":
+                uploaded_file = st.file_uploader("Upload a text file", type=["txt", "pdf", "docx"])
             else:
-                st.warning("Please enter Page ID and Inspiration Context before uploading.")
+                article_text = st.text_area("Paste your article text here", height=200)
+
+        # If a file is uploaded, process based on type
+        if uploaded_file:
+            file_type = uploaded_file.type.split('/')[0]  # Extract file type (image, video, text)
         
-        elif file_type in ["text", "application"]:  # 'application' covers PDFs, Word docs, etc.
-            process_article(uploaded_file)
-            st.success(f"Article Processed: {uploaded_file.name}")
-        
-        else:
-            st.warning(f"Unsupported file type: {uploaded_file.type}")
+            if file_type == "video":
+                # Get page_id and inspiration context from user input
+                page_id = PAGE_ID
+                inspiration_context = caption_text
+                
+                if page_id and inspiration_context:
+                    public_url = upload_to_gcs(uploaded_file, file_type, page_id, inspiration_context)
+                    st.success(f"Uploaded Video: {uploaded_file.name}")
+                    st.markdown(f"[View Video in Cloud Storage]({public_url})")
+                else:
+                    st.warning("Please enter Page ID and Inspiration Context before uploading.")
             
+            elif file_type in ["text", "application"]:  # 'application' covers PDFs, Word docs, etc.
+                process_article(uploaded_file)
+                st.success(f"Article Processed: {uploaded_file.name}")
+            
+            else:
+                st.warning(f"Unsupported file type: {uploaded_file.type}")
+
+    # Display uploaded files and notes
+    display_uploaded_files_and_notes()
+
+
 if __name__ == "__main__":
     main()
+
