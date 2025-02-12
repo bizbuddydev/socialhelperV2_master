@@ -14,7 +14,6 @@ PAGES = {
     "🗓️ Scheduler": "https://hv-bizbuddyv2-posts.streamlit.app/",
     "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
     "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
-    "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
 }
 
 # Sidebar navigation
