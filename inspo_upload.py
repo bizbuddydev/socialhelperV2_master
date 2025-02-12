@@ -140,8 +140,8 @@ def fetch_files_and_notes():
     # Store results in a dictionary
     file_data = {}
     for row in results:
-        file_data[row.file_name] = {
-            "public_url": file_names.get(row.file_name, ""),
+        file_data[row.video_id] = {
+            "public_url": file_names.get(row.video_id, ""),
             "key_themes": row.key_themes,
             "post_styles": row.post_styles,
             "notable_patterns": row.notable_patterns,
