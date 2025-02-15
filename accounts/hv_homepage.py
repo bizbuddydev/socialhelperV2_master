@@ -16,10 +16,11 @@ st.set_page_config(page_title="Social Overview", layout="wide", page_icon="📊"
 
 # Define links to other pages
 PAGES = {
-    "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
-    "📱 Posts": "https://smp-bizbuddy-postoverview.streamlit.app",
-    "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
-    "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
+    "📊 Overview": "https://hv-bizbuddyv2-home.streamlit.app/",
+    "📱 Posts Overview": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
+    "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
+    "🗓️ Scheduler": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
+    "💡 Brainstorm": "https://hv-bizbuddyv2-inspiration.streamlit.app/"
 }
 
 # Sidebar navigation
