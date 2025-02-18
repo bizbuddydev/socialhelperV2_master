@@ -1,6 +1,7 @@
 import streamlit as st
 from google.oauth2 import service_account
 from google.cloud import bigquery
+from google.cloud import storage
 import pandas as pd
 from datetime import date, timedelta
 import json
@@ -53,6 +54,20 @@ def filter_last_6_months(df):
 
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
+
+# Function to find the GCS file for a given post_id
+def get_gcs_video_url(post_id, bucket_name="your-gcs-bucket-name"):
+    """Check the GCS bucket for a video file matching the post_id and return its URL."""
+    client = storage.Client(credentials=credentials)
+    bucket = client.bucket(bucket_name)
+    blobs = bucket.list_blobs()
+
+    for blob in blobs:
+        filename_without_extension = ".".join(blob.name.split(".")[:-1])  # Remove extension
+        if filename_without_extension == str(post_id):  # Match against post_id
+            return f"https://storage.googleapis.com/{bucket_name}/{blob.name}"  # Public URL
+
+    return None  # Return None if no match found
 
 # Use the variables in your app
 account_name = "The Harborview"
@@ -258,16 +273,16 @@ def main():
             st.markdown(post_structure_html, unsafe_allow_html=True)
         
         with col2:
-            # Display media in a styled container
-            try:
-                st.markdown('<div class="media">', unsafe_allow_html=True)
-                if row['media_type'] == 'IMAGE':
-                    st.image(row['source'], width=MEDIA_WIDTH)
-                elif row['media_type'] == 'VIDEO':
-                    st.video(row['source'], start_time=0, format="video/mp4")
-                st.markdown('</div>', unsafe_allow_html=True)
-            except Exception as e:
-                st.warning(f"Skipping post due to media error: {str(e)}")
+            # Get video file from GCS
+            video_url = get_gcs_video_url(row['post_id'])
+        
+            if video_url:  # Only display if a video exists
+                try:
+                    st.markdown('<div class="media">', unsafe_allow_html=True)
+                    st.video(video_url, start_time=0, format="video/mp4")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                except Exception as e:
+                    st.warning(f"Skipping post due to media error: {str(e)}")
         st.markdown("---")  # Divider between posts
 
 if __name__ == "__main__":
