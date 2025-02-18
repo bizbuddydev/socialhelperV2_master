@@ -56,7 +56,7 @@ def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
 # Function to find the GCS file for a given post_id
-def get_gcs_video_url(post_id, bucket_name="your-gcs-bucket-name"):
+def get_gcs_video_url(post_id, bucket_name="bizbuddyfiles-postvids"):
     """Check the GCS bucket for a video file matching the post_id and return its URL."""
     client = storage.Client(credentials=credentials)
     bucket = client.bucket(bucket_name)
