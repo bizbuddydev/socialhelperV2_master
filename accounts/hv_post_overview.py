@@ -257,7 +257,7 @@ def main():
             # Display post info in scorecards
             post_structure_html = f"""
             <div class="scorecards">
-                <div class="scorecard">Time of Day: {row['time_bucket']}</div>
+                <div class="scorecard">Time of Day: {row['time_of_day']}</div>
                 <div class="scorecard">Weekday: {row['weekday']}</div>
                 <div class="scorecard">Speech Length: {row['speech_length']} words</div>
                 <div class="scorecard">Speech Rate: {row['speech_rate']} words per sec</div>
