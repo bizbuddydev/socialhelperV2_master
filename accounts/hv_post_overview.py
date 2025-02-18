@@ -82,14 +82,12 @@ WHERE page_id = 17841410640947509
 AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
 ORDER BY created_time DESC
 """
-
-testing_dataset = config["TESTING_DATASET_ID"]
-testing_table_id = config["ANALYSIS_TABLE_ID"]
+analysis_table_id = config["ANALYSIS_TABLE_ID"]
 
 ### Get data ###
 ap_query = f"""
 SELECT *
-FROM `bizbuddydemo-v2.{testing_dataset}.{testing_table_id}`
+FROM `bizbuddydemo-v2.{datasetid}.{analysis_table_id}`
 WHERE page_id = 17841410640947509
 ORDER BY created_time DESC
 """
