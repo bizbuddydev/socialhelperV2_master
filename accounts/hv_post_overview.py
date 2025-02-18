@@ -99,9 +99,12 @@ data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 # Get analyzed posts data and merge
 ap_data = fetch_data(ap_query)
 
+# Join post data analysis data
 merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
 
+# Transform merged data
 merged_data["speech_rate"] = round(merged_data["speech_rate"], 2)
+merged_data.drop(columns=["reach_aps", "like_count_aps", "comments_count_aps", "shares_aps", "saved_aps", "created_time_aps"], inplace=True)
 
 # Main app
 def main():
