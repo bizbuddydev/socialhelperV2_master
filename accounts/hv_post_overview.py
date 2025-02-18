@@ -104,7 +104,7 @@ merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="l
 
 # Transform merged data
 merged_data["speech_rate"] = round(merged_data["speech_rate"], 2)
-merged_data.drop(columns=["reach_aps", "like_count_aps", "comments_count_aps", "shares_aps", "saved_aps", "created_time_aps"], inplace=True)
+merged_data = merged_data.drop(columns=["reach_aps", "like_count_aps", "comments_count_aps", "shares_aps", "saved_aps", "created_time_aps"])
 
 # Main app
 def main():
