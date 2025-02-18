@@ -88,7 +88,6 @@ analysis_table_id = config["ANALYSIS_TABLE_ID"]
 ap_query = f"""
 SELECT *
 FROM `bizbuddydemo-v2.{datasetid}.{analysis_table_id}`
-WHERE page_id = 17841410640947509
 ORDER BY created_time DESC
 """
 
