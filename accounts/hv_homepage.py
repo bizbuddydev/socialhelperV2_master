@@ -16,12 +16,11 @@ st.set_page_config(page_title="Social Overview", layout="wide", page_icon="📊"
 
 # Define links to other pages
 PAGES = {
-    "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
-    "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
-    # "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
-    "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
-    "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
-    "💡 Brainstorm": "https://smp-bizbuddy-v1-brainstorm.streamlit.app/"
+    "📊 Account Overview": "https://hv-bizbuddyv2-home.streamlit.app/",
+    "📱 Posts Overview": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
+    "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
+    "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
+    "💡 Inspiration Upload": "https://hv-bizbuddyv2-inspiration.streamlit.app/"
 }
 
 # Sidebar navigation
@@ -52,7 +51,7 @@ AD_TABLE_ID = config["AD_TABLE_ID"]
 AD_DATASET_ID = config["AD_DATASET_ID"]
 
 #Get page_id from secrets
-PAGE_ID = 17841467554159158
+PAGE_ID = 17841410640947509
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
