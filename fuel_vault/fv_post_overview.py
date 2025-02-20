@@ -228,6 +228,7 @@ def main():
         with col1:
             # Display created_time_posts
             st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='details'>{row['weekday']}, {row['time_of_day']}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='details'>Main Theme: {row['main_theme']}</div>", unsafe_allow_html=True)
     
             with st.expander("See post caption"):
@@ -247,6 +248,11 @@ def main():
             st.write("Performance Metrics:")
             st.markdown(metrics_html, unsafe_allow_html=True)
 
+            with st.expander("See Video data"):
+                # Show timing metrics
+                st.markdown(f"<div class='details'>Time of Day: {row['main_theme']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Weekday: {row['main_theme']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Weekday: {row['main_theme']}</div>", unsafe_allow_html=True)
         
         with col2:
             # Get video file from GCS
