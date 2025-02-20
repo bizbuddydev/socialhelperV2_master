@@ -69,23 +69,6 @@ def get_gcs_video_url(post_id, bucket_name="bizbuddyfiles-postvids"):
 
     return None  # Return None if no match found
 
-def military_to_standard(time_str):
-    """Convert military (24-hour) time string to standard 12-hour format with AM/PM."""
-    try:
-        # Ensure time_str is a string and clean any leading/trailing spaces
-        time_str = str(time_str).strip()
-
-        # Attempt conversion, handling possible errors
-        standard_time = pd.to_datetime(time_str, format='%H:%M', errors='coerce')
-
-        # If conversion fails, return original value for debugging
-        if pd.isna(standard_time):
-            return None  # or return time_str to see which values are failing
-
-        return standard_time.strftime('%I:%M %p')
-    except Exception as e:
-        return None  # Handle unexpected errors gracefully
-
 # Use the variables in your app
 account_name = "Fauel Vault"
 datasetid = config["DATASET_ID"]
