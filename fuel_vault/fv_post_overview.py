@@ -247,31 +247,6 @@ def main():
             st.write("Performance Metrics:")
             st.markdown(metrics_html, unsafe_allow_html=True)
 
-            # Display post info in scorecards
-            basic_info_html = f"""
-            <div class="scorecards">
-                <div class="scorecard">Theme: {row['main_theme']}</div>
-                <div class="scorecard">Most Common Word: {row['most_common_word']}</div>
-                <div class="scorecard">Initial Imagery: {row['main_focus']}</div>
-                <div class="scorecard">Intial Color Schemes: {row['main_colors']}</div>
-            </div>
-            """
-
-            # Display post info in scorecards
-            post_structure_html = f"""
-            <div class="scorecards">
-                <div class="scorecard">Time of Day: {row['time_of_day']}</div>
-                <div class="scorecard">Weekday: {row['weekday']}</div>
-                <div class="scorecard">Speech Length: {row['speech_length']} words</div>
-                <div class="scorecard">Speech Rate: {row['speech_rate']} words per sec</div>
-            </div>
-            """
-
-            st.write("Post Attributes:")
-            st.markdown(basic_info_html, unsafe_allow_html=True)
-
-            st.write("Post Structure:")
-            st.markdown(post_structure_html, unsafe_allow_html=True)
         
         with col2:
             # Get video file from GCS
