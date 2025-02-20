@@ -269,7 +269,7 @@ def main():
 
             with st.expander("See Video data"):
                 # Show timing metrics
-                st.markdown(f"<div class='details'>Time of Day: {row['standard_time']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Time of Day: {row['time_of_day']}</div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='details'>Weekday: {row['main_theme']}</div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='details'>Weekday: {row['main_theme']}</div>", unsafe_allow_html=True)
         
