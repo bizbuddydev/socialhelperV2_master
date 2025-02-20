@@ -226,7 +226,6 @@ def main():
         spacer1, col1, col2, spacer2 = st.columns([0.5, 2, 1, 0.5])  # Adjust widths as needed
         
         with col1:
-            st.write(row)
             # Display created_time_posts
             st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
     
