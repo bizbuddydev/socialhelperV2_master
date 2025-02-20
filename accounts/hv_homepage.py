@@ -587,6 +587,9 @@ def main():
             full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
         
             # Reindex account_data to include all dates in the range
+            st.write(account_data)
+            st.write(full_date_range)
+            
             account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
             account_data.rename(columns={'index': 'date'}, inplace=True)
         
