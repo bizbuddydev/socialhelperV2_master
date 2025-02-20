@@ -69,6 +69,10 @@ def get_gcs_video_url(post_id, bucket_name="bizbuddyfiles-postvids"):
 
     return None  # Return None if no match found
 
+def military_to_standard(time_str):
+    """Convert military (24-hour) time string to standard 12-hour format with AM/PM."""
+    return pd.to_datetime(time_str, format='%H:%M').strftime('%I:%M %p')
+
 # Use the variables in your app
 account_name = "Fauel Vault"
 datasetid = config["DATASET_ID"]
@@ -101,6 +105,8 @@ ap_data = fetch_data(ap_query)
 
 # Join post data analysis data
 merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
+merged_data['standard_time'] = merged_data['time_of_day'].apply(military_to_standard)
+
 
 # Transform merged data
 merged_data["speech_rate"] = round(merged_data["speech_rate"], 2)
@@ -228,7 +234,7 @@ def main():
         with col1:
             # Display created_time_posts
             st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
-            st.markdown(f"<div class='details'>{row['weekday']}, {row['time_of_day']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='details'>{row['weekday']}, {row['standard_time']}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='details'>Main Theme: {row['main_theme']}</div>", unsafe_allow_html=True)
     
             with st.expander("See post caption"):
@@ -250,7 +256,7 @@ def main():
 
             with st.expander("See Video data"):
                 # Show timing metrics
-                st.markdown(f"<div class='details'>Time of Day: {row['main_theme']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Time of Day: {row['standard_time']}</div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='details'>Weekday: {row['main_theme']}</div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='details'>Weekday: {row['main_theme']}</div>", unsafe_allow_html=True)
         
