@@ -270,7 +270,8 @@ def main():
                 # Show timing metrics
                 st.markdown(f"<div class='details'>Caption Length: {row['caption_length']}</div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='details'>Hashtags: {row['hashtags']}</div>", unsafe_allow_html=True)
-                st.markdown(f"<div class='details'>Hashtag Count: {row['hashtag_count']}</div>", unsafe_allow_html=True)                st.markdown(f"<div class='details'>Avg Shot Length: {row['call_to_action']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Hashtag Count: {row['hashtag_count']}</div>", unsafe_allow_html=True)               
+                st.markdown(f"<div class='details'>Avg Shot Length: {row['call_to_action']}</div>", unsafe_allow_html=True)
                 st.markdown(f"<div class='details'>Words per Frame: {row['words_per_frame']}</div>", unsafe_allow_html=True)
 
             with st.expander("See Sound data"):
