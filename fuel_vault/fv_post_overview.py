@@ -228,6 +228,7 @@ def main():
         with col1:
             # Display created_time_posts
             st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='details'>Main Theme: {row['main_theme']}</div>", unsafe_allow_html=True)
     
             with st.expander("See post caption"):
                 # Display caption with title
