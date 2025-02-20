@@ -223,7 +223,7 @@ def main():
     # Iterate through the top posts and display them
     for index, row in filtered_data.iterrows():
 
-        st.write(row.columns)
+        st.write(row.columns())
         # Create three columns for spacing and content
         spacer1, col1, col2, spacer2 = st.columns([0.5, 2, 1, 0.5])  # Adjust widths as needed
         
