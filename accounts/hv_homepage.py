@@ -194,6 +194,8 @@ def get_daily_post_counts(post_data, account_data):
     post_data['date'] = pd.to_datetime(post_data['created_time'])
     account_data['date'] = pd.to_datetime(account_data['date']).dt.date
 
+    
+
     # Generate the last 30 days as a date range
     # Define the US Pacific time zone
     pacific_tz = ZoneInfo("America/Los_Angeles")
@@ -473,6 +475,8 @@ def main():
     # Pull data using the function
     account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
     post_data = pull_dataframes(DATASET_ID, POST_TABLE_ID)
+
+    st.write(account_data)
 
     yesterday = get_yesterday()
     
