@@ -117,7 +117,7 @@ data["created_time"] = pd.to_datetime(data["created_time"]).dt.date
 ap_data = fetch_data(ap_query)
 
 # Join post data analysis data
-#merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
+merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
 #merged_data['standard_time'] = merged_data['time_of_day'].apply(military_to_standard)
 
 
