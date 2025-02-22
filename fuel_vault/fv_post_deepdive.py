@@ -109,7 +109,7 @@ merged_data = merged_data.drop(
 
 assign_time_buckets(merged_data)
 
-merged_data.rename(columns={"reach_posts":"reach", "like_count_posts":"like_count", "comments_count_posts":"comments_count", "shares_posts":"shares", "saved_posts":"saved"})
+merged_data = merged_data.rename(columns={"reach_posts":"reach", "like_count_posts":"like_count", "comments_count_posts":"comments_count", "shares_posts":"shares", "saved_posts":"saved"})
 
 # Function to fetch data from BigQuery
 def fetch_data(query: str) -> pd.DataFrame:
