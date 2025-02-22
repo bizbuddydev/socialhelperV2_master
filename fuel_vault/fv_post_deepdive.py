@@ -3,7 +3,12 @@ from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
 from datetime import date, timedelta
+import plotly.express as px
 import json
+
+# For wordcloud
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Post Analyzer 🚀", layout="wide", page_icon="📡")
 
