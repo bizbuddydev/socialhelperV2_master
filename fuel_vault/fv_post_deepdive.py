@@ -284,7 +284,7 @@ def main():
         st.plotly_chart(fig_subjectivity)
 
     st.subheader("Raw Data")
-    st.dataframe(data)
+    st.dataframe(merged_data)
 
 if __name__ == "__main__":
     main()
