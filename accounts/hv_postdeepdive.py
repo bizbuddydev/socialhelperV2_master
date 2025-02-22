@@ -12,20 +12,6 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Post Analyzer 🚀", layout="wide", page_icon="📡")
 
-# Define links to other pages
-PAGES = {
-    "📊 Account Overview": "https://hv-bizbuddyv2-home.streamlit.app/",
-    "📱 Posts Overview": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
-    "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
-    "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
-    "💡 Inspiration Upload": "https://hv-bizbuddyv2-inspiration.streamlit.app/"
-}
-
-# Sidebar navigation
-st.sidebar.title("Navigation")
-for page, url in PAGES.items():
-    st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)
-
 # Load the configuration file
 def load_config(file_path="config.json"):
     with open(file_path, "r") as f:
@@ -39,6 +25,96 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
 project_id = st.secrets["gcp_service_account"]["project_id"]
+
+# Function to fetch data from BigQuery
+@st.cache_data
+def fetch_data(query: str) -> pd.DataFrame:
+    client = bigquery.Client(credentials=credentials, project=project_id)
+    query_job = client.query(query)  # Execute query
+    result = query_job.result()  # Wait for the query to finish
+    return result.to_dataframe()
+
+def assign_time_buckets(df):
+    # Convert created_time to datetime if it's not already
+    df["created_time_posts"] = pd.to_datetime(df["created_time_posts"])
+    
+    # Extract hour
+    df["hour"] = df["created_time_posts"].dt.hour
+
+    # Define bucket mapping
+    def bucketize(hour):
+        if 9 <= hour <= 12:
+            return f"{hour} AM"
+        elif 13 <= hour <= 23:
+            return f"{hour - 12} PM"
+        elif hour == 0:
+            return "12 AM"
+        else:
+            return "1-8 AM"
+
+    # Assign time buckets
+    df["time_bucket"] = df["hour"].apply(bucketize)
+
+    # Define categorical ordering
+    time_bucket_order = [
+        "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
+        "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"
+    ]
+    weekday_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    # Assign categorical values
+    df["time_bucket"] = pd.Categorical(df["time_bucket"], categories=time_bucket_order, ordered=True)
+    df["weekday"] = pd.Categorical(df["created_time_posts"].dt.day_name(), categories=weekday_order, ordered=True)
+
+    # Drop the temporary hour column
+    df = df.drop(columns=["hour"])
+
+    return df
+
+### **Fetch Post Data (Filtered by Page ID)**
+datasetid = config["DATASET_ID"]
+post_tableid = config["POST_TABLE_ID"]
+analysis_tableid = config["ANALYSIS_TABLE_ID"]
+
+page_id = 17841410640947509  # Page ID for filtering
+
+# Query to get post data
+post_query = f"""
+SELECT *
+FROM `bizbuddydemo-v2.{datasetid}.{post_tableid}`
+WHERE page_id = {page_id}
+AND DATE(insert_date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+ORDER BY created_time DESC
+"""
+
+# Query to get analysis data
+analysis_query = f"""
+SELECT *
+FROM `bizbuddydemo-v2.{datasetid}.{analysis_tableid}`
+ORDER BY created_time DESC
+"""
+
+# Load post data
+post_data = fetch_data(post_query)
+post_data["Like Rate"] = round(post_data["like_count"] / post_data["reach"] * 100, 2)
+post_data["created_time"] = pd.to_datetime(post_data["created_time"]).dt.date
+
+# Load analysis data
+analysis_data = fetch_data(analysis_query)
+
+# Merge post data with analysis data on post_id = video_id
+merged_data = post_data.merge(
+    analysis_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts", "_aps")
+)
+
+# Drop unnecessary duplicate columns after merge
+merged_data = merged_data.drop(
+    columns=["reach_aps", "like_count_aps", "comments_count_aps", "shares_aps", "saved_aps", "created_time_aps"]
+)
+
+assign_time_buckets(merged_data)
+
+merged_data = merged_data.rename(columns={"reach_posts":"reach", "like_count_posts":"like_count", "comments_count_posts":"comments_count", "shares_posts":"shares", "saved_posts":"saved"})
 
 # Function to fetch data from BigQuery
 def fetch_data(query: str) -> pd.DataFrame:
@@ -59,24 +135,6 @@ def filter_last_6_months(df):
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
-# Use the variables in your app
-account_name = config["ACCOUNT_NAME"]
-datasetid = config["DATASET_ID"]
-tableid = config["ANALYSIS_TABLE_ID"]
-
-### Get data ###
-query = f"""
-SELECT *
-FROM `bizbuddydemo-v2.{datasetid}.{tableid}`
-WHERE page_id = 17841410640947509
-ORDER BY created_time DESC
-"""
-
-# Load/Transform Data
-data = fetch_data(query)
-data['post_date'] = data['created_time'].dt.date
-data = data.drop_duplicates()
-
 def main():
     st.title("Social Buddy 🚀 - Post Deep Dive")
 
@@ -87,11 +145,11 @@ def main():
     filter_option = st.sidebar.selectbox("Select Timeframe", ["All Time", "Last 30 Days", "Last 6 Months"])
 
     if filter_option == "Last 30 Days":
-        filtered_data = filter_last_30_days(data)
+        filtered_data = filter_last_30_days(merged_data)
     elif filter_option == "Last 6 Months":
-        filtered_data = filter_last_6_months(data)
+        filtered_data = filter_last_6_months(merged_data)
     else:
-        filtered_data = data
+        filtered_data = merged_data
     
     col_left1, col_right1 = st.columns(2)
     
@@ -226,7 +284,7 @@ def main():
         st.plotly_chart(fig_subjectivity)
 
     st.subheader("Raw Data")
-    st.dataframe(data)
+    st.dataframe(merged_data)
 
 if __name__ == "__main__":
     main()
