@@ -89,7 +89,7 @@ def filter_last_6_months(df):
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
-ef main():
+def main():
     st.title("Social Buddy 🚀 - Post Deep Dive")
 
     metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
