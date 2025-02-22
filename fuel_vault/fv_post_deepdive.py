@@ -61,7 +61,7 @@ def top_10_by_column(df, column):
 
 # Use the variables in your app
 account_name = config["ACCOUNT_NAME"]
-datasetid = config["TESTING_DATASET_ID"]
+datasetid = config["DATASET_ID"]
 tableid = config["ANALYSIS_TABLE_ID"]
 
 ### Get data ###
