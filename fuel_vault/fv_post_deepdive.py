@@ -31,10 +31,10 @@ def fetch_data(query: str) -> pd.DataFrame:
 
 def assign_time_buckets(df):
     # Convert created_time to datetime if it's not already
-    df["created_time"] = pd.to_datetime(df["created_time"])
+    df["created_time_posts"] = pd.to_datetime(df["created_time_posts"])
     
     # Extract hour
-    df["hour"] = df["created_time"].dt.hour
+    df["hour"] = df["created_time_posts"].dt.hour
 
     # Define bucket mapping
     def bucketize(hour):
@@ -59,7 +59,7 @@ def assign_time_buckets(df):
 
     # Assign categorical values
     df["time_bucket"] = pd.Categorical(df["time_bucket"], categories=time_bucket_order, ordered=True)
-    df["weekday"] = pd.Categorical(df["created_time"].dt.day_name(), categories=weekday_order, ordered=True)
+    df["weekday"] = pd.Categorical(df["created_time_posts"].dt.day_name(), categories=weekday_order, ordered=True)
 
     # Drop the temporary hour column
     df = df.drop(columns=["hour"])
