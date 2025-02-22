@@ -29,6 +29,43 @@ def fetch_data(query: str) -> pd.DataFrame:
     result = query_job.result()  # Wait for the query to finish
     return result.to_dataframe()
 
+def assign_time_buckets(df):
+    # Convert created_time to datetime if it's not already
+    df["created_time"] = pd.to_datetime(df["created_time"])
+    
+    # Extract hour
+    df["hour"] = df["created_time"].dt.hour
+
+    # Define bucket mapping
+    def bucketize(hour):
+        if 9 <= hour <= 12:
+            return f"{hour} AM"
+        elif 13 <= hour <= 23:
+            return f"{hour - 12} PM"
+        elif hour == 0:
+            return "12 AM"
+        else:
+            return "1-8 AM"
+
+    # Assign time buckets
+    df["time_bucket"] = df["hour"].apply(bucketize)
+
+    # Define categorical ordering
+    time_bucket_order = [
+        "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
+        "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"
+    ]
+    weekday_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    # Assign categorical values
+    df["time_bucket"] = pd.Categorical(df["time_bucket"], categories=time_bucket_order, ordered=True)
+    df["weekday"] = pd.Categorical(df["created_time"].dt.day_name(), categories=weekday_order, ordered=True)
+
+    # Drop the temporary hour column
+    df = df.drop(columns=["hour"])
+
+    return df
+
 ### **Fetch Post Data (Filtered by Page ID)**
 datasetid = config["DATASET_ID"]
 post_tableid = config["POST_TABLE_ID"]
@@ -69,6 +106,8 @@ merged_data = post_data.merge(
 merged_data = merged_data.drop(
     columns=["reach_aps", "like_count_aps", "comments_count_aps", "shares_aps", "saved_aps", "created_time_aps"]
 )
+
+assign_time_buckets(merged_data)
 
 # Function to fetch data from BigQuery
 def fetch_data(query: str) -> pd.DataFrame:
