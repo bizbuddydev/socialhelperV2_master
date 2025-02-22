@@ -109,6 +109,8 @@ merged_data = merged_data.drop(
 
 assign_time_buckets(merged_data)
 
+st.write(merged_data.columns)
+
 # Function to fetch data from BigQuery
 def fetch_data(query: str) -> pd.DataFrame:
     client = bigquery.Client(credentials=credentials, project=project_id)
