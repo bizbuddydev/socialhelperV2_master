@@ -140,7 +140,21 @@ def main():
 
     metric_option = st.selectbox("Select Metric", ["reach", "like_count"])
     
-    # Filtering Options
+    # Define links to other pages
+    PAGES = {
+        "📊 Account Overview": "https://hv-bizbuddyv2-home.streamlit.app/",
+        "📱 Posts Overview": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
+        "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
+        "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
+        "💡 Inspiration Upload": "https://hv-bizbuddyv2-inspiration.streamlit.app/"
+    }
+    
+    # Sidebar navigation
+    st.sidebar.title("Navigation")
+    for page, url in PAGES.items():
+        st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
+
+    
     st.sidebar.header("Filter Posts")
     filter_option = st.sidebar.selectbox("Select Timeframe", ["All Time", "Last 30 Days", "Last 6 Months"])
 
