@@ -101,6 +101,8 @@ ap_data = fetch_data(ap_query)
 
 # Join post data analysis data
 merged_data = data.merge(ap_data, left_on="post_id", right_on="video_id", how="left", suffixes=("_posts","_aps"))
+#merged_data['standard_time'] = merged_data['time_of_day'].apply(military_to_standard)
+
 
 # Transform merged data
 merged_data["speech_rate"] = round(merged_data["speech_rate"], 2)
@@ -218,19 +220,18 @@ def main():
     # Define a consistent media width
     MEDIA_WIDTH = 500
 
-    st.write(filtered_data.columns)
-
     st.markdown("---") 
     
     # Iterate through the top posts and display them
     for index, row in filtered_data.iterrows():
-
         # Create three columns for spacing and content
         spacer1, col1, col2, spacer2 = st.columns([0.5, 2, 1, 0.5])  # Adjust widths as needed
         
         with col1:
             # Display created_time_posts
             st.markdown(f"<div class='details'>Posted On: {row['created_time_posts']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='details'>{row['weekday']}, {row['time_of_day']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='details'>Main Theme: {row['main_theme']}</div>", unsafe_allow_html=True)
     
             with st.expander("See post caption"):
                 # Display caption with title
@@ -249,31 +250,45 @@ def main():
             st.write("Performance Metrics:")
             st.markdown(metrics_html, unsafe_allow_html=True)
 
-            # Display post info in scorecards
-            basic_info_html = f"""
-            <div class="scorecards">
-                <div class="scorecard">Theme: {row['main_theme']}</div>
-                <div class="scorecard">Most Common Word: {row['most_common_word']}</div>
-                <div class="scorecard">Initial Imagery: {row['main_focus']}</div>
-                <div class="scorecard">Intial Color Schemes: {row['main_colors']}</div>
-            </div>
-            """
+            with st.expander("See Video data"):
+                # Show timing metrics
+                st.markdown(f"<div class='details'>Video Length: {row['video_len']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Number of Shots: {row['shot_count']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Avg Shot Length: {row['avg_shot_len']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Longest Shot: {row['longest_shot']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Object Count: {row['object_count']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Face Count: {row['face_count']}</div>", unsafe_allow_html=True)
 
-            # Display post info in scorecards
-            post_structure_html = f"""
-            <div class="scorecards">
-                <div class="scorecard">Time of Day: {row['time_of_day']}</div>
-                <div class="scorecard">Weekday: {row['weekday']}</div>
-                <div class="scorecard">Speech Length: {row['speech_length']} words</div>
-                <div class="scorecard">Speech Rate: {row['speech_rate']} words per sec</div>
-            </div>
-            """
+            with st.expander("See Object data"):
+                # Show timing metrics
+                st.markdown(f"<div class='details'>Imagery Extracted: {row['labels_extracted']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Initial Background: {row['background_imagery']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Initial Main Shot: {row['main_focus']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Text Extracted from Video: {row['text_from_video']}</div>", unsafe_allow_html=True)
 
-            st.write("Post Attributes:")
-            st.markdown(basic_info_html, unsafe_allow_html=True)
+            with st.expander("See Text data"):
+                # Show timing metrics
+                st.markdown(f"<div class='details'>Caption Length: {row['caption_length']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Hashtags: {row['hashtags']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Hashtag Count: {row['hashtag_count']}</div>", unsafe_allow_html=True)               
+                st.markdown(f"<div class='details'>Avg Shot Length: {row['call_to_action']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Words per Frame: {row['words_per_frame']}</div>", unsafe_allow_html=True)
 
-            st.write("Post Structure:")
-            st.markdown(post_structure_html, unsafe_allow_html=True)
+            with st.expander("See Sound data"):
+                # Show timing metrics
+                st.markdown(f"<div class='details'>Extracted Speech: {row['raw_speech']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Speech Length: {row['speech_length']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Speech Rate (Words p min): {row['speech_rate']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Music (y/n): {row['sound_type']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>BPM: {row['bpm']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Mood: {row['mood']}</div>", unsafe_allow_html=True)
+
+            with st.expander("See Tone data"):
+                # Show timing metrics
+                st.markdown(f"<div class='details'>Sentiment: {row['sentiment']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Polarity: {row['polarity']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Factual to Subjective: {row['subjectivity']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='details'>Tone: {row['tone']}</div>", unsafe_allow_html=True)
         
         with col2:
             # Get video file from GCS
