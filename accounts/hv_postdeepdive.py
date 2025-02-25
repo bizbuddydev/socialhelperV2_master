@@ -126,11 +126,11 @@ def fetch_data(query: str) -> pd.DataFrame:
 # Define filter functions
 def filter_last_30_days(df):
     cutoff = date.today() - timedelta(days=30)
-    return df[df["post_date"] >= cutoff].sort_values(by="post_date", ascending=False)
+    return df[df["post_date"] >= cutoff].sort_values(by="created_time", ascending=False)
 
 def filter_last_6_months(df):
     cutoff = date.today() - timedelta(days=182)  # Approx. 6 months
-    return df[df["post_date"] >= cutoff].sort_values(by="post_date", ascending=False)
+    return df[df["post_date"] >= cutoff].sort_values(by="created_time", ascending=False)
 
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
@@ -170,7 +170,7 @@ def main():
     with col_left1:
         st.subheader("Timing Analysis")
         
-        dim_option = st.selectbox("Select Dimension", ["time_bucket", "weekday"])
+        dim_option = st.selectbox("Select Dimension", ["weekday", "time_bucket"])
 
         time_bucket_order = ["9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"]
         weekday_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
