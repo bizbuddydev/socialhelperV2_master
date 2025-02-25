@@ -154,6 +154,7 @@ def main():
     for page, url in PAGES.items():
         st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
 
+    filtered_data = merged_data
     
     col_left1, col_right1 = st.columns(2)
     
