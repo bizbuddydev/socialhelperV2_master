@@ -126,11 +126,11 @@ def fetch_data(query: str) -> pd.DataFrame:
 # Define filter functions
 def filter_last_30_days(df):
     cutoff = date.today() - timedelta(days=30)
-    return df[df["post_date"] >= cutoff].sort_values(by="created_time", ascending=False)
+    return df[df["created_time"] >= cutoff].sort_values(by="created_time", ascending=False)
 
 def filter_last_6_months(df):
     cutoff = date.today() - timedelta(days=182)  # Approx. 6 months
-    return df[df["post_date"] >= cutoff].sort_values(by="created_time", ascending=False)
+    return df[df["created_time"] >= cutoff].sort_values(by="created_time", ascending=False)
 
 def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
