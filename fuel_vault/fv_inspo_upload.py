@@ -35,7 +35,7 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
 project_id = st.secrets["gcp_service_account"]["project_id"]
-PAGE_ID = 17841467554159158
+PAGE_ID = 17841467121671609
 
 # Initialize Google Cloud Storage client
 storage_client = storage.Client(credentials=credentials)
