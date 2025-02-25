@@ -155,16 +155,6 @@ def main():
         st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
 
     
-    st.sidebar.header("Filter Posts")
-    filter_option = st.sidebar.selectbox("Select Timeframe", ["All Time", "Last 30 Days", "Last 6 Months"])
-
-    if filter_option == "Last 30 Days":
-        filtered_data = filter_last_30_days(merged_data)
-    elif filter_option == "Last 6 Months":
-        filtered_data = filter_last_6_months(merged_data)
-    else:
-        filtered_data = merged_data
-    
     col_left1, col_right1 = st.columns(2)
     
     with col_left1:
