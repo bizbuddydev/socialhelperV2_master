@@ -39,7 +39,7 @@ PAGE_ID = 17841467121671609
 
 # Initialize Google Cloud Storage client
 storage_client = storage.Client(credentials=credentials)
-bucket_name = "bizbuddyv2_fv_inspoupload"  # All file types go to the same bucket for testing
+bucket_name = "bizbuddyv2_smp_inspoupload"  # All file types go to the same bucket for testing
 
 bq_client = bigquery.Client(credentials=credentials, project=project_id)
 
