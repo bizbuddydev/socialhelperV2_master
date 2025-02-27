@@ -554,19 +554,19 @@ def main():
             display_metric("Avg Likes", f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}", l7_perdiff.iloc[0]["Average Likes"])
 
 
-        # Display Ad Data
-        st.write("Advertising Performance")
+        # # Display Ad Data
+        # st.write("Advertising Performance")
         
-        ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
-        #Ad Scorecards
-        with ad_sc1:
-            display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
-        with ad_sc2:
-            display_metric("Reach", f"{ad_data['reach'].sum():,}")
-        with ad_sc3:
-            display_metric("Link Clicks", f"{ad_data['clicks'].sum()/5:,}")
-        with ad_sc4:
-            display_metric("Cost per Click", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
+        # ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
+        # #Ad Scorecards
+        # with ad_sc1:
+        #     display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
+        # with ad_sc2:
+        #     display_metric("Reach", f"{ad_data['reach'].sum():,}")
+        # with ad_sc3:
+        #     display_metric("Link Clicks", f"{ad_data['clicks'].sum()/5:,}")
+        # with ad_sc4:
+        #     display_metric("Cost per Click", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
 
 
     with top_col_right:
