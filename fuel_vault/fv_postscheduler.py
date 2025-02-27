@@ -10,11 +10,11 @@ import re
 st.set_page_config(page_title="Post Scheduler", layout="wide", page_icon = "🗓️")
 
 PAGES = {
-    "📊 Account Overview": "https://hv-bizbuddyv2-home.streamlit.app/",
-    "📱 Posts Overview": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
-    "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
-    "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
-    "💡 Inspiration Upload": "https://hv-bizbuddyv2-inspiration.streamlit.app/"
+    "📊 Account Overview": "https://fv-bizbuddyv2-home.streamlit.app/",
+    "📱 Posts Overview": "https://bizbuddyv2-fv-postoverview.streamlit.app/",
+    "🔬 Posts Deepdive": "https://bizbuddyv2-fv-postdeepdive.streamlit.app/",
+    "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-fv-postscheduler.streamlit.app/",
+    "💡 Inspiration Upload": "https://fv-bizbuddyv2-inspiration.streamlit.app/"
 }
 
 # Sidebar navigation
