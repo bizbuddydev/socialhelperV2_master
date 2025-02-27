@@ -555,7 +555,7 @@ def main():
 
 
         # Display Ad Data
-        st.header("Advertising Performance")
+        st.write("Advertising Performance")
         
         ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
         #Ad Scorecards
@@ -691,6 +691,8 @@ def main():
                 st.session_state["calendar_events"] = state["eventsSet"]
 
     with mid_col_right:
+
+        st.subheader("Account Breakdown")
         # Dropdown for selecting breakdown
         selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
 
