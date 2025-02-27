@@ -616,7 +616,7 @@ def main():
                 yaxis=dict(title=selected_metric, title_font=dict(size=12)),
                 title=f'{selected_metric} Over Time',
                 title_font=dict(size=18, family='Arial'),
-                plot_bgcolor='white',
+                # plot_bgcolor='white',
                 hovermode='x unified',
                 showlegend=False  # Turn off the legend if desired
             )
