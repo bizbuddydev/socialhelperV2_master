@@ -667,7 +667,7 @@ def main():
         # Create a container for the calendar widget
         calendar_container = st.container()
 
-        start_of_mon = datetime.date.today().replace(day=1).strftime('%Y-%m-%d')
+        start_of_mon = pd.Timestamp.now().replace(day=1).strftime('%Y-%m-%d')
         
         with calendar_container:
             st.subheader("Upcoming Scheduled Posts")
