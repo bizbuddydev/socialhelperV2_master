@@ -37,7 +37,7 @@ def load_config(file_path="config.json"):
 config = load_config()
 
 # Set env variables
-ACCOUNT_NAME = "Fuel Vault"
+ACCOUNT_NAME = "The Harborview"
 PROJECT_ID = config["PROJECT_ID"]
 DATASET_ID = config["DATASET_ID"]
 ACCOUNT_TABLE_ID = config["ACCOUNT_TABLE_ID"]
@@ -51,7 +51,7 @@ AD_TABLE_ID = config["AD_TABLE_ID"]
 AD_DATASET_ID = config["AD_DATASET_ID"]
 
 #Get page_id from secrets
-PAGE_ID = 17841467121671609
+PAGE_ID = 17841410640947509
 
 # Load credentials and project ID from st.secrets
 credentials = service_account.Credentials.from_service_account_info(
@@ -552,22 +552,24 @@ def main():
             display_metric("Avg Reach", f"{l7_igmetrics.iloc[0]["Average Reach"]:,.2f}", l7_perdiff.iloc[0]["Average Reach"])
         with coll8:
             display_metric("Avg Likes", f"{l7_igmetrics.iloc[0]["Average Likes"]:,.2f}", l7_perdiff.iloc[0]["Average Likes"])
-    
+
+
+        # Display Ad Data
+        st.write("Advertising Performance")
+        
+        ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
+        #Ad Scorecards
+        with ad_sc1:
+            display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
+        with ad_sc2:
+            display_metric("Reach", f"{ad_data['reach'].sum():,}")
+        with ad_sc3:
+            display_metric("Link Clicks", f"{ad_data['clicks'].sum()/5:,}")
+        with ad_sc4:
+            display_metric("Cost per Click", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
+
 
     with top_col_right:
-        st.subheader("Account Insights from AI")
-        account_summary_data = pull_accountsummary()
-        account_summary = account_summary_data.iloc[0][1]
-        #response_text = generate_gpt_summary(bus_description, performance_summary)
-        bullet1, bullet2 = split_bullet_points(account_summary)
-        st.write(bullet1)
-        st.write(bullet2)
-        
-    ###Col info, bottom left
-    mid_col_left, mid_col_right = st.columns(2)
-
-    with mid_col_left:
-        
         st.subheader("Performance Over Time")
                      
         account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
@@ -629,7 +631,7 @@ def main():
                 yaxis=dict(title=selected_metric, title_font=dict(size=12)),
                 title=f'{selected_metric} Over Time',
                 title_font=dict(size=18, family='Arial'),
-                plot_bgcolor='white',
+                # plot_bgcolor='white',
                 hovermode='x unified',
                 showlegend=False  # Turn off the legend if desired
             )
@@ -641,8 +643,11 @@ def main():
             # Display the Plotly figure in Streamlit
             st.plotly_chart(fig)
 
-    with mid_col_right:
-         # Initialize calendar events in session state if not already set
+    mid_col_left, mid_col_right = st.columns(2)
+            
+    with mid_col_left:
+        
+        # Initialize calendar events in session state if not already set
         if "calendar_events" not in st.session_state:
             st.write("start")
             st.session_state["calendar_events"] = [
@@ -661,6 +666,8 @@ def main():
     
         # Create a container for the calendar widget
         calendar_container = st.container()
+
+        start_of_mon = pd.Timestamp.now().replace(day=1).strftime('%Y-%m-%d')
         
         with calendar_container:
             st.subheader("Upcoming Scheduled Posts")
@@ -672,7 +679,7 @@ def main():
                         "center": "title",
                         "right": "dayGridDay,dayGridWeek,dayGridMonth",
                     },
-                    "initialDate": "2025-01-01",
+                    "initialDate": start_of_mon,
                     "initialView": "dayGridMonth",
                     "editable": True,
                     "navLinks": True,
@@ -684,34 +691,44 @@ def main():
             # Update session state only when the calendar's state changes
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
-        
-    ###Col info, bottom left
-    bot_col_left, bot_col_right = st.columns(2)
 
-    with bot_col_left:
-            
+    with mid_col_right:
+
+        st.subheader("Account Breakdown")
         # Dropdown for selecting breakdown
         selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
 
         # Display the pie chart based on selected breakdown
         plot_pie_chart(selected_breakdown, demo_data)
 
-    with bot_col_right:
-        ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
+        
+    ###Col info, bottom left
+    # bot_col_left, bot_col_right = st.columns(2)
 
-        st.header("Advertising Performance")
+    # with bot_col_left:
+            
+        # # Dropdown for selecting breakdown
+        # selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
+
+        # # Display the pie chart based on selected breakdown
+        # plot_pie_chart(selected_breakdown, demo_data)
+
+    # with bot_col_right:
+        # ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
+
+        # st.header("Advertising Performance")
         
         
-        ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
-        #Ad Scorecards
-        with ad_sc1:
-            display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
-        with ad_sc2:
-            display_metric("Reach", f"{ad_data['reach'].sum():,}")
-        with ad_sc3:
-            display_metric("Boosted Follows", f"{ad_data['clicks'].sum()/5:,}")
-        with ad_sc4:
-            display_metric("Cost p Follow", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
+        # ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
+        # #Ad Scorecards
+        # with ad_sc1:
+        #     display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
+        # with ad_sc2:
+        #     display_metric("Reach", f"{ad_data['reach'].sum():,}")
+        # with ad_sc3:
+        #     display_metric("Boosted Follows", f"{ad_data['clicks'].sum()/5:,}")
+        # with ad_sc4:
+        #     display_metric("Cost p Follow", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
 
 
 # Run the app
