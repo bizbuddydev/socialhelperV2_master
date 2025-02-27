@@ -555,20 +555,7 @@ def main():
     
 
     with top_col_right:
-        st.subheader("Account Insights from AI")
-        account_summary_data = pull_accountsummary()
-        account_summary = account_summary_data.iloc[0][1]
-        #response_text = generate_gpt_summary(bus_description, performance_summary)
-        bullet1, bullet2 = split_bullet_points(account_summary)
-        st.write(bullet1)
-        st.write(bullet2)
-        
-    ###Col info, bottom left
-    mid_col_left, mid_col_right = st.columns(2)
-
-    with mid_col_left:
-        
-        st.subheader("Performance Over Time")
+    st.subheader("Performance Over Time")
                      
         account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
         
@@ -640,9 +627,10 @@ def main():
         
             # Display the Plotly figure in Streamlit
             st.plotly_chart(fig)
-
-    with mid_col_right:
-         # Initialize calendar events in session state if not already set
+            
+    with mid_col_left:
+        
+        # Initialize calendar events in session state if not already set
         if "calendar_events" not in st.session_state:
             st.write("start")
             st.session_state["calendar_events"] = [
@@ -684,34 +672,42 @@ def main():
             # Update session state only when the calendar's state changes
             if state.get("eventsSet") and state["eventsSet"] != st.session_state["calendar_events"]:
                 st.session_state["calendar_events"] = state["eventsSet"]
-        
-    ###Col info, bottom left
-    bot_col_left, bot_col_right = st.columns(2)
 
-    with bot_col_left:
-            
+    with mid_col_right:
         # Dropdown for selecting breakdown
         selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
 
         # Display the pie chart based on selected breakdown
         plot_pie_chart(selected_breakdown, demo_data)
 
-    with bot_col_right:
-        ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
+        
+    ###Col info, bottom left
+    # bot_col_left, bot_col_right = st.columns(2)
 
-        st.header("Advertising Performance")
+    # with bot_col_left:
+            
+        # # Dropdown for selecting breakdown
+        # selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
+
+        # # Display the pie chart based on selected breakdown
+        # plot_pie_chart(selected_breakdown, demo_data)
+
+    # with bot_col_right:
+        # ad_data = ad_data[ad_data['ad_name'].str.contains('Post', case=False, na=False)]
+
+        # st.header("Advertising Performance")
         
         
-        ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
-        #Ad Scorecards
-        with ad_sc1:
-            display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
-        with ad_sc2:
-            display_metric("Reach", f"{ad_data['reach'].sum():,}")
-        with ad_sc3:
-            display_metric("Boosted Follows", f"{ad_data['clicks'].sum()/5:,}")
-        with ad_sc4:
-            display_metric("Cost p Follow", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
+        # ad_sc1, ad_sc2, ad_sc3, ad_sc4 = st.columns(4)
+        # #Ad Scorecards
+        # with ad_sc1:
+        #     display_metric("Ad Spend", f"${ad_data['spend'].sum():,}")
+        # with ad_sc2:
+        #     display_metric("Reach", f"{ad_data['reach'].sum():,}")
+        # with ad_sc3:
+        #     display_metric("Boosted Follows", f"{ad_data['clicks'].sum()/5:,}")
+        # with ad_sc4:
+        #     display_metric("Cost p Follow", f"${ad_data['spend'].sum()/(ad_data['clicks'].sum()/5):,.2f}")
 
 
 # Run the app
