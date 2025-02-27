@@ -11,11 +11,11 @@ st.set_page_config(page_title="Post Analyzer", layout="wide", page_icon="🚝")
 
 # Define links to other pages
 PAGES = {
-    "📊 Overview": "https://smp-bizbuddyv2-homepage.streamlit.app/",
-    "📱 Posts": "https://smp-bizbuddyv2-postoverview.streamlit.app/",
-    "📡 Deep Dive": "https://bizbuddy-postdd-smp.streamlit.app/",
-    "🚝 Inspiration Upload": "https://smp-bizbuddyv2-inspoupload.streamlit.app/",
-    "🗓️ Scheduler": "https://smp-bizbuddy-postscheduler.streamlit.app/",
+    "📊 Account Overview": "https://fv-bizbuddyv2-home.streamlit.app/",
+    "📱 Posts Overview": "https://bizbuddyv2-fv-postoverview.streamlit.app/",
+    "🔬 Posts Deepdive": "https://bizbuddyv2-fv-postdeepdive.streamlit.app/",
+    "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-fv-postscheduler.streamlit.app/",
+    "💡 Inspiration Upload": "https://fv-bizbuddyv2-inspiration.streamlit.app/"
 }
 
 # Sidebar navigation
