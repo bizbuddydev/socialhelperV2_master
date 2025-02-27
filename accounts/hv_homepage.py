@@ -627,6 +627,8 @@ def main():
         
             # Display the Plotly figure in Streamlit
             st.plotly_chart(fig)
+
+    mid_col_left, mid_col_right = st.columns(2)
             
     with mid_col_left:
         
