@@ -20,7 +20,7 @@ PAGES = {
     "📱 Posts Overview": "https://bizbuddyv2-fv-postoverview.streamlit.app/",
     "🔬 Posts Deepdive": "https://bizbuddyv2-fv-postdeepdive.streamlit.app/",
     "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-fv-postscheduler.streamlit.app/",
-    "💡 Inspiration Upload": "https://fv-bizbuddyv2-inspiration.streamlit.app/"
+    "💡 Inspiration Upload": "https://bizbuddyv2-fv-inspoupload.streamlit.app/"
 }
 
 # Sidebar navigation
