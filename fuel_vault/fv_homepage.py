@@ -500,8 +500,8 @@ def main():
     #Get demographic data
     demo_data = pull_dataframes(DATASET_ID, DEMOGRAPHIC_TABLE_ID)
     
-    #Get addata
-    ad_data = pull_dataframes(AD_DATASET_ID, AD_TABLE_ID)
+    # #Get addata
+    # ad_data = pull_dataframes(AD_DATASET_ID, AD_TABLE_ID)
     
     # Create layout with two columns
     top_col_left, top_col_right = st.columns(2)
