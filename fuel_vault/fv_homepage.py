@@ -590,9 +590,6 @@ def main():
             account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
             account_data.rename(columns={'index': 'date'}, inplace=True)
         
-            # Fill missing values for the selected metric with NaN or a default value
-            account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')  # Example: forward-fill
-        
             # Initialize a Plotly figure
             fig = go.Figure()
         
