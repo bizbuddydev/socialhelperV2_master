@@ -87,7 +87,7 @@ def pull_busdescritpion(dataset_id, table_id):
         st.error(f"Error fetching data: {e}")
         return None
 
-bus_description = pull_busdescritpion(ACCOUNT_DATASET_ID, BUSINESS_TABLE_ID)
+#bus_description = pull_busdescritpion(ACCOUNT_DATASET_ID, BUSINESS_TABLE_ID)
 
 # Get Post Idea Data
 def pull_postideas(dataset_id, table_id):
