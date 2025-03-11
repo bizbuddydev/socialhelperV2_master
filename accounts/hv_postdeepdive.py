@@ -35,9 +35,13 @@ def fetch_data(query: str) -> pd.DataFrame:
     return result.to_dataframe()
 
 def assign_time_buckets(df):
-    # Convert created_time to datetime if it's not already
-    df["created_time_posts"] = pd.to_datetime(df["created_time_posts"])
-    st.write(df["created_time_posts"])
+    # Ensure datetime conversion retains time values
+    df["created_time_posts"] = pd.to_datetime(df["created_time_posts"], format="%Y-%m-%dT%H:%M:%S", errors="coerce")
+    
+    # Ensure datetime conversion worked properly
+    if df["created_time_posts"].isna().any():
+        raise ValueError("Some created_time_posts values failed to parse. Check input format.")
+
     # Extract hour
     df["hour"] = df["created_time_posts"].dt.hour
 
