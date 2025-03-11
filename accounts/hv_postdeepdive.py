@@ -247,8 +247,12 @@ def main():
         st.subheader("Terms from Speech/Captions")
         st.write("Word clouds show words used in a corpus of text with larger words appearing more often.")
         
+        # Convert NaNs to empty strings before joining
+        filtered_data["processed_speech"] = filtered_data["processed_speech"].fillna("")
+        filtered_data["caption"] = filtered_data["caption"].fillna("")
+        
         # Combine text from processed_speech and caption columns
-        text_data = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str))
+        text_data = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str)).strip()
         
         # Generate the word cloud
         wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_data)
