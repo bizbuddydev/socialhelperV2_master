@@ -37,10 +37,9 @@ def fetch_data(query: str) -> pd.DataFrame:
 def assign_time_buckets(df):
     # Convert created_time to datetime if it's not already
     df["created_time_posts"] = pd.to_datetime(df["created_time_posts"])
-    
+    st.write(df["created_time_posts"])
     # Extract hour
     df["hour"] = df["created_time_posts"].dt.hour
-    st.write(df["hour"])
 
     # Define bucket mapping
     def bucketize(hour):
