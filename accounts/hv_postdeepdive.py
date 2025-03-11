@@ -36,14 +36,14 @@ def fetch_data(query: str) -> pd.DataFrame:
 
 def assign_time_buckets(df):
     # Ensure datetime conversion retains time values
-    df["created_time_og"] = pd.to_datetime(df["created_time_og"], format="%Y-%m-%dT%H:%M:%S", errors="coerce")
+    #df["created_time_og"] = pd.to_datetime(df["created_time_og"], format="%Y-%m-%dT%H:%M:%S", errors="coerce")
     
     # Ensure datetime conversion worked properly
-    if df["created_time_posts"].isna().any():
-        raise ValueError("Some created_time_posts values failed to parse. Check input format.")
+    # if df["created_time_og"].isna().any():
+    #     raise ValueError("Some created_time_posts values failed to parse. Check input format.")
 
     # Extract hour
-    df["hour"] = df["created_time_posts"].dt.hour
+    df["hour"] = df["created_time_og"].dt.hour
 
     # Define bucket mapping
     def bucketize(hour):
