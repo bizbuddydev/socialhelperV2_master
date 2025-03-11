@@ -35,26 +35,14 @@ def fetch_data(query: str) -> pd.DataFrame:
     return result.to_dataframe()
 
 def assign_time_buckets(df):
-    # Ensure created_time_posts is a string (if it's not already)
-    df["created_time_posts"] = df["created_time_posts"].astype(str)
-
-    # Extract Year, Month, Day, Hour, Minute, Second from the timestamp
-    extracted = df["created_time_posts"].str.extract(r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T(?P<hour>\d{2}):(?P<minute>\d{2}):(?P<second>\d{2})')
-
-    # Convert extracted components to integers (ensures proper parsing)
-    for col in extracted.columns:
-        extracted[col] = pd.to_numeric(extracted[col])
-
-    # Reconstruct proper datetime format
-    df["created_time_posts"] = pd.to_datetime(
-        extracted[["year", "month", "day", "hour", "minute", "second"]]
-    )
-
-    # Check if time was successfully reconstructed
+    # Ensure datetime conversion retains time values
+    df["created_time_posts"] = pd.to_datetime(df["created_time_posts"], format="%Y-%m-%dT%H:%M:%S", errors="coerce")
+    
+    # Ensure datetime conversion worked properly
     if df["created_time_posts"].isna().any():
-        raise ValueError("Some datetime values failed to reconstruct. Check input format.")
+        raise ValueError("Some created_time_posts values failed to parse. Check input format.")
 
-    # Extract hour again (since we lost it before)
+    # Extract hour
     df["hour"] = df["created_time_posts"].dt.hour
 
     # Define bucket mapping
