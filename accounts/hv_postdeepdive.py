@@ -36,7 +36,7 @@ def fetch_data(query: str) -> pd.DataFrame:
 
 def assign_time_buckets(df):
     # Ensure datetime conversion retains time values
-    st.write(df["created_time_posts"])
+    st.write(df["created_time_og"])
     df["created_time_posts"] = pd.to_datetime(df["created_time_posts"], format="%Y-%m-%dT%H:%M:%S", errors="coerce")
     
     # Ensure datetime conversion worked properly
@@ -104,6 +104,10 @@ ORDER BY created_time DESC
 # Load post data
 post_data = fetch_data(post_query)
 post_data["Like Rate"] = round(post_data["like_count"] / post_data["reach"] * 100, 2)
+
+#Fix post timing but maintain old created_time column
+post_data["created_time_og"] = post_data["created_time"]
+
 post_data["created_time"] = pd.to_datetime(post_data["created_time"]).dt.date
 
 # Load analysis data
