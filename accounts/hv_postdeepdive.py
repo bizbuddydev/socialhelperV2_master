@@ -43,14 +43,16 @@ def assign_time_buckets(df):
 
     # Define bucket mapping
     def bucketize(hour):
-        if 9 <= hour <= 12:
+        if 9 <= hour <= 11:
             return f"{hour} AM"
+        elif hour == 12:
+            return "12 PM"
         elif 13 <= hour <= 23:
             return f"{hour - 12} PM"
         elif hour == 0:
             return "12 AM"
-        else:
-            return "1-8 AM"
+        else:  # Covers 1 AM - 7 AM
+            return "1-7 AM"
 
     # Assign time buckets
     df["time_bucket"] = df["hour"].apply(bucketize)
@@ -58,7 +60,7 @@ def assign_time_buckets(df):
     # Define categorical ordering
     time_bucket_order = [
         "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
-        "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-8 AM"
+        "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1-7 AM"
     ]
     weekday_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
