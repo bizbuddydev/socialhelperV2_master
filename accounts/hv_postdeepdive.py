@@ -40,6 +40,7 @@ def assign_time_buckets(df):
     
     # Extract hour
     df["hour"] = df["created_time_posts"].dt.hour
+    st.write(df["hour"])
 
     # Define bucket mapping
     def bucketize(hour):
