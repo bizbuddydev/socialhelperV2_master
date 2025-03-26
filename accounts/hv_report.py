@@ -226,11 +226,11 @@ def main():
 
     with col_viz3:
         # Preprocess: fill in NaNs
-        filtered_data["processed_speech"] = filtered_data["processed_speech"].fillna("")
-        filtered_data["caption"] = filtered_data["caption"].fillna("")
+        merged_data["processed_speech"] = merged_data["processed_speech"].fillna("")
+        merged_data["caption"] = merged_data["caption"].fillna("")
 
         # Combine both text sources
-        text_blob = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str)).strip()
+        text_blob = " ".join(merged_data["processed_speech"].astype(str) + " " + merged_data["caption"].astype(str)).strip()
 
         # Generate word cloud
         wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_blob)
