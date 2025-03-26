@@ -148,6 +148,21 @@ def top_10_by_column(df, column):
 def main():
     st.title("Social Buddy 🚀 - Harorview Social Report")
 
+    # Define links to other pages
+    PAGES = {
+        "📊 Account Overview": "https://hv-bizbuddyv2-home.streamlit.app/",
+        "📱 Posts Overview": "https://bizbuddyv2-hv-postoverview.streamlit.app/",
+        "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
+        "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
+        "💡 Inspiration Upload": "https://hv-bizbuddyv2-inspiration.streamlit.app/",
+        "Report" : "https://hv-bizbuddyv2-report.streamlit.app/"
+    }
+    
+    # Sidebar navigation
+    st.sidebar.title("Navigation")
+    for page, url in PAGES.items():
+        st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
+
     # SECTION 1: Time-of-Day Analysis
     col_text, col_viz = st.columns([1, 2])  # Wider column for visuals
 
