@@ -202,7 +202,7 @@ def main():
             merged_data.groupby("call_to_action")["reach"]
             .mean()
             .reset_index()
-            .sort_values("reach", ascending=False)
+            .sort_values("reach", ascending=True)
         )
 
         fig_cta = px.bar(
