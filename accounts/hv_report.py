@@ -190,5 +190,32 @@ def main():
         st.plotly_chart(fig)
 
 
+    # SECTION 2: CTA Analysis
+    col_text2, col_viz2 = st.columns([1, 2])
+
+    with col_text2:
+        st.subheader("Which Call-to-Actions Work Best?")
+        st.markdown("🚧 Placeholder summary here. This section can include commentary about which CTAs are driving the most reach or engagement.")
+
+    with col_viz2:
+        cta_data = (
+            merged_data.groupby("call_to_action")["reach"]
+            .mean()
+            .reset_index()
+            .sort_values("reach", ascending=False)
+        )
+
+        fig_cta = px.bar(
+            cta_data,
+            x="reach",
+            y="call_to_action",
+            orientation="h",
+            title="Average Reach by Call-to-Action",
+            labels={"call_to_action": "CTA Phrase", "reach": "Average Reach"},
+            template="plotly_white"
+        )
+        st.plotly_chart(fig_cta)
+
+
 if __name__ == "__main__":
     main()
