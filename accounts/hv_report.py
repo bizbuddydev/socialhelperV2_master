@@ -217,5 +217,31 @@ def main():
         st.plotly_chart(fig_cta)
 
 
+     # SECTION 3: Word Cloud
+    col_text3, col_viz3 = st.columns([1, 2])
+
+    with col_text3:
+        st.subheader("What Words Are Commonly Used?")
+        st.markdown("🚧 Placeholder summary here. Highlight common patterns in language across speech and captions, e.g., frequently used phrases or tone.")
+
+    with col_viz3:
+        # Preprocess: fill in NaNs
+        filtered_data["processed_speech"] = filtered_data["processed_speech"].fillna("")
+        filtered_data["caption"] = filtered_data["caption"].fillna("")
+
+        # Combine both text sources
+        text_blob = " ".join(filtered_data["processed_speech"].astype(str) + " " + filtered_data["caption"].astype(str)).strip()
+
+        # Generate word cloud
+        wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_blob)
+
+        # Display word cloud
+        fig_wc, ax_wc = plt.subplots(figsize=(10, 5))
+        ax_wc.imshow(wordcloud, interpolation="bilinear")
+        ax_wc.axis("off")
+        st.pyplot(fig_wc)
+
+
+
 if __name__ == "__main__":
     main()
