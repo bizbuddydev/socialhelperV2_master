@@ -242,80 +242,72 @@ def main():
         st.pyplot(fig_wc)
 
 
-        with st.expander("See More Visuals"):
+    with st.expander("See More Visuals"):
 
-            # Subsection 1: Impact of Word Choice
-            col_text4, col_viz4 = st.columns([1, 2])
-    
-            with col_text4:
-                st.subheader("Word Choice and Engagement")
-                st.markdown("🚧 Placeholder: Words used in your posts can drive engagement. This chart explores which commonly used words are associated with higher reach.")
-    
-            with col_viz4:
-                fig_words = px.scatter(
-                    filtered_data,
-                    x="common_word_count",
-                    y="most_common_word",
-                    size="reach",
-                    color="theme_repetition",
-                    title="Impact of Word Choice on Engagement",
-                    labels={"most_common_word": "Most Common Word", "common_word_count": "Word Frequency"},
-                    template="plotly_white"
-                )
-                st.plotly_chart(fig_words)
-    
-            # Subsection 2: Average Shot Count
-            col_text5, col_viz5 = st.columns([1, 2])
-    
-            with col_text5:
-                st.subheader("Shot Count and Post Reach")
-                st.markdown("🚧 Placeholder: More dynamic videos with more shots might drive reach — or not! This chart looks at how shot count impacts post performance.")
-    
-            with col_viz5:
-                shot_data = (
-                    filtered_data.groupby("shot_count")["reach"]
-                    .mean()
-                    .reset_index()
-                    .sort_values("reach", ascending=False)
-                )
-    
-                fig_shot = px.bar(
-                    shot_data,
-                    x="shot_count",
-                    y="reach",
-                    title="Average Reach by Shot Count",
-                    labels={"shot_count": "Shot Count", "reach": "Average Reach"},
-                    template="plotly_white"
-                )
-                st.plotly_chart(fig_shot)
-    
-            # Subsection 3: Polarity (Sentiment)
-            col_text6, col_viz6 = st.columns([1, 2])
-    
-            with col_text6:
-                st.subheader("Sentiment and Engagement")
-                st.markdown("🚧 Placeholder: Posts that are more positive or more negative may perform differently. This bar chart groups sentiment polarity levels by average reach.")
-    
-            with col_viz6:
-                # Bin polarity into rounded buckets (optional for visual clarity)
-                filtered_data["polarity_bucket"] = filtered_data["polarity"].round(1)
-    
-                polarity_data = (
-                    filtered_data.groupby("polarity_bucket")["reach"]
-                    .mean()
-                    .reset_index()
-                    .sort_values("polarity_bucket")
-                )
-    
-                fig_polarity = px.bar(
-                    polarity_data,
-                    x="polarity_bucket",
-                    y="reach",
-                    title="Average Reach by Sentiment (Polarity)",
-                    labels={"polarity_bucket": "Polarity", "reach": "Average Reach"},
-                    template="plotly_white"
-                )
-                st.plotly_chart(fig_polarity)
+        # WORD CHOICE IMPACT
+        col_text4, col_viz4 = st.columns([1, 2])
+        with col_text4:
+            st.subheader("Impact of Word Choice")
+            st.markdown("🚧 Placeholder: Analyze how the most common words and their frequency relate to engagement metrics.")
+
+        with col_viz4:
+            fig_words = px.scatter(
+                merged_data,
+                x="common_word_count",
+                y="most_common_word",
+                size="reach",
+                color="theme_repetition",
+                title="Impact of Word Choice on Engagement",
+                labels={"most_common_word": "Most Common Word", "common_word_count": "Word Frequency"},
+                template="plotly_white"
+            )
+            st.plotly_chart(fig_words)
+
+        # SHOT COUNT ANALYSIS
+        col_text5, col_viz5 = st.columns([1, 2])
+        with col_text5:
+            st.subheader("Shot Count and Performance")
+            st.markdown("🚧 Placeholder: Explore how the number of shots in a video correlates with post performance.")
+
+        with col_viz5:
+            shot_data = (
+                merged_data.groupby("shot_count")["reach"]
+                .mean()
+                .reset_index()
+                .sort_values("shot_count")
+            )
+            fig_shot = px.bar(
+                shot_data,
+                x="shot_count",
+                y="reach",
+                title="Average Reach by Shot Count",
+                labels={"shot_count": "Shot Count", "reach": "Average Reach"},
+                template="plotly_white"
+            )
+            st.plotly_chart(fig_shot)
+
+        # POLARITY ANALYSIS
+        col_text6, col_viz6 = st.columns([1, 2])
+        with col_text6:
+            st.subheader("Polarity and Engagement")
+            st.markdown("🚧 Placeholder: Investigate how positive or negative language affects reach.")
+
+        with col_viz6:
+            polarity_data = (
+                merged_data.groupby("polarity")["reach"]
+                .mean()
+                .reset_index()
+                .sort_values("polarity")
+            )
+            fig_polarity = px.bar(
+                polarity_data,
+                x="polarity",
+                y="reach",
+                title="Average Reach by Polarity",
+                labels={"polarity": "Polarity (Negative to Positive)", "reach": "Average Reach"},
+                template="plotly_white"
+            )
+            st.plotly_chart(fig_polarity)
 
 
 if __name__ == "__main__":
