@@ -172,7 +172,7 @@ def main():
 
     with col_viz_theme:
         theme_data = (
-            merged_data.groupby("theme")["reach"]
+            merged_data.groupby("main_theme")["reach"]
             .mean()
             .reset_index()
             .sort_values("reach", ascending=False)
@@ -181,7 +181,7 @@ def main():
         fig_theme = px.bar(
             theme_data,
             x="reach",
-            y="theme",
+            y="main_theme",
             orientation="h",
             title="Average Reach by Theme",
             labels={"theme": "Theme", "reach": "Average Reach"},
