@@ -146,7 +146,7 @@ def top_10_by_column(df, column):
     return df.sort_values(by=column, ascending=False).head(10)
 
 def main():
-    st.title("Social Buddy 🚀 - Harorview Social Report")
+    st.title("Social Buddy 🚀 - Harborview Social Report")
 
     # Define links to other pages
     PAGES = {
@@ -167,7 +167,7 @@ def main():
     col_text, col_viz = st.columns([1, 2])  # Wider column for visuals
 
     with col_text:
-        st.subheader("When Are Posts Performing Best?")
+        st.subheader("When is the best time to post?")
         st.markdown("🚧 Placeholder summary here. You can later insert auto-generated insights or your own write-up about post timing performance based on reach.")
 
     with col_viz:
@@ -221,7 +221,7 @@ def main():
     col_text3, col_viz3 = st.columns([1, 2])
 
     with col_text3:
-        st.subheader("What Words Are Commonly Used?")
+        st.subheader("What are we posting about?")
         st.markdown("🚧 Placeholder summary here. Highlight common patterns in language across speech and captions, e.g., frequently used phrases or tone.")
 
     with col_viz3:
