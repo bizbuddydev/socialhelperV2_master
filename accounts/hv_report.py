@@ -163,6 +163,34 @@ def main():
     for page, url in PAGES.items():
         st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
 
+    # SECTION: Theme Performance
+    col_text_theme, col_viz_theme = st.columns([1, 2])
+
+    with col_text_theme:
+        st.subheader("Theme Performance")
+        st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
+
+    with col_viz_theme:
+        theme_data = (
+            merged_data.groupby("theme")["reach"]
+            .mean()
+            .reset_index()
+            .sort_values("reach", ascending=False)
+        )
+
+        fig_theme = px.bar(
+            theme_data,
+            x="reach",
+            y="theme",
+            orientation="h",
+            title="Average Reach by Theme",
+            labels={"theme": "Theme", "reach": "Average Reach"},
+            template="plotly_white"
+        )
+
+        st.plotly_chart(fig_theme)
+
+    
     # SECTION 1: Time-of-Day Analysis
     col_text, col_viz = st.columns([1, 2])  # Wider column for visuals
 
