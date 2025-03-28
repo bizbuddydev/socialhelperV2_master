@@ -282,6 +282,12 @@ def main():
                 template="plotly_white"
             )
             st.plotly_chart(fig_visualfocus)
+
+        st.markdown("Explanation:")
+        st.markdown("""
+                    - Left: shows average reach for posts grouped the time of day that they were posted.
+                    - Right: shows aveage reach for primary visuals for each post (the main imagery in each posts shown in the first 3 seconds of a video.
+                    """)
     
     
         # SECTION 2: CTA Analysis
@@ -320,6 +326,12 @@ def main():
             fig_obj.update_traces(marker=dict(size=10))
             
             st.plotly_chart(fig_obj)
+
+        st.markdown("Explanation:")
+        st.markdown("""
+                    - Left: shows average reach by the video length.
+                    - Right: shows average reach by the object count (often used as a measure of how busy a video is).
+                    """)
 
 
     with st.expander("See More Visuals"):
