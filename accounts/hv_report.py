@@ -71,6 +71,7 @@ account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
 
 account_data = account_data.drop_duplicates()
 account_data = account_data.sort_values(by='date', ascending=True)
+st.write(account_data)
 
 # Function to plot pie chart using Plotly
 def plot_pie_chart(breakdown, df):
