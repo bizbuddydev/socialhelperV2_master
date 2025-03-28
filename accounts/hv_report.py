@@ -165,7 +165,6 @@ def main():
 
     st.subheader("Acccount Overview")
     st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
-f"\x1B[3m{text}\x1B[0m"
     st.subheader(f"\x1B[3mWhat\x1B[0m are we posting")
              
 
