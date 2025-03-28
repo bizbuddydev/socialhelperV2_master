@@ -294,7 +294,6 @@ def main():
             video_analysis,
             x="video_len",
             y="reach",
-            trendline="ols",
             title="Video Length vs Engagement",
             labels={"video_len": "Video Length", "reach": "Average Reach"},
             template="plotly_white"
