@@ -237,8 +237,7 @@ def main():
     account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
     
     # Dropdown for selecting metric
-    metric_options = ['Total Followers', 'Followers Gained']
-    selected_metric = st.selectbox("Select metric for chart", metric_options)
+    metric_options = ['Total Followers']
     
     # Line chart for total followers over time using Plotly
     if account_data is not None and not account_data.empty:
@@ -266,21 +265,6 @@ def main():
             name=selected_metric,
             line=dict(color='royalblue', width=2)
         ))
-    
-        # Add vertical lines for each post date
-        post_dates = pd.to_datetime(post_data['created_time']).dt.date.unique()  # Extract unique post dates
-        post_dates = [pd.Timestamp(post_date) for post_date in post_dates if post_date >= account_data['date'].min().date()]  # Filter post dates
-        
-        for post_date in post_dates:
-            fig.add_trace(go.Scatter(
-                x=[post_date, post_date],  # Draw a vertical line
-                y=[account_data[selected_metric].min(), account_data[selected_metric].max()],
-                mode='lines',
-                name='Post',
-                line=dict(color='gray', dash='dash'),
-                hoverinfo='text',
-                text=f"Post on {post_date.date()}"
-            ))
     
         # Customize layout
         fig.update_layout(
