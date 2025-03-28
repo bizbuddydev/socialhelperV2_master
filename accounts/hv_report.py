@@ -227,12 +227,6 @@ def main():
 
     account_data = account_data.drop_duplicates()
     account_data = account_data.sort_values(by='date', ascending=True)
-    
-    #Account Overview High level view of performance
-    st.subheader("Acccount Overview")
-    st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
-
-    st.subheader("Performance Over Time")
                      
     account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
     
@@ -555,6 +549,11 @@ def main():
                 template="plotly_white"
             )
             st.plotly_chart(fig_polarity)
+
+    st.divider()
+
+    st.subheader("Recommendations from Analysis")
+    st.write("What do we do?")
 
 
 if __name__ == "__main__":
