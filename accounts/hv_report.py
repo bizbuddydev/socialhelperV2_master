@@ -67,10 +67,6 @@ def pull_dataframes(dataset_id, table_id):
 demo_data = pull_dataframes(DATASET_ID, DEMOGRAPHIC_TABLE_ID)
 #st.write(demo_data)
 
-account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
-
-account_data = account_data.drop_duplicates()
-account_data = account_data.sort_values(by='date', ascending=True)
 
 # Function to plot pie chart using Plotly
 def plot_pie_chart(breakdown, df):
@@ -226,12 +222,17 @@ def main():
     for page, url in PAGES.items():
         st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
 
+    #Pull account data
+    account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
+
+    account_data = account_data.drop_duplicates()
+    account_data = account_data.sort_values(by='date', ascending=True)
+    
     #Account Overview High level view of performance
     st.subheader("Acccount Overview")
     st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
 
     st.subheader("Performance Over Time")
-    st.write(account_data)
                      
     account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
     
