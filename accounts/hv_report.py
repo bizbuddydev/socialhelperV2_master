@@ -236,9 +236,8 @@ def main():
                      
     account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
     
-    # Dropdown for selecting metric
-    metric_options = ['Total Followers', 'Followers Gained']
-    selected_metric = st.selectbox("Select metric for chart", metric_options)
+    # Hardcoded metric
+    selected_metric = 'Total Followers'
     
     # Line chart for total followers over time using Plotly
     if account_data is not None and not account_data.empty:
@@ -252,8 +251,8 @@ def main():
         account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
         account_data.rename(columns={'index': 'date'}, inplace=True)
     
-        # Fill missing values for the selected metric with NaN or a default value
-        account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')  # Example: forward-fill
+        # Fill missing values for the selected metric
+        account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')
     
         # Initialize a Plotly figure
         fig = go.Figure()
@@ -272,23 +271,23 @@ def main():
             xaxis=dict(
                 title='Date',
                 title_font=dict(size=12),
-                tickformat='%b %d',  # Format ticks as "MMM DD"
+                tickformat='%b %d',
                 tickangle=45
             ),
             yaxis=dict(title=selected_metric, title_font=dict(size=12)),
             title=f'{selected_metric} Over Time',
             title_font=dict(size=18, family='Arial'),
-            # plot_bgcolor='white',
             hovermode='x unified',
-            showlegend=False  # Turn off the legend if desired
+            showlegend=False
         )
     
-        # Add gridlines for cleaner visuals
+        # Add gridlines
         fig.update_xaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
         fig.update_yaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
     
-        # Display the Plotly figure in Streamlit
+        # Display the figure
         st.plotly_chart(fig)
+
     st.divider()
 
     ### What are we posting section ###
