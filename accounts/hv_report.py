@@ -238,55 +238,62 @@ def main():
     
     # Hardcoded metric
     selected_metric = 'Total Followers'
-    
-    # Line chart for total followers over time using Plotly
-    if account_data is not None and not account_data.empty:
-        account_data['date'] = pd.to_datetime(account_data['date'])
-        account_data = account_data.sort_values(by='date', ascending=True)
-    
-        # Create a complete date range from the first to the last day in account_data
-        full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
-    
-        # Reindex account_data to include all dates in the range
-        account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
-        account_data.rename(columns={'index': 'date'}, inplace=True)
-    
-        # Fill missing values for the selected metric
-        account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')
-    
-        # Initialize a Plotly figure
-        fig = go.Figure()
-    
-        # Add the main line chart for the selected metric
-        fig.add_trace(go.Scatter(
-            x=account_data['date'],
-            y=account_data[selected_metric],
-            mode='lines',
-            name=selected_metric,
-            line=dict(color='royalblue', width=2)
-        ))
-    
-        # Customize layout
-        fig.update_layout(
-            xaxis=dict(
-                title='Date',
-                title_font=dict(size=12),
-                tickformat='%b %d',
-                tickangle=45
-            ),
-            yaxis=dict(title=selected_metric, title_font=dict(size=12)),
-            title=f'{selected_metric} Over Time',
-            title_font=dict(size=18, family='Arial'),
-            hovermode='x unified',
-            showlegend=False
-        )
-    
-        # Add gridlines
-        fig.update_xaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
-        fig.update_yaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
-    
-        # Display the figure
-        st.plotly_chart(fig)
+
+    col_sum, col_follows = st.columns(2)
+
+    with col_sum:
+        st.subheader("Acccount Overview")
+        st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
+
+    with col_follows:
+        # Line chart for total followers over time using Plotly
+        if account_data is not None and not account_data.empty:
+            account_data['date'] = pd.to_datetime(account_data['date'])
+            account_data = account_data.sort_values(by='date', ascending=True)
+        
+            # Create a complete date range from the first to the last day in account_data
+            full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
+        
+            # Reindex account_data to include all dates in the range
+            account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
+            account_data.rename(columns={'index': 'date'}, inplace=True)
+        
+            # Fill missing values for the selected metric
+            account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')
+        
+            # Initialize a Plotly figure
+            fig = go.Figure()
+        
+            # Add the main line chart for the selected metric
+            fig.add_trace(go.Scatter(
+                x=account_data['date'],
+                y=account_data[selected_metric],
+                mode='lines',
+                name=selected_metric,
+                line=dict(color='royalblue', width=2)
+            ))
+        
+            # Customize layout
+            fig.update_layout(
+                xaxis=dict(
+                    title='Date',
+                    title_font=dict(size=12),
+                    tickformat='%b %d',
+                    tickangle=45
+                ),
+                yaxis=dict(title=selected_metric, title_font=dict(size=12)),
+                title=f'{selected_metric} Over Time',
+                title_font=dict(size=18, family='Arial'),
+                hovermode='x unified',
+                showlegend=False
+            )
+        
+            # Add gridlines
+            fig.update_xaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
+            fig.update_yaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
+        
+            # Display the figure
+            st.plotly_chart(fig)
 
     st.divider()
 
