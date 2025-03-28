@@ -186,7 +186,7 @@ def main():
         col_theme, col_wc = st.columns(2)
     
         with col_theme:
-            st.write("Average Reach by Theme")
+    
             theme_data = (
                 merged_data.groupby("main_theme")["reach"]
                 .mean()
@@ -198,6 +198,7 @@ def main():
                 theme_data,
                 x="reach",
                 y="main_theme",
+                title="Average Reach by Theme",
                 orientation="h",
                 labels={"theme": "Theme", "reach": "Average Reach"},
                 template="plotly_white"
