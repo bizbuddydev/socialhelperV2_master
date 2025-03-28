@@ -265,8 +265,23 @@ def main():
             st.plotly_chart(fig)
     
         with col_visuals:
-            st.subheader("When is the best time to post?")
-            st.markdown("🚧 Placeholder summary here. You can later insert auto-generated insights or your own write-up about post timing performance based on reach.")
+            visualfocus_data = (
+                merged_data.groupby("main_focus")["reach"]
+                .mean()
+                .reset_index()
+                .sort_values("reach", ascending=True)
+            )
+    
+            fig_visualfocus = px.bar(
+                visualfocus_data,
+                x="reach",
+                y="main_focus",
+                orientation="h",
+                title="Average Reach by Primary Visual",
+                labels={"main_focus": "Primary Visual", "reach": "Average Reach"},
+                template="plotly_white"
+            )
+            st.plotly_chart(fig_visualfocus)
     
     
         # SECTION 2: CTA Analysis
