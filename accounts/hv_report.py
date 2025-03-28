@@ -285,13 +285,13 @@ def main():
     
     
         # SECTION 2: CTA Analysis
-        col_text2, col_viz2 = st.columns([1, 2])
+        col_shotlen, col_something = st.columns([1, 2])
     
-        with col_text2:
+        with col_shotlen:
             st.subheader("Which Call-to-Actions Work Best?")
             st.markdown("🚧 Placeholder summary here. This section can include commentary about which CTAs are driving the most reach or engagement.")
     
-        with col_viz2:
+        with col_something:
             cta_data = (
                 merged_data.groupby("call_to_action")["reach"]
                 .mean()
