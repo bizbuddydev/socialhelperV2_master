@@ -183,9 +183,9 @@ def main():
 
     with st.expander("See Full Content Analysis"):
         # SECTION: Theme Performance
-        col_theme, col_viz_wc = st.columns([1, 2])
+        col_theme, col_wc = st.columns([1, 2])
     
-        with col_viz_theme:
+        with col_theme:
             theme_data = (
                 merged_data.groupby("main_theme")["reach"]
                 .mean()
