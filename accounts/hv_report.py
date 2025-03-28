@@ -393,15 +393,12 @@ def main():
     
     ### What are we posting section ###
     st.subheader(f"*Who* is seeing our posts?")
-    st.write("Let's take a look at the content you've posted recently to see what types of posts are working, what aren't, and unrealized oppertunities")
+    st.write("Finally, let's see who's following your account:")
     st.markdown("""
-    - Content: The focus of posts are usually centered on the draw of Port Washington, the town where the Harborview is located. Other ideas include the facilites of the hotel 
-    itself showing visuals of rooms, dining, and common spaces.
-    - Themes: Most posts carry a positive tone with encouraging visitors to take advantage of the Harborview as a getaway spot utilizing the proximity to major cities as a way to 
-    get customers in urban areas to take a weekend getaway to the quant town of Port Washington. Other themes incorporate ideas of collaboration and giveaways getting users to 
-    engage with their content in a more direct manner.
+    - Age/Gender: Generally, the majority of your followers are females (roughly 2/3 of your follor base). More specifically these female followers are from the age of 25-55.
+    - Locations: Almost all your followers are from Wisconsin with a small group coming from Illinois. Of that group from Illinois almost all are from Chicago. Within Wisconsin many are from Milwakke, the second largest group is from Port Madison itself, and finally the smaller towns in surrounding areas.
     """)
-    st.write("Let's take a deeper look at the data to see how what we're posting is performing")  
+    st.write("Let's take a deeper look at the data to see how who exactly is following you")  
 
     with st.expander("See Full Demographic Analysis"):
         col_text, col_demo = st.columns(2)  # Wider column for visuals
@@ -409,7 +406,7 @@ def main():
         with col_text:
             # Prepare data (already categorized earlier)
             st.subheader("Demographic Breakdown")
-            st.write("Placeholder")
+            st.write("Use the dropdown menu to change demograpahic groups")
     
         with col_demo:
             # Dropdown for selecting breakdown
