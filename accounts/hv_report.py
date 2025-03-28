@@ -231,6 +231,7 @@ def main():
     st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
 
     st.subheader("Performance Over Time")
+    st.write(account_data)
                      
     account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
     
