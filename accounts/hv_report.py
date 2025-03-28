@@ -41,6 +41,7 @@ DEMOGRAPHIC_TABLE_ID = config["DEMOGRAPHIC_TABLE_ID"]
 DATASET_ID = config["DATASET_ID"]
 PAGE_ID = 17841410640947509
 PROJECT_ID = config["PROJECT_ID"]
+ACCOUNT_TABLE_ID = config["ACCOUNT_TABLE_ID"]
 
 # Function to pull data from BigQuery
 def pull_dataframes(dataset_id, table_id):
@@ -65,6 +66,11 @@ def pull_dataframes(dataset_id, table_id):
 #Get demographic data
 demo_data = pull_dataframes(DATASET_ID, DEMOGRAPHIC_TABLE_ID)
 #st.write(demo_data)
+
+account_data = pull_dataframes(DATASET_ID, ACCOUNT_TABLE_ID)
+
+account_data = account_data.drop_duplicates()
+account_data = account_data.sort_values(by='date', ascending=True)
 
 # Function to plot pie chart using Plotly
 def plot_pie_chart(breakdown, df):
@@ -223,6 +229,79 @@ def main():
     #Account Overview High level view of performance
     st.subheader("Acccount Overview")
     st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
+
+    st.subheader("Performance Over Time")
+                     
+    account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
+    
+    # Dropdown for selecting metric
+    metric_options = ['Total Followers', 'Followers Gained']
+    selected_metric = st.selectbox("Select metric for chart", metric_options)
+    
+    # Line chart for total followers over time using Plotly
+    if account_data is not None and not account_data.empty:
+        account_data['date'] = pd.to_datetime(account_data['date'])
+        account_data = account_data.sort_values(by='date', ascending=True)
+    
+        # Create a complete date range from the first to the last day in account_data
+        full_date_range = pd.date_range(start=account_data['date'].min(), end=account_data['date'].max())
+    
+        # Reindex account_data to include all dates in the range
+        account_data = account_data.set_index('date').reindex(full_date_range).reset_index()
+        account_data.rename(columns={'index': 'date'}, inplace=True)
+    
+        # Fill missing values for the selected metric with NaN or a default value
+        account_data[selected_metric] = account_data[selected_metric].fillna(method='ffill')  # Example: forward-fill
+    
+        # Initialize a Plotly figure
+        fig = go.Figure()
+    
+        # Add the main line chart for the selected metric
+        fig.add_trace(go.Scatter(
+            x=account_data['date'],
+            y=account_data[selected_metric],
+            mode='lines',
+            name=selected_metric,
+            line=dict(color='royalblue', width=2)
+        ))
+    
+        # Add vertical lines for each post date
+        post_dates = pd.to_datetime(post_data['created_time']).dt.date.unique()  # Extract unique post dates
+        post_dates = [pd.Timestamp(post_date) for post_date in post_dates if post_date >= account_data['date'].min().date()]  # Filter post dates
+        
+        for post_date in post_dates:
+            fig.add_trace(go.Scatter(
+                x=[post_date, post_date],  # Draw a vertical line
+                y=[account_data[selected_metric].min(), account_data[selected_metric].max()],
+                mode='lines',
+                name='Post',
+                line=dict(color='gray', dash='dash'),
+                hoverinfo='text',
+                text=f"Post on {post_date.date()}"
+            ))
+    
+        # Customize layout
+        fig.update_layout(
+            xaxis=dict(
+                title='Date',
+                title_font=dict(size=12),
+                tickformat='%b %d',  # Format ticks as "MMM DD"
+                tickangle=45
+            ),
+            yaxis=dict(title=selected_metric, title_font=dict(size=12)),
+            title=f'{selected_metric} Over Time',
+            title_font=dict(size=18, family='Arial'),
+            # plot_bgcolor='white',
+            hovermode='x unified',
+            showlegend=False  # Turn off the legend if desired
+        )
+    
+        # Add gridlines for cleaner visuals
+        fig.update_xaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgray')
+    
+        # Display the Plotly figure in Streamlit
+        st.plotly_chart(fig)
     st.divider()
 
     ### What are we posting section ###
