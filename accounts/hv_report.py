@@ -26,10 +26,11 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 project_id = st.secrets["gcp_service_account"]["project_id"]
 
+client = bigquery.Client(credentials=credentials, project=project_id)
+
 # Function to fetch data from BigQuery
 @st.cache_data
 def fetch_data(query: str) -> pd.DataFrame:
-    client = bigquery.Client(credentials=credentials, project=project_id)
     query_job = client.query(query)  # Execute query
     result = query_job.result()  # Wait for the query to finish
     return result.to_dataframe()
