@@ -288,14 +288,14 @@ def main():
         col_shotlen, col_something = st.columns([1, 2])
     
         with col_shotlen:
-            video_analysis = merged_data.groupby("shot_len").agg({"reach": "mean", "like_count": "mean"}).reset_index()
+            video_analysis = merged_data.groupby("video_len").agg({"reach": "mean", "like_count": "mean"}).reset_index()
             
             fig_video = px.scatter(
             video_analysis,
-            x="shot_len",
+            x="video_len",
             y="reach",
             title="Shot Length vs Engagement",
-            labels={"shot_len": "Shot Length", "reach": "Average Reach"},
+            labels={"video_len": "Shot Length", "reach": "Average Reach"},
             template="plotly_white"
             )
 
