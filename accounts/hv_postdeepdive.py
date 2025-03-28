@@ -196,7 +196,7 @@ def main():
         st.subheader("Video Structure Optimization")
         video_metric = st.selectbox("Select Video Metric", ["avg_shot_len", "shot_count", "video_len"])
         
-        video_analysis = filtered_data.groupby(video_metric).agg({"reach": "mean", "like_count": "mean"}).reset_index()
+        video_analysis = filtered_data.dropna().groupby(video_metric).agg({"reach": "mean", "like_count": "mean"}).reset_index()
         
         fig_video = px.scatter(
             video_analysis,
