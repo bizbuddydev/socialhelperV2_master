@@ -186,6 +186,7 @@ def main():
         col_theme, col_wc = st.columns(2)
     
         with col_theme:
+            st.write("Average Reach by Theme")
             theme_data = (
                 merged_data.groupby("main_theme")["reach"]
                 .mean()
@@ -198,7 +199,6 @@ def main():
                 x="reach",
                 y="main_theme",
                 orientation="h",
-                title="Average Reach by Theme",
                 labels={"theme": "Theme", "reach": "Average Reach"},
                 template="plotly_white"
             )
@@ -207,6 +207,7 @@ def main():
             st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
 
         with col_wc:
+            t.write("Most Commonly Used Words in Posts")
             # Preprocess: fill in NaNs
             merged_data["processed_speech"] = merged_data["processed_speech"].fillna("")
             merged_data["caption"] = merged_data["caption"].fillna("")
