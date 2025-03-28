@@ -481,7 +481,13 @@ def main():
             # Display the pie chart based on selected breakdown
             plot_pie_chart(selected_breakdown, demo_data)
 
-    
+    st.divider()
+
+    st.subheader("Recommendations from Analysis")
+    st.write("What do we do?")
+
+    st.divider()
+
     #Appendix see the rest of the posts
     with st.expander("See More Visuals"):
 
@@ -549,11 +555,6 @@ def main():
                 template="plotly_white"
             )
             st.plotly_chart(fig_polarity)
-
-    st.divider()
-
-    st.subheader("Recommendations from Analysis")
-    st.write("What do we do?")
 
 
 if __name__ == "__main__":
