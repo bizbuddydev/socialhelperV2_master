@@ -237,7 +237,7 @@ def main():
     account_data.rename(columns={"total_followers": "Total Followers", "follower_count" : "Followers Gained", "reach": "Reach", "impressions": "Impressions"}, inplace=True)
     
     # Dropdown for selecting metric
-    metric_options = ['Total Followers']
+    selected_metric = ['Total Followers']
     
     # Line chart for total followers over time using Plotly
     if account_data is not None and not account_data.empty:
