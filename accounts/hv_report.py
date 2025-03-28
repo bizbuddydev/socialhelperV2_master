@@ -163,6 +163,12 @@ def main():
     for page, url in PAGES.items():
         st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
 
+    st.subheader("Acccount Overview")
+    st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
+f"\x1B[3m{text}\x1B[0m"
+    st.subheader(f"\x1B[3mWhat\x1B[0m are we posting")
+             
+
     # SECTION: Theme Performance
     col_text_theme, col_viz_theme = st.columns([1, 2])
 
