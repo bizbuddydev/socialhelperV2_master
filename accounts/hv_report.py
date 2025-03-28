@@ -62,7 +62,32 @@ def pull_dataframes(dataset_id, table_id):
 
 #Get demographic data
 demo_data = pull_dataframes(DATASET_ID, DEMOGRAPHIC_TABLE_ID)
-st.write(demo_data)
+#st.write(demo_data)
+
+# Function to plot pie chart using Plotly
+def plot_pie_chart(breakdown, df):
+    filtered_df = df[df['breakdown'] == breakdown]
+    aggregated_df = filtered_df.groupby('value')['followers'].sum().reset_index()
+
+    # Create pie chart using Plotly
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                labels=aggregated_df['value'],
+                values=aggregated_df['followers'],
+                hole=0.3,  # Use 0 for a full pie chart, >0 for a donut chart
+                marker=dict(colors=['#636EFA', '#EF553B', '#00CC96', '#AB63FA']),
+                textinfo='label+percent'
+            )
+        ]
+    )
+    fig.update_layout(
+        title_text=f"Distribution of Followers by {breakdown}",
+        legend_title="Categories",
+        margin=dict(l=20, r=20, t=50, b=20),
+    )
+
+    st.plotly_chart(fig)
 
 def assign_time_buckets(df):
     # Ensure datetime conversion retains time values
@@ -375,7 +400,24 @@ def main():
     engage with their content in a more direct manner.
     """)
     st.write("Let's take a deeper look at the data to see how what we're posting is performing")  
+
+    with st.expander("See Full Demographic Analysis"):
+        col_text, col_demo = st.columns(2)  # Wider column for visuals
+
+        with col_text:
+            # Prepare data (already categorized earlier)
+            st.subheader("Demographic Breakdown")
+            st.write("Placeholder")
     
+        with col_demo:
+            # Dropdown for selecting breakdown
+            selected_breakdown = st.selectbox("Select Breakdown", demo_data['breakdown'].unique())
+    
+            # Display the pie chart based on selected breakdown
+            plot_pie_chart(selected_breakdown, demo_data)
+
+    
+    #Appendix see the rest of the posts
     with st.expander("See More Visuals"):
 
         # WORD CHOICE IMPACT
