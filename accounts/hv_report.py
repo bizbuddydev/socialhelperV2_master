@@ -292,7 +292,7 @@ def main():
             
             fig_video = px.scatter(
             video_analysis,
-            x="shot_len,
+            x="shot_len",
             y="reach",
             title="Shot Length vs Engagement",
             labels={"shot_len": "Shot Length", "reach": "Average Reach"},
