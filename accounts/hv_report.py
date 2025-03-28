@@ -285,7 +285,7 @@ def main():
     
     
         # SECTION 2: CTA Analysis
-        col_shotlen, col_something = st.columns(2)
+        col_shotlen, col_objcount = st.columns(2)
     
         with col_shotlen:
             video_analysis = merged_data.groupby("video_len").agg({"reach": "mean", "like_count": "mean"}).reset_index()
@@ -304,24 +304,22 @@ def main():
             
             st.plotly_chart(fig_video)
     
-        with col_something:
-            cta_data = (
-                merged_data.groupby("call_to_action")["reach"]
-                .mean()
-                .reset_index()
-                .sort_values("reach", ascending=True)
+        with col_objcount:
+            object_analysis = merged_data.groupby("object_count").agg({"reach": "mean", "like_count": "mean"}).reset_index()
+            
+            fig_obj = px.scatter(
+            object_analysis,
+            x="object_count",
+            y="reach",
+            title="Object Count vs Engagement",
+            labels={"object_count": "Object Count", "reach": "Average Reach"},
+            template="plotly_white"
             )
-    
-            fig_cta = px.bar(
-                cta_data,
-                x="reach",
-                y="call_to_action",
-                orientation="h",
-                title="Average Reach by Call-to-Action",
-                labels={"call_to_action": "CTA Phrase", "reach": "Average Reach"},
-                template="plotly_white"
-            )
-            st.plotly_chart(fig_cta)
+
+            # Set the marker size statically
+            fig_obj.update_traces(marker=dict(size=10))
+            
+            st.plotly_chart(fig_obj)
 
 
     with st.expander("See More Visuals"):
