@@ -10,7 +10,7 @@ import json
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Post Analyzer 🚀", layout="wide", page_icon="📡")
+st.set_page_config(page_title="Social Media Report 🚀", layout="wide", page_icon="📝")
 
 # Load the configuration file
 def load_config(file_path="config.json"):
