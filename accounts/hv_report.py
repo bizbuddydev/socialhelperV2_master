@@ -155,7 +155,7 @@ def main():
         "🔬 Posts Deepdive": "https://bizbuddyv2-hv-postdeepdive.streamlit.app/",
         "🗓️ Scheduler / Idea Generator": "https://bizbuddyv2-hv-postscheduler.streamlit.app/",
         "💡 Inspiration Upload": "https://hv-bizbuddyv2-inspiration.streamlit.app/",
-        "Report" : "https://hv-bizbuddyv2-report.streamlit.app/"
+        "📝 Report" : "https://hv-bizbuddyv2-report.streamlit.app/"
     }
     
     # Sidebar navigation
@@ -163,10 +163,23 @@ def main():
     for page, url in PAGES.items():
         st.sidebar.markdown(f"[**{page}**]({url})", unsafe_allow_html=True)# Filtering Options
 
+    #Account Overview High level view of performance
     st.subheader("Acccount Overview")
     st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
-    st.subheader(f"*What* are we posting")
-             
+    st.divider()
+
+    #Post Content and Performence
+    st.subheader(f"*What* are we posting?")
+    st.write("Let's take a look at the content you've posted recently to see what types of posts are working, what aren't, and unrealized oppertunities")
+    st.markdown("""
+    - Format: Recent activity of this account contains mostly multishot reels with video of the hotel and surrounding areas.
+    - Content: The focus of posts are usually centered on the draw of Port Washington, the town where the Harborview is located. Other ideas include the facilites of the hotel 
+    itself showing visuals of rooms, dining, and common spaces."
+    - Themes: Most posts carry a positive tone with encouraging visitors to take advantage of the Harborview as a getaway spot utilizing the proximity to major cities as a way to 
+    get customers in urban areas to take a weekend getaway to the quant town of Port Washington. Other themes incorporate ideas of collaboration and giveaways getting users to 
+    engage with their content in a more direct manner.
+    """)
+    st.write("Let's take a deeper look at the data to see how what we're posting is performing")        
 
     # SECTION: Theme Performance
     col_text_theme, col_viz_theme = st.columns([1, 2])
