@@ -10,6 +10,8 @@ import json
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
+import plotly.graph_objects as go
+
 st.set_page_config(page_title="Social Media Report 🚀", layout="wide", page_icon="📝")
 
 # Load the configuration file
