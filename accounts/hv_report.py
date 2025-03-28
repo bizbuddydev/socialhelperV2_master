@@ -174,7 +174,7 @@ def main():
     st.markdown("""
     - Format: Recent activity of this account contains mostly multishot reels with video of the hotel and surrounding areas.
     - Content: The focus of posts are usually centered on the draw of Port Washington, the town where the Harborview is located. Other ideas include the facilites of the hotel 
-    itself showing visuals of rooms, dining, and common spaces."
+    itself showing visuals of rooms, dining, and common spaces.
     - Themes: Most posts carry a positive tone with encouraging visitors to take advantage of the Harborview as a getaway spot utilizing the proximity to major cities as a way to 
     get customers in urban areas to take a weekend getaway to the quant town of Port Washington. Other themes incorporate ideas of collaboration and giveaways getting users to 
     engage with their content in a more direct manner.
