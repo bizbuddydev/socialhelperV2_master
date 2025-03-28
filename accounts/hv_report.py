@@ -332,8 +332,20 @@ def main():
                     - Left: shows average reach by the video length.
                     - Right: shows average reach by the object count (often used as a measure of how busy a video is).
                     """)
-
-
+    st.divider()
+    
+    ### What are we posting section ###
+    st.subheader(f"*Who* is seeing our posts?")
+    st.write("Let's take a look at the content you've posted recently to see what types of posts are working, what aren't, and unrealized oppertunities")
+    st.markdown("""
+    - Content: The focus of posts are usually centered on the draw of Port Washington, the town where the Harborview is located. Other ideas include the facilites of the hotel 
+    itself showing visuals of rooms, dining, and common spaces.
+    - Themes: Most posts carry a positive tone with encouraging visitors to take advantage of the Harborview as a getaway spot utilizing the proximity to major cities as a way to 
+    get customers in urban areas to take a weekend getaway to the quant town of Port Washington. Other themes incorporate ideas of collaboration and giveaways getting users to 
+    engage with their content in a more direct manner.
+    """)
+    st.write("Let's take a deeper look at the data to see how what we're posting is performing")  
+    
     with st.expander("See More Visuals"):
 
         # WORD CHOICE IMPACT
