@@ -168,11 +168,10 @@ def main():
     st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
     st.divider()
 
-    #Post Content and Performence
+    ### What are we posting section ###
     st.subheader(f"*What* are we posting?")
     st.write("Let's take a look at the content you've posted recently to see what types of posts are working, what aren't, and unrealized oppertunities")
     st.markdown("""
-    - Format: Recent activity of this account contains mostly multishot reels with video of the hotel and surrounding areas.
     - Content: The focus of posts are usually centered on the draw of Port Washington, the town where the Harborview is located. Other ideas include the facilites of the hotel 
     itself showing visuals of rooms, dining, and common spaces.
     - Themes: Most posts carry a positive tone with encouraging visitors to take advantage of the Harborview as a getaway spot utilizing the proximity to major cities as a way to 
@@ -231,58 +230,70 @@ def main():
     st.divider()
 
     
-    # SECTION 1: Time-of-Day Analysis
-    col_text, col_viz = st.columns([1, 2])  # Wider column for visuals
+    ### How we are posting section ###
+    st.subheader(f"*How* are we posting?")
+    st.write("Now let's see take a look at the manner by which we are posting it's performance")
+    st.markdown("""
+    - Format: Recent activity of this account contains mostly multishot reels with video of the hotel and surrounding areas. 
+    - Visuals: the key focus visually of mosts posts is the hotel itself with recent mediums being drone footage. Intial shots include the bay of Port Washington with videos
+    moving inside the hotel to accomadations and facilities.
+    - Timing: This account posts at various times throughout the day as well as days of the week. No trend showing for days of the week but time of day showing as a key factor 
+    in post performance.
+    """)
+    st.write("Let's take a deeper look at the data to see how our methods are performing")
 
-    with col_text:
-        st.subheader("When is the best time to post?")
-        st.markdown("🚧 Placeholder summary here. You can later insert auto-generated insights or your own write-up about post timing performance based on reach.")
+    with st.expander("See Full Visual Analysis"):
+        col_time, col_visuals = st.columns(2)  # Wider column for visuals
 
-    with col_viz:
-        # Prepare data (already categorized earlier)
-        timing_data = (
-            merged_data.groupby("time_bucket")["reach"]
-            .mean()
-            .reset_index()
-            .sort_values("time_bucket")
-        )
-
-        fig = px.bar(
-            timing_data,
-            x="time_bucket",
-            y="reach",
-            title="Average Reach by Time of Day",
-            labels={"time_bucket": "Time of Day", "reach": "Average Reach"},
-            template="plotly_white"
-        )
-        st.plotly_chart(fig)
-
-
-    # SECTION 2: CTA Analysis
-    col_text2, col_viz2 = st.columns([1, 2])
-
-    with col_text2:
-        st.subheader("Which Call-to-Actions Work Best?")
-        st.markdown("🚧 Placeholder summary here. This section can include commentary about which CTAs are driving the most reach or engagement.")
-
-    with col_viz2:
-        cta_data = (
-            merged_data.groupby("call_to_action")["reach"]
-            .mean()
-            .reset_index()
-            .sort_values("reach", ascending=True)
-        )
-
-        fig_cta = px.bar(
-            cta_data,
-            x="reach",
-            y="call_to_action",
-            orientation="h",
-            title="Average Reach by Call-to-Action",
-            labels={"call_to_action": "CTA Phrase", "reach": "Average Reach"},
-            template="plotly_white"
-        )
-        st.plotly_chart(fig_cta)
+        with col_time:
+            # Prepare data (already categorized earlier)
+            timing_data = (
+                merged_data.groupby("time_bucket")["reach"]
+                .mean()
+                .reset_index()
+                .sort_values("time_bucket")
+            )
+    
+            fig = px.bar(
+                timing_data,
+                x="time_bucket",
+                y="reach",
+                title="Average Reach by Time of Day",
+                labels={"time_bucket": "Time of Day", "reach": "Average Reach"},
+                template="plotly_white"
+            )
+            st.plotly_chart(fig)
+    
+        with col_visuals:
+            st.subheader("When is the best time to post?")
+            st.markdown("🚧 Placeholder summary here. You can later insert auto-generated insights or your own write-up about post timing performance based on reach.")
+    
+    
+        # SECTION 2: CTA Analysis
+        col_text2, col_viz2 = st.columns([1, 2])
+    
+        with col_text2:
+            st.subheader("Which Call-to-Actions Work Best?")
+            st.markdown("🚧 Placeholder summary here. This section can include commentary about which CTAs are driving the most reach or engagement.")
+    
+        with col_viz2:
+            cta_data = (
+                merged_data.groupby("call_to_action")["reach"]
+                .mean()
+                .reset_index()
+                .sort_values("reach", ascending=True)
+            )
+    
+            fig_cta = px.bar(
+                cta_data,
+                x="reach",
+                y="call_to_action",
+                orientation="h",
+                title="Average Reach by Call-to-Action",
+                labels={"call_to_action": "CTA Phrase", "reach": "Average Reach"},
+                template="plotly_white"
+            )
+            st.plotly_chart(fig_cta)
 
 
     with st.expander("See More Visuals"):
