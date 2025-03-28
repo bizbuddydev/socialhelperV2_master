@@ -285,7 +285,7 @@ def main():
     
     
         # SECTION 2: CTA Analysis
-        col_shotlen, col_something = st.columns([1, 2])
+        col_shotlen, col_something = st.columns(2)
     
         with col_shotlen:
             video_analysis = merged_data.groupby("video_len").agg({"reach": "mean", "like_count": "mean"}).reset_index()
