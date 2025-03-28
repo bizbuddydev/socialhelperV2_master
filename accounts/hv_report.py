@@ -223,8 +223,8 @@ def main():
             ax_wc.imshow(wordcloud, interpolation="bilinear")
             ax_wc.axis("off")
             st.pyplot(fig_wc)
-
-        st.markdown("""Explanation: 
+        st.markdown("Explanation:")
+        st.markdown("""
                     - Left: shows post themes (a summary of what you are posting about) and their respective performance by average reach.
                     - Right: shows the repition of words and nouns with their degree of repition shown by size.
                     """)
