@@ -205,7 +205,6 @@ def main():
             )
     
             st.plotly_chart(fig_theme)
-            st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
 
         with col_wc:
             st.write("Most Commonly Used Words in Posts")
@@ -226,8 +225,8 @@ def main():
             st.pyplot(fig_wc)
 
         st.markdown("""Explanation: 
-                    -Left: shows post themes (a summary of what you are posting about) and their respective performance by average reach.
-                    -Right: shows the repition of words and nouns with their degree of repition shown by size.
+                    - Left: shows post themes (a summary of what you are posting about) and their respective performance by average reach.
+                    - Right: shows the repition of words and nouns with their degree of repition shown by size.
                     """)
     
 
