@@ -34,6 +34,35 @@ def fetch_data(query: str) -> pd.DataFrame:
     result = query_job.result()  # Wait for the query to finish
     return result.to_dataframe()
 
+DEMOGRAPHIC_TABLE_ID = config["DEMOGRAPHIC_TABLE_ID"]
+DATASET_ID = config["DATASET_ID"]
+PAGE_ID = 17841410640947509
+PROJECT_ID = config["PROJECT_ID"]
+
+# Function to pull data from BigQuery
+def pull_dataframes(dataset_id, table_id):
+    
+    # Build the table reference
+    table_ref = f"{PROJECT_ID}.{dataset_id}.{table_id}"
+
+    # Query to fetch all data from the table
+    query = f"SELECT * FROM `{table_ref}` WHERE page_id = {PAGE_ID}"
+    
+    try:
+        # Execute the query
+        query_job = client.query(query)
+        result = query_job.result()
+        # Convert the result to a DataFrame
+        data = result.to_dataframe()
+        return data
+    except Exception as e:
+        st.error(f"Error fetching data: {e}")
+        return None
+
+#Get demographic data
+demo_data = pull_dataframes(DATASET_ID, DEMOGRAPHIC_TABLE_ID)
+st.write(demo_data)
+
 def assign_time_buckets(df):
     # Ensure datetime conversion retains time values
     df["created_time_posts"] = pd.to_datetime(df["created_time_posts"], format="%Y-%m-%dT%H:%M:%S", errors="coerce")
