@@ -207,7 +207,7 @@ def main():
             st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
 
         with col_wc:
-            t.write("Most Commonly Used Words in Posts")
+            st.write("Most Commonly Used Words in Posts")
             # Preprocess: fill in NaNs
             merged_data["processed_speech"] = merged_data["processed_speech"].fillna("")
             merged_data["caption"] = merged_data["caption"].fillna("")
