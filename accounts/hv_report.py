@@ -181,32 +181,49 @@ def main():
     """)
     st.write("Let's take a deeper look at the data to see how what we're posting is performing")        
 
-    # SECTION: Theme Performance
-    col_text_theme, col_viz_theme = st.columns([1, 2])
+    with st.expander("See Full Content Analysis"):
+        # SECTION: Theme Performance
+        col_theme, col_viz_wc = st.columns([1, 2])
+    
+        with col_viz_theme:
+            theme_data = (
+                merged_data.groupby("main_theme")["reach"]
+                .mean()
+                .reset_index()
+                .sort_values("reach", ascending=False)
+            )
+    
+            fig_theme = px.bar(
+                theme_data,
+                x="reach",
+                y="main_theme",
+                orientation="h",
+                title="Average Reach by Theme",
+                labels={"theme": "Theme", "reach": "Average Reach"},
+                template="plotly_white"
+            )
+    
+            st.plotly_chart(fig_theme)
+            st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
 
-    with col_text_theme:
-        st.subheader("Theme Performance")
-        st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
-
-    with col_viz_theme:
-        theme_data = (
-            merged_data.groupby("main_theme")["reach"]
-            .mean()
-            .reset_index()
-            .sort_values("reach", ascending=False)
-        )
-
-        fig_theme = px.bar(
-            theme_data,
-            x="reach",
-            y="main_theme",
-            orientation="h",
-            title="Average Reach by Theme",
-            labels={"theme": "Theme", "reach": "Average Reach"},
-            template="plotly_white"
-        )
-
-        st.plotly_chart(fig_theme)
+        with col_wc:
+            # Preprocess: fill in NaNs
+            merged_data["processed_speech"] = merged_data["processed_speech"].fillna("")
+            merged_data["caption"] = merged_data["caption"].fillna("")
+    
+            # Combine both text sources
+            text_blob = " ".join(merged_data["processed_speech"].astype(str) + " " + merged_data["caption"].astype(str)).strip()
+    
+            # Generate word cloud
+            wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_blob)
+    
+            # Display word cloud
+            fig_wc, ax_wc = plt.subplots(figsize=(10, 5))
+            ax_wc.imshow(wordcloud, interpolation="bilinear")
+            ax_wc.axis("off")
+            st.pyplot(fig_wc)
+            st.markdown("🚧 Placeholder: Analyze which themes drive the most reach across your posts. This can help guide content planning and creative direction.")
+    
 
     
     # SECTION 1: Time-of-Day Analysis
@@ -261,31 +278,6 @@ def main():
             template="plotly_white"
         )
         st.plotly_chart(fig_cta)
-
-
-     # SECTION 3: Word Cloud
-    col_text3, col_viz3 = st.columns([1, 2])
-
-    with col_text3:
-        st.subheader("What are we posting about?")
-        st.markdown("🚧 Placeholder summary here. Highlight common patterns in language across speech and captions, e.g., frequently used phrases or tone.")
-
-    with col_viz3:
-        # Preprocess: fill in NaNs
-        merged_data["processed_speech"] = merged_data["processed_speech"].fillna("")
-        merged_data["caption"] = merged_data["caption"].fillna("")
-
-        # Combine both text sources
-        text_blob = " ".join(merged_data["processed_speech"].astype(str) + " " + merged_data["caption"].astype(str)).strip()
-
-        # Generate word cloud
-        wordcloud = WordCloud(width=800, height=400, background_color="white", colormap="viridis").generate(text_blob)
-
-        # Display word cloud
-        fig_wc, ax_wc = plt.subplots(figsize=(10, 5))
-        ax_wc.imshow(wordcloud, interpolation="bilinear")
-        ax_wc.axis("off")
-        st.pyplot(fig_wc)
 
 
     with st.expander("See More Visuals"):
