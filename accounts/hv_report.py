@@ -228,7 +228,7 @@ def main():
                     - Left: shows post themes (a summary of what you are posting about) and their respective performance by average reach.
                     - Right: shows the repition of words and nouns with their degree of repition shown by size.
                     """)
-    
+    st.divider()
 
     
     # SECTION 1: Time-of-Day Analysis
