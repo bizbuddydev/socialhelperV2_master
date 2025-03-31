@@ -461,12 +461,13 @@ def main():
     
     ### What are we posting section ###
     st.subheader(f"*Who* is seeing our posts?")
-    st.write("Finally, let's see who's following your account:")
+    st.write("Finally, let's see who’s following your account:")
     st.markdown("""
-    - Age/Gender: Generally, the majority of your followers are females (roughly 2/3 of your follor base). More specifically these female followers are from the age of 25-55.
-    - Locations: Almost all your followers are from Wisconsin with a small group coming from Illinois. Of that group from Illinois almost all are from Chicago. Within Wisconsin many are from Milwakke, the second largest group is from Port Madison itself, and finally the smaller towns in surrounding areas.
+    - Age/Gender: The majority of your followers are female (about two-thirds of your follower base), primarily between the ages of 25–55.
+    - Locations: Most followers are from Wisconsin, with a smaller segment from Illinois—primarily Chicago. Within Wisconsin, many are from Milwaukee, followed by Port Madison, and smaller surrounding towns.
     """)
-    st.write("Let's take a deeper look at the data to see how who exactly is following you")  
+    st.write("Let’s take a deeper look at the data to see exactly who’s following you.")
+
 
     with st.expander("See Full Demographic Analysis"):
         col_text, col_demo = st.columns(2)  # Wider column for visuals
