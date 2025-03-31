@@ -236,16 +236,15 @@ def main():
     col_sum, col_follows = st.columns(2)
 
     with col_sum:
-        st.subheader("Acccount Overview")
-        st.write("Your account has flourished over the last 90 days, posting roughly 30 times and gaining 1500+ followers (a 150% increase).")
-        st.write("Let's talk about the highlights")
+        st.subheader("Account Overview")
+        st.write("Your account has grown significantly over the last 90 days, posting around 30 times and gaining 1,500+ followers (a 150% increase).")
+        st.write("Here are the highlights:")
         st.markdown("""
-        - Your account has turned a corner with posts recieving a 10x increase in average engagement.
-        - A new style of posts has emerged, utilizing reels to create informative and engaging content that your users are responding to.
-        - New followers means new customer demographics for your business to target.
+        - Your account has turned a corner, with posts receiving a 10x increase in average engagement.
+        - A new style has emerged, using reels to deliver informative and engaging content that resonates with your audience.
+        - New followers bring new customer demographics for your business to reach.
         """)
-        st.write("Below is a detailed analysis of the data from your account which we will use to perfect your social strategy and turn that engagement into customers for your business.")
-
+        st.write("Below is a detailed analysis of your account data, which we'll use to refine your social strategy and convert engagement into customers.")
     with col_follows:
         # Line chart for total followers over time using Plotly
         if account_data is not None and not account_data.empty:
