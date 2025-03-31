@@ -487,36 +487,35 @@ def main():
     st.divider()
 
     st.subheader("Recommendations from Analysis")
-    st.write("Overall, your account is building some serious momentum and in doing so has created enormous potential for your business. Within specific insights from BizBuddy you can perfect your posts and strategy to create conversions.")
+    st.write("Your account is gaining serious momentum, creating strong potential for your business. Using insights from BizBuddy, you can refine your content and strategy to drive conversions.")
     
-    #Contant Analysis
+    #Content Analysis
     st.write("Content:")
     st.markdown("""
-    - You have had great success posting content relating to the draw of Port Washington, given followers another reason to book their stay at the Harborview.
-    - Some of the content and themes are getting repitive. You don't need to stray too far from this theme but find new ways of highlighting this. Customers respond to ads that show them the same idea but those ideas are more powerful when they come through different messaging.
-    - Utilize the wordcloud for this ^. It will allow you to see which words and themes are coming up the most.
-    - Your most succcessful posts are those directly engaging with customers (free room giveaway). Draw users in by offering rewards for engaging with your page and then convert them by highlighting the benefits of stays in later posts.
-    - This strategy is very effective in advertsing but with the case of instagram it's free (or close to if you choose to boost).
+    - You’ve had great success posting content about the appeal of Port Washington, giving followers another reason to book a stay at the Harborview.
+    - Some content and themes are becoming repetitive. You don’t need to stray far from your core message, but try presenting it in new ways. Audiences respond better when the same idea is delivered through varied messaging.
+    - Use the word cloud to identify which words and themes are being used most often.
+    - Your most successful posts are those that directly engage users (e.g., free room giveaways). Use rewards to drive interaction, then follow up with posts that highlight the benefits of staying.
+    - This strategy works well in advertising, and with Instagram, it's free—or very affordable if boosted.
     """)
-
+    
     #Style Analysis
     st.write("Style:")
     st.markdown("""
-    - A key and clear insight we are seeing from the data is that posting later in the day leads to more reach from instagram's algorithm. This could be due to a lot of factors including usage habits of your users or less crowded feeds but later in the day.
-    - Picture a user from your key demographic, finishing their daily rutine and spending time scrolling later in the evening as the day concludes. Utilize this pattern.
-    - Users are responding quite well to imagery surrounding the marina/water in Port Madison. Lean into this.
-    - Consider introducing some other similar nature shots like Parks and Hikes in the surrounding area. Show the nature shot to pull the user in and then show the hotel facilites later in the video as a means of getting to the peaceful town of Port Washington that they seem to desire.
-    - For shot syle, there seems to be a pattern of videos that are longer and contain a fair amount of objects performing better. Show enough content to have substance but not enough to lose their attention. I would recommend a 20 - 30 sec range for this.
+    - A clear insight from the data: posting later in the day leads to greater reach via Instagram’s algorithm. This may be due to user behavior or less competition in evening hours.
+    - Picture your target user finishing their day and scrolling in the evening—this is your window. Use it.
+    - Users are responding well to imagery featuring the marina and water in Port Madison. Lean into this visual theme.
+    - Consider mixing in nature shots like parks and hikes from nearby areas. Start with nature to draw attention, then transition to hotel amenities to position the Harborview as a peaceful escape.
+    - For shot style, longer videos with more visual elements tend to perform better. Aim for 20–30 seconds—long enough to offer substance, short enough to keep attention.
     """)
-
+    
     #Demographic Analysis
-    #Style Analysis
     st.write("Demographic:")
     st.markdown("""
-    - You have a pretty clear demographic focus being older females (25 - 54) from the surrounding cities of Milwaukke and Chicago. 
-    - From this I gather your customers are mostly people in surrounding areas looking to utliize the Harborview as a great place to make home while they get break from the city by enjoying peaceful town of Port Washington.
-    - Given we have a customer profile, let's try and target posts to these people so we can turn follows to bookings. Maybe show videos of families in your facilities or a couple enjoying a peaceful dinner along the water.
-    - We also know what customers we aren't hitting. Consider using instagram as a top of funnel tool to get new eyes on your hotel. We could use posts to highlight the possibility of staying at the Harborview for business, solo travel, or as homebase for boaters exploring Lake Michigan.
+    - Your primary audience is women aged 25–54 from Milwaukee and Chicago.
+    - These users are likely looking for a nearby getaway—using the Harborview as a home base for escaping the city and enjoying peaceful Port Washington.
+    - Now that we have a defined customer profile, tailor your content to convert followers into bookings. Show families at the hotel or couples enjoying a quiet dinner by the water.
+    - You’re also missing certain customer types. Use Instagram as a top-of-funnel tool to reach new audiences—business travelers, solo adventurers, or boaters exploring Lake Michigan could all be targeted.
     """)
 
     st.write("Summary:")
