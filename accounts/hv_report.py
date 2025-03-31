@@ -358,15 +358,14 @@ def main():
     
     ### How we are posting section ###
     st.subheader(f"*How* are we posting?")
-    st.write("Now let's see take a look at the manner by which we are posting it's performance")
+    st.write("Now let's take a look at how we're posting and how it's performing.")
     st.markdown("""
-    - Format: Recent activity of this account contains mostly multishot reels with video of the hotel and surrounding areas. 
-    - Visuals: the key focus visually of mosts posts is the hotel itself with recent mediums being drone footage. Intial shots include the bay of Port Washington with videos
-    moving inside the hotel to accomadations and facilities.
-    - Timing: This account posts at various times throughout the day as well as days of the week. No trend showing for days of the week but time of day showing as a key factor 
-    in post performance.
+    - Format: Most recent posts are multi-shot reels featuring the hotel and surrounding areas.
+    - Visuals: The primary visual focus is the hotel, with recent content using drone footage. Videos typically start with the Port Washington bay and transition into hotel accommodations and amenities.
+    - Timing: Posts go out at various times of day and across different days of the week. While no clear pattern appears by day, time of day is emerging as a key factor in performance.
     """)
-    st.write("Let's take a deeper look at the data to see how our methods are performing")
+    st.write("Let’s take a deeper look at the data to evaluate the effectiveness of these methods.")
+
 
     with st.expander("See Full Visual Analysis"):
         col_time, col_visuals = st.columns(2)  # Wider column for visuals
