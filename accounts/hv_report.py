@@ -491,8 +491,32 @@ def main():
     st.divider()
 
     st.subheader("Recommendations from Analysis")
-    st.write("What do we do?")
+    st.write("Overall, your account is building some serious momentum and in doing so has created enormous potential for your business. Within specific insights from BizBuddy you can perfect your posts and strategy to create conversions.")
+    
+    #Contant Analysis
+    st.write("Content:")
+    st.markdown("""
+    - You have had great success posting content relating to the draw of Port Washington, given followers another reason to book their stay at the Harborview.
+    - Some of the content and themes are getting repitive. You don't need to stray too far from this theme but find new ways of highlighting this. Customers respond to ads that show them the same idea but those ideas are more powerful when they come through different messaging.
+    - Utilize the wordcloud for this ^. It will allow you to see which words and themes are coming up the most.
+    - Your most succcessful posts are those directly engaging with customers (free room giveaway). Draw users in by offering rewards for engaging with your page and then convert them by highlighting the benefits of stays in later posts.
+    - This strategy is very effective in advertsing but with the case of instagram it's free (or close to if you choose to boost).
+    """)
 
+    #Style Analysis
+    st.write("Style:")
+    st.markdown("""
+    - Do this
+    """)
+
+    #Demographic Analysis
+    #Style Analysis
+    st.write("Style:")
+    st.markdown("""
+    - Do this
+    """)
+
+    
     st.divider()
 
     #Appendix see the rest of the posts
