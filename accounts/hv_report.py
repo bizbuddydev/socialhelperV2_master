@@ -299,15 +299,12 @@ def main():
 
     ### What are we posting section ###
     st.subheader(f"*What* are we posting?")
-    st.write("Let's take a look at the content you've posted recently to see what types of posts are working, what aren't, and unrealized oppertunities")
+    st.write("Let's take a look at your recent content to see what types of posts are working, which aren't, and where there may be untapped opportunities.")
     st.markdown("""
-    - Content: The focus of posts are usually centered on the draw of Port Washington, the town where the Harborview is located. Other ideas include the facilites of the hotel 
-    itself showing visuals of rooms, dining, and common spaces.
-    - Themes: Most posts carry a positive tone with encouraging visitors to take advantage of the Harborview as a getaway spot utilizing the proximity to major cities as a way to 
-    get customers in urban areas to take a weekend getaway to the quant town of Port Washington. Other themes incorporate ideas of collaboration and giveaways getting users to 
-    engage with their content in a more direct manner.
+    - Content: Most posts focus on the appeal of Port Washington, where the Harborview is located. Other content highlights hotel facilities with visuals of rooms, dining areas, and common spaces.
+    - Themes: Posts generally carry a positive tone, encouraging visitors to use the Harborview as a weekend escape from nearby cities. Other themes include collaboration and giveaways, which drive more direct engagement from users.
     """)
-    st.write("Let's take a deeper look at the data to see how what we're posting is performing")        
+    st.write("Now let’s dive into the data to see how this content is performing.")        
 
     with st.expander("See Full Content Analysis"):
         # SECTION: Theme Performance
