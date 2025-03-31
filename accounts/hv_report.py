@@ -237,7 +237,14 @@ def main():
 
     with col_sum:
         st.subheader("Acccount Overview")
-        st.write("Talk at a high level about how the account is performing, who they are posting to, and how it's going.")
+        st.write("Your account has flourished over the last 90 days, posting roughly 30 times and gaining 1500+ followers (a 150% increase).")
+        st.write("Let's talk about the highlights")
+        st.markdown("""
+        - Your account has turned a corner with posts recieving a 10x increase in average engagement.
+        - A new style of posts has emerged, utilizing reels to create informative and engaging content that your users are responding to.
+        - New followers means new customer demographics for your business to target.
+        Below is a detailed analysis of the data from your account which we will use to perfect your social strategy and turn that engagement into customers for your business.
+        """)
 
     with col_follows:
         # Line chart for total followers over time using Plotly
