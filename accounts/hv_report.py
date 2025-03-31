@@ -517,9 +517,14 @@ def main():
     #Style Analysis
     st.write("Demographic:")
     st.markdown("""
-    - Do this
+    - You have a pretty clear demographic focus being older females (25 - 54) from the surrounding cities of Milwaukke and Chicago. 
+    - From this I gather your customers are mostly people in surrounding areas looking to utliize the Harborview as a great place to make home while they get break from the city by enjoying peaceful town of Port Washington.
+    - Given we have a customer profile, let's try and target posts to these people so we can turn follows to bookings. Maybe show videos of families in your facilities or a couple enjoying a peaceful dinner along the water.
+    - We also know what customers we aren't hitting. Consider using instagram as a top of funnel tool to get new eyes on your hotel. We could use posts to highlight the possibility of staying at the Harborview for business, solo travel, or as homebase for boaters exploring Lake Michigan.
     """)
 
+    st.write("Summary:")
+    st.write("Your content strategy is resonating well when emphasizing the appeal of Port Washington, particularly with engaging posts like giveaways, but risks becoming repetitive—so focus on refreshing the message while keeping the theme consistent. To improve performance, post later in the day, lean into marina and nature imagery, and tailor content toward your primary demographic of women aged 25–54 from nearby cities, while exploring new audiences like solo travelers or business visitors.")
     
     st.divider()
 
