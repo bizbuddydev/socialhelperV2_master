@@ -530,7 +530,7 @@ def main():
         col_text4, col_viz4 = st.columns([1, 2])
         with col_text4:
             st.subheader("Impact of Word Choice")
-            st.markdown("🚧 Placeholder: Analyze how the most common words and their frequency relate to engagement metrics.")
+            st.markdown("Analyze how the most common words and their frequency relate to engagement metrics.")
 
         with col_viz4:
             fig_words = px.scatter(
@@ -549,7 +549,7 @@ def main():
         col_text5, col_viz5 = st.columns([1, 2])
         with col_text5:
             st.subheader("Shot Count and Performance")
-            st.markdown("🚧 Placeholder: Explore how the number of shots in a video correlates with post performance.")
+            st.markdown("Explore how the number of shots in a video correlates with post performance.")
 
         with col_viz5:
             shot_data = (
@@ -572,7 +572,7 @@ def main():
         col_text6, col_viz6 = st.columns([1, 2])
         with col_text6:
             st.subheader("Polarity and Engagement")
-            st.markdown("🚧 Placeholder: Investigate how positive or negative language affects reach.")
+            st.markdown("Investigate how positive or negative language affects reach.")
 
         with col_viz6:
             polarity_data = (
