@@ -506,12 +506,16 @@ def main():
     #Style Analysis
     st.write("Style:")
     st.markdown("""
-    - Do this
+    - A key and clear insight we are seeing from the data is that posting later in the day leads to more reach from instagram's algorithm. This could be due to a lot of factors including usage habits of your users or less crowded feeds but later in the day.
+    - Picture a user from your key demographic, finishing their daily rutine and spending time scrolling later in the evening as the day concludes. Utilize this pattern.
+    - Users are responding quite well to imagery surrounding the marina/water in Port Madison. Lean into this.
+    - Consider introducing some other similar nature shots like Parks and Hikes in the surrounding area. Show the nature shot to pull the user in and then show the hotel facilites later in the video as a means of getting to the peaceful town of Port Washington that they seem to desire.
+    - For shot syle, there seems to be a pattern of videos that are longer and contain a fair amount of objects performing better. Show enough content to have substance but not enough to lose their attention. I would recommend a 20 - 30 sec range for this.
     """)
 
     #Demographic Analysis
     #Style Analysis
-    st.write("Style:")
+    st.write("Demographic:")
     st.markdown("""
     - Do this
     """)
