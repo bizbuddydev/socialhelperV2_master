@@ -243,8 +243,8 @@ def main():
         - Your account has turned a corner with posts recieving a 10x increase in average engagement.
         - A new style of posts has emerged, utilizing reels to create informative and engaging content that your users are responding to.
         - New followers means new customer demographics for your business to target.
-        Below is a detailed analysis of the data from your account which we will use to perfect your social strategy and turn that engagement into customers for your business.
         """)
+        st.write("Below is a detailed analysis of the data from your account which we will use to perfect your social strategy and turn that engagement into customers for your business.")
 
     with col_follows:
         # Line chart for total followers over time using Plotly
